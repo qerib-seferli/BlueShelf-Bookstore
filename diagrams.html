@@ -7,54 +7,54 @@
   <!--  Mobil və fərqli ekranlarda səhifənin responsive işləməsi üçün viewport təyin olunur. -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!--  Brauzer tabında görünəcək səhifə başlığı. -->
+  <!--  Brauzer tabında görünəcək səhifə başlığıdır. -->
   <title>ERD Diagram | BlueShelf</title>
 
   <!--  Font Awesome ikon kitabxanasını qoşuruq. -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-  <!--  Layihənin əsas stil faylı. -->
+  <!--  Layihənin əsas stil faylı qoşulur. -->
   <link rel="stylesheet" href="style.css">
 
   <style>
-    /*  Bu səhifəyə xüsusi açıq mavi-ağ fon veririk. */
+    /*  ERD səhifəsinin ümumi fonunu mavi-ağ-açıq mavi tonlarında qururuq. */
     body.diagram-page {
       background:
-        radial-gradient(circle at top left, rgba(132, 188, 255, 0.22), transparent 24%),
-        radial-gradient(circle at bottom right, rgba(184, 226, 255, 0.28), transparent 24%),
-        linear-gradient(180deg, #f7fbff 0%, #edf6ff 52%, #e7f2ff 100%);
+        radial-gradient(circle at top left, rgba(127, 178, 255, 0.20), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(188, 226, 255, 0.28), transparent 26%),
+        linear-gradient(180deg, #f8fbff 0%, #eef6ff 52%, #e8f2ff 100%);
     }
 
-    /*  Yuxarıdakı kiçik badge üçün stil. */
+    /*  Yuxarıda görünən kiçik badge üçün stil veririk. */
     .diagram-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       padding: 10px 15px;
       border-radius: 999px;
-      background: rgba(80, 150, 255, 0.10);
-      color: #1d59b3;
-      border: 1px solid rgba(80, 150, 255, 0.18);
+      background: rgba(83, 151, 255, 0.10);
+      color: #1d57aa;
+      border: 1px solid rgba(83, 151, 255, 0.18);
       font-size: 0.92rem;
       font-weight: 600;
       margin-bottom: 12px;
     }
 
-    /*  ERD sahəsinin əsas panel görünüşü. */
+    /*  ERD hissəsinin ümumi panel görünüşünü formalaşdırırıq. */
     .erd-wrapper {
       position: relative;
       border-radius: 28px;
       padding: 18px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(243,249,255,0.96));
+      background: linear-gradient(180deg, rgba(255,255,255,0.97), rgba(244,249,255,0.97));
       border: 1px solid rgba(104, 164, 255, 0.18);
       box-shadow: 0 22px 50px rgba(39, 87, 158, 0.12);
       overflow: hidden;
     }
 
-    /*  ERD board hissəsi göndərdiyin şəkil kimi neytral fon üzərində qurulur. */
+    /*  Diaqramın iç lövhəsi üçün fon və sərhəd veririk. */
     .erd-board {
       position: relative;
-      overflow: auto;
+      overflow: hidden;
       border-radius: 18px;
       background: #dfe6ee;
       border: 1px solid rgba(79, 110, 146, 0.20);
@@ -62,103 +62,126 @@
       padding: 18px;
     }
 
-    /*  Daxildə böyük virtual iş sahəsi yaradırıq ki, cədvəlləri sərbəst yerləşdirək. */
+    /*  Burada sabit ölçülü iş sahəsi yaradırıq ki, scroll çıxmasın və hər şey ekrana yerləşsin. */
     .erd-canvas {
       position: relative;
-      width: 1400px;
-      height: 920px;
+      width: 100%;
+      max-width: 1180px;
+      height: 860px;
       margin: 0 auto;
     }
 
-    /*  Xətləri çəkən SVG layı bütün iş sahəsinin alt qatında yerləşir. */
+    /*  Əlaqə xətlərini çəkən SVG qatıdır. */
     .erd-lines {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       z-index: 1;
-      overflow: visible;
       pointer-events: none;
+      overflow: visible;
     }
 
-    /*  SVG içindəki xətlərin ümumi görünüşünü idarə edirik. */
+    /*  Xətlərin üslubunu burada təyin edirik, yuvarlaq yox kəskin görünüş seçirik. */
     .erd-lines path,
     .erd-lines line,
     .erd-lines polyline {
-      stroke: #335b91;
-      stroke-width: 2.2;
+      stroke: #3c6195;
+      stroke-width: 2.3;
       fill: none;
       stroke-linecap: square;
       stroke-linejoin: miter;
       shape-rendering: crispEdges;
     }
 
-    /*  Xətlərin uclarındakı kiçik markerlər üçün stil. */
+    /*  Xətt sonu marker nöqtələri üçün stil. */
     .erd-lines .marker-dot {
-      fill: #335b91;
+      fill: #3c6195;
     }
 
-    /*  Hər cədvəl qutusu üçün ümumi stil. */
+    /*  Hər bir cədvəl bloku üçün ümumi görünüş veririk. */
     .erd-table {
       position: absolute;
       z-index: 2;
       width: 220px;
-      border: 1px solid #4f79b6;
+      border: 1px solid #5a88c7;
       border-radius: 0;
       overflow: hidden;
       background: #ffffff;
-      box-shadow: 0 10px 20px rgba(32, 67, 117, 0.10);
+      box-shadow: 0 10px 20px rgba(36, 76, 135, 0.10);
     }
 
-    /*  Cədvəlin başlıq hissəsi. */
+    /*  Cədvəl başlıq hissəsinin görünüşü. */
     .erd-table .table-title {
       padding: 8px 10px;
-      background: linear-gradient(180deg, #7fb2ff, #5f97ef);
+      background: linear-gradient(180deg, #82b5ff, #6298f1);
       color: #ffffff;
       font-size: 0.78rem;
       font-weight: 700;
       letter-spacing: 0.04em;
       text-transform: uppercase;
-      border-bottom: 1px solid #456fa8;
+      border-bottom: 1px solid #4772ad;
     }
 
-    /*  Cədvəl daxilində sətirlərin saxlandığı hissə. */
+    /*  Cədvəl içinin fon hissəsi. */
     .erd-table .table-body {
-      background: #fafdff;
+      background: #fbfdff;
     }
 
-    /*  Hər bir sütun sətri üçün stil. */
+    /*  Hər sətir üçün grid görünüş qururuq. */
     .erd-table .row {
       display: grid;
       grid-template-columns: 1fr auto;
       gap: 10px;
       align-items: center;
       padding: 7px 10px;
-      border-bottom: 1px solid #d8e8ff;
+      border-bottom: 1px solid #d9e8ff;
       font-size: 0.75rem;
-      color: #22426e;
+      color: #24436d;
       line-height: 1.3;
     }
 
-    /*  Sonuncu sətirdə alt border göstərmirik. */
+    /*  Sonuncu sətirdə alt xətti gizlədirik. */
     .erd-table .row:last-child {
       border-bottom: none;
     }
 
-    /*  Sütun adını daha vurğulu göstəririk. */
+    /*  Sütun adlarını daha qalın göstəririk. */
     .erd-table .field-name {
       font-weight: 600;
     }
 
-    /*  Sütun tipinin rəngini azca sakit edirik. */
+    /*  Sütun tipinin rəng və şrift ölçüsünü burada veririk. */
     .erd-table .field-type {
-      color: #5477a8;
-      font-size: 0.7rem;
+      color: #567aa9;
+      font-size: 0.70rem;
       font-weight: 700;
       white-space: nowrap;
     }
 
-    /*  Kiçik məlumat kartları üçün grid. */
+    /*  Yuxarıdakı informasiya chip-ləri üçün flex düzülüş. */
+    .diagram-topline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    /*  Hər chip üçün görünüş. */
+    .diagram-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.84);
+      border: 1px solid rgba(97, 150, 232, 0.16);
+      color: #365c90;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    /*  Aşağıdakı izah kartlarını grid formasında düzürük. */
     .schema-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -166,7 +189,7 @@
       margin-top: 18px;
     }
 
-    /*  Qısa izah kartları. */
+    /*  Hər schema note kartı üçün stil. */
     .schema-note {
       padding: 18px;
       border-radius: 20px;
@@ -175,14 +198,14 @@
       box-shadow: 0 10px 24px rgba(34, 72, 130, 0.07);
     }
 
-    /*  Qısa izah kartı başlığı. */
+    /*  Schema kartı başlıqları üçün stil. */
     .schema-note h4 {
       margin: 0 0 10px;
       color: #1b4e9a;
       font-size: 1rem;
     }
 
-    /*  Qısa izah kartı mətni. */
+    /*  Schema kartı mətnləri üçün stil. */
     .schema-note p {
       margin: 0;
       color: #597499;
@@ -190,60 +213,61 @@
       font-size: 0.95rem;
     }
 
-    /*  Üstdə kiçik info chip-lər üçün stil. */
-    .diagram-topline {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-
-    /*  Hər info chip üçün görünüş. */
-    .diagram-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.82);
-      border: 1px solid rgba(97, 150, 232, 0.16);
-      color: #365c90;
-      font-size: 0.9rem;
-      font-weight: 600;
-    }
-
-    /*  Kiçik ekranlarda scroll rahat olsun deyə canvas eni bir az azaldılır. */
-    @media (max-width: 768px) {
+    /*  Daha kiçik ekranlarda cədvəlləri nisbətən kiçildir və board hündürlüyünü artırırıq. */
+    @media (max-width: 1200px) {
       .erd-canvas {
-        width: 1180px;
-        height: 920px;
+        transform: scale(0.88);
+        transform-origin: top center;
+        height: 760px;
+      }
+    }
+
+    /*  Tablet ölçüsündə biraz da kiçiltmə tətbiq edirik. */
+    @media (max-width: 992px) {
+      .erd-canvas {
+        transform: scale(0.74);
+        transform-origin: top center;
+        height: 650px;
+      }
+    }
+
+    /*  Telefon ölçüsündə ERD daha rahat sığsın deyə ayrıca miqyas veririk. */
+    @media (max-width: 768px) {
+      .erd-board {
+        padding: 10px;
+      }
+
+      .erd-canvas {
+        transform: scale(0.54);
+        transform-origin: top center;
+        height: 500px;
       }
     }
   </style>
 </head>
 
 <body class="diagram-page" data-page="diagram">
-  <!--  Saytın başlıq hissəsi. -->
+  <!--  Saytın yuxarı hissəsində görünən əsas header burada başlayır. -->
   <header class="site-header">
-    <!--  Məzmunu ortalayan container. -->
+    <!--  container sinifi məzmunu ortalayır və maksimum en saxlayır. -->
     <div class="container header-row">
 
-      <!--  Logo və sayt adı. Üstünə klik ediləndə ana səhifəyə aparır. -->
+      <!--  Logo və sayt adı hissəsidir, klik ediləndə ana səhifəyə qaytarır. -->
       <a class="brand" href="index.html">
-        <!--  Logo üçün qutu. -->
+        <!--  Logo üçün qutu hissəsi. -->
         <div class="brand-badge">
-          <!--  GitHub layihəsində img/logo-book.png faylı istifadə olunur. -->
+          <!--  GitHub layihəsində img/logo-book.png faylı bu yoldan çağırılır. -->
           <img src="img/logo-book.png" alt="BlueShelf logo">
         </div>
 
-        <!--  Saytın adı və alt başlıq mətni. -->
+        <!--  Saytın adı və alt başlığı. -->
         <div class="brand-text">
           <h1>BlueShelf Bookstore</h1>
           <span>Curated reads, smooth discovery, elegant design.</span>
         </div>
       </a>
 
-      <!--  Header-in sağ hissəsində menyu, axtarış və auth düymələri. -->
+      <!--  Header-in sağ hissəsində naviqasiya, axtarış və auth düymələri yerləşir. -->
       <div class="header-tools">
 
         <!--  Ümumi naviqasiya linkləri. -->
@@ -254,7 +278,7 @@
           <a class="nav-link" href="diagrams.html">ERD</a>
         </nav>
 
-        <!--  Kitab, müəllif, kateqoriya və mətinə görə axtarış forması. -->
+        <!--  Axtarış forması kitab adı, müəllif, kateqoriya və mətn üzrə axtarış üçündür. -->
         <form class="search-shell" id="searchForm">
           <!--  Axtarış ikonu. -->
           <i class="fa-solid fa-magnifying-glass"></i>
@@ -262,39 +286,39 @@
           <!--  İstifadəçi axtarış sözünü bu input-a yazır. -->
           <input id="searchInput" type="text" placeholder="Search by title, author, category, or text">
 
-          <!--  Form submit düyməsi. -->
+          <!--  Formu submit edən düymədir. -->
           <button class="btn btn-primary" type="submit">Search</button>
         </form>
 
-        <!--  Login, logout və digər auth düymələri bu hissəyə JS ilə yazılır. -->
+        <!--  Login, logout və register kimi düymələr JS ilə bu konteynerə yazılır. -->
         <div id="authActions" class="nav-links"></div>
       </div>
     </div>
   </header>
 
-  <!--  Səhifənin əsas məzmun hissəsi burada başlayır. -->
+  <!--  Səhifənin əsas məzmun sahəsi burada başlayır. -->
   <main>
-    <!--  ERD bölməsi. -->
+    <!--  ERD diaqram bölməsini saxlayan əsas section. -->
     <section class="section">
       <div class="container">
         <!--  Bölmənin başlıq hissəsi. -->
         <div class="section-heading">
           <div>
-            <!--  Kiçik üst badge. -->
+            <!--  Kiçik badge görünüşlü etiket. -->
             <span class="diagram-badge">
               <i class="fa-solid fa-diagram-project"></i>
               Relational Structure
             </span>
 
-            <!--  Əsas başlıq. -->
+            <!--  Bölmənin əsas başlığı. -->
             <h3>Database ERD</h3>
 
-            <!--  Qısa izah mətni. -->
-            <p>The bookstore schema is presented below in a structured layout with sharp table borders and precise relationship lines.</p>
+            <!--  Bölmənin alt izah mətni. -->
+            <p>The bookstore schema is displayed below with sharp relationship lines and a clean academic-style structure.</p>
           </div>
         </div>
 
-        <!--  Kiçik məlumat kapsulları. -->
+        <!--  Yuxarıda əlavə informasiya göstərən chip-lər. -->
         <div class="diagram-topline">
           <div class="diagram-chip">
             <i class="fa-solid fa-table"></i>
@@ -307,224 +331,104 @@
           </div>
         </div>
 
-        <!--  ERD-nin əsas qabığı. -->
+        <!--  ERD qrafik hissəsinin ümumi paneli. -->
         <div class="panel erd-wrapper">
-          <!--  Scroll olan daxili lövhə. -->
+          <!--  ERD lövhəsi. Scroll gizlidir və içində sabit quruluş var. -->
           <div class="erd-board">
-            <!--  Bütün cədvəllər və xətlər bu canvas daxilində yerləşir. -->
+            <!--  Cədvəllər və xətlər bu iş sahəsində yerləşir. -->
             <div class="erd-canvas">
 
-              <!--  Əlaqə xətlərini çəkən SVG qat. -->
-              <svg class="erd-lines" viewBox="0 0 1400 920" preserveAspectRatio="none" aria-hidden="true">
-                <!--  authors cədvəlindən books cədvəlinə gedən xətt. -->
-                <polyline points="440,250 520,250 520,392 585,392"></polyline>
+              <!--  Xətləri çəkən SVG qatı. -->
+              <svg class="erd-lines" viewBox="0 0 1180 860" preserveAspectRatio="none" aria-hidden="true">
+                <!--  AUTHORS cədvəlindən BOOKS cədvəlinə gedən xətt. -->
+                <polyline points="430,210 520,210 520,352 565,352"></polyline>
 
-                <!--  categories cədvəlindən books cədvəlinə gedən xətt. -->
-                <polyline points="760,250 760,330 815,330 815,392"></polyline>
+                <!--  CATEGORIES cədvəlindən BOOKS cədvəlinə gedən xətt. -->
+                <polyline points="760,200 760,300 825,300 825,352"></polyline>
 
-                <!--  books cədvəlindən favorites cədvəlinə gedən xətt. -->
-                <polyline points="815,520 815,610 945,610 945,708"></polyline>
+                <!--  BOOKS cədvəlindən FAVORITES cədvəlinə gedən xətt. -->
+                <polyline points="825,554 825,635 860,635 860,700"></polyline>
 
-                <!--  profiles cədvəlindən favorites cədvəlinə gedən xətt. -->
-                <polyline points="250,680 250,760 715,760 715,708"></polyline>
+                <!--  PROFILES cədvəlindən FAVORITES cədvəlinə gedən xətt. -->
+                <polyline points="340,650 340,735 640,735 640,700"></polyline>
 
-                <!--  books cədvəlindən authors-a yön xəttinin uc markerləri. -->
-                <circle class="marker-dot" cx="585" cy="392" r="3.5"></circle>
-
-                <!--  categories xətti üçün bir marker. -->
-                <circle class="marker-dot" cx="815" cy="392" r="3.5"></circle>
-
-                <!--  favorites xətti üçün marker. -->
-                <circle class="marker-dot" cx="945" cy="708" r="3.5"></circle>
-
-                <!--  profiles xətti üçün marker. -->
-                <circle class="marker-dot" cx="715" cy="708" r="3.5"></circle>
+                <!--  Xətt uclarında marker nöqtələri. -->
+                <circle class="marker-dot" cx="565" cy="352" r="3.5"></circle>
+                <circle class="marker-dot" cx="825" cy="352" r="3.5"></circle>
+                <circle class="marker-dot" cx="860" cy="700" r="3.5"></circle>
+                <circle class="marker-dot" cx="640" cy="700" r="3.5"></circle>
               </svg>
 
-              <!--  AUTHORS cədvəli. -->
-              <div class="erd-table" style="left: 220px; top: 120px;">
+              <!--  AUTHORS cədvəli sol yuxarı hissədə yerləşir. -->
+              <div class="erd-table" style="left: 170px; top: 90px;">
                 <div class="table-title">AUTHORS</div>
                 <div class="table-body">
-                  <div class="row">
-                    <span class="field-name">id PK</span>
-                    <span class="field-type">BIGINT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">name</span>
-                    <span class="field-type">TEXT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">nationality</span>
-                    <span class="field-type">TEXT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">birth_year</span>
-                    <span class="field-type">INT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">biography</span>
-                    <span class="field-type">TEXT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">created_at</span>
-                    <span class="field-type">TIMESTAMP</span>
-                  </div>
+                  <div class="row"><span class="field-name">id PK</span><span class="field-type">BIGINT</span></div>
+                  <div class="row"><span class="field-name">name</span><span class="field-type">TEXT</span></div>
+                  <div class="row"><span class="field-name">nationality</span><span class="field-type">TEXT</span></div>
+                  <div class="row"><span class="field-name">birth_year</span><span class="field-type">INT</span></div>
+                  <div class="row"><span class="field-name">biography</span><span class="field-type">TEXT</span></div>
+                  <div class="row"><span class="field-name">created_at</span><span class="field-type">TIMESTAMP</span></div>
                 </div>
               </div>
 
-              <!--  CATEGORIES cədvəli. -->
-              <div class="erd-table" style="left: 650px; top: 120px;">
+              <!--  CATEGORIES cədvəli sağ yuxarı hissədə yerləşir. -->
+              <div class="erd-table" style="left: 760px; top: 90px;">
                 <div class="table-title">CATEGORIES</div>
                 <div class="table-body">
-                  <div class="row">
-                    <span class="field-name">id PK</span>
-                    <span class="field-type">BIGINT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">name</span>
-                    <span class="field-type">TEXT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">slug</span>
-                    <span class="field-type">TEXT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">created_at</span>
-                    <span class="field-type">TIMESTAMP</span>
-                  </div>
+                  <div class="row"><span class="field-name">id PK</span><span class="field-type">BIGINT</span></div>
+                  <div class="row"><span class="field-name">name</span><span class="field-type">TEXT</span></div>
+                  <div class="row"><span class="field-name">slug</span><span class="field-type">TEXT</span></div>
+                  <div class="row"><span class="field-name">created_at</span><span class="field-type">TIMESTAMP</span></div>
                 </div>
               </div>
 
-              <!--  BOOKS cədvəli əsas mərkəzdə yerləşdirilir. -->
-              <div class="erd-table" style="left: 585px; top: 392px; width: 260px;">
+              <!--  BOOKS əsas cədvəl olduğu üçün mərkəzdə yerləşdirilir. -->
+              <div class="erd-table" style="left: 565px; top: 352px; width: 260px;">
                 <div class="table-title">BOOKS</div>
                 <div class="table-body">
-                  <div class="row">
-                    <span class="field-name">id PK</span>
-                    <span class="field-type">BIGINT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">author_id FK</span>
-                    <span class="field-type">BIGINT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">category_id FK</span>
-                    <span class="field-type">BIGINT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">title</span>
-                    <span class="field-type">TEXT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">isbn</span>
-                    <span class="field-type">TEXT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">publish_year</span>
-                    <span class="field-type">INT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">pages</span>
-                    <span class="field-type">INT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">language</span>
-                    <span class="field-type">TEXT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">format_type</span>
-                    <span class="field-type">TEXT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">short_description</span>
-                    <span class="field-type">TEXT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">description</span>
-                    <span class="field-type">TEXT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">cover_url</span>
-                    <span class="field-type">TEXT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">is_published</span>
-                    <span class="field-type">BOOLEAN</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">created_at</span>
-                    <span class="field-type">TIMESTAMP</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">updated_at</span>
-                    <span class="field-type">TIMESTAMP</span>
-                  </div>
+                  <div class="row"><span class="field-name">id PK</span><span class="field-type">BIGINT</span></div>
+                  <div class="row"><span class="field-name">author_id FK</span><span class="field-type">BIGINT</span></div>
+                  <div class="row"><span class="field-name">category_id FK</span><span class="field-type">BIGINT</span></div>
+                  <div class="row"><span class="field-name">title</span><span class="field-type">TEXT</span></div>
+                  <div class="row"><span class="field-name">isbn</span><span class="field-type">TEXT</span></div>
+                  <div class="row"><span class="field-name">publish_year</span><span class="field-type">INT</span></div>
+                  <div class="row"><span class="field-name">pages</span><span class="field-type">INT</span></div>
+                  <div class="row"><span class="field-name">language</span><span class="field-type">TEXT</span></div>
+                  <div class="row"><span class="field-name">format_type</span><span class="field-type">TEXT</span></div>
+                  <div class="row"><span class="field-name">short_description</span><span class="field-type">TEXT</span></div>
+                  <div class="row"><span class="field-name">description</span><span class="field-type">TEXT</span></div>
+                  <div class="row"><span class="field-name">cover_url</span><span class="field-type">TEXT</span></div>
+                  <div class="row"><span class="field-name">is_published</span><span class="field-type">BOOLEAN</span></div>
+                  <div class="row"><span class="field-name">created_at</span><span class="field-type">TIMESTAMP</span></div>
+                  <div class="row"><span class="field-name">updated_at</span><span class="field-type">TIMESTAMP</span></div>
                 </div>
               </div>
 
-              <!--  PROFILES cədvəli sol alt hissədə yerləşir. -->
-              <div class="erd-table" style="left: 80px; top: 520px; width: 250px;">
+              <!--  PROFILES cədvəli sol aşağı hissədə yerləşir. -->
+              <div class="erd-table" style="left: 90px; top: 500px; width: 250px;">
                 <div class="table-title">PROFILES</div>
                 <div class="table-body">
-                  <div class="row">
-                    <span class="field-name">id PK</span>
-                    <span class="field-type">UUID</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">full_name</span>
-                    <span class="field-type">TEXT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">email</span>
-                    <span class="field-type">TEXT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">address</span>
-                    <span class="field-type">TEXT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">avatar_url</span>
-                    <span class="field-type">TEXT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">bio</span>
-                    <span class="field-type">TEXT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">role</span>
-                    <span class="field-type">TEXT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">created_at</span>
-                    <span class="field-type">TIMESTAMP</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">updated_at</span>
-                    <span class="field-type">TIMESTAMP</span>
-                  </div>
+                  <div class="row"><span class="field-name">id PK</span><span class="field-type">UUID</span></div>
+                  <div class="row"><span class="field-name">full_name</span><span class="field-type">TEXT</span></div>
+                  <div class="row"><span class="field-name">email</span><span class="field-type">TEXT</span></div>
+                  <div class="row"><span class="field-name">address</span><span class="field-type">TEXT</span></div>
+                  <div class="row"><span class="field-name">avatar_url</span><span class="field-type">TEXT</span></div>
+                  <div class="row"><span class="field-name">bio</span><span class="field-type">TEXT</span></div>
+                  <div class="row"><span class="field-name">role</span><span class="field-type">TEXT</span></div>
+                  <div class="row"><span class="field-name">created_at</span><span class="field-type">TIMESTAMP</span></div>
+                  <div class="row"><span class="field-name">updated_at</span><span class="field-type">TIMESTAMP</span></div>
                 </div>
               </div>
 
-              <!--  FAVORITES cədvəli aşağı sağ hissədə yerləşir. -->
-              <div class="erd-table" style="left: 595px; top: 708px;">
+              <!--  FAVORITES cədvəli aşağı mərkəz-sağ hissədə yerləşir. -->
+              <div class="erd-table" style="left: 640px; top: 700px;">
                 <div class="table-title">FAVORITES</div>
                 <div class="table-body">
-                  <div class="row">
-                    <span class="field-name">id PK</span>
-                    <span class="field-type">BIGINT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">user_id FK</span>
-                    <span class="field-type">UUID</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">book_id FK</span>
-                    <span class="field-type">BIGINT</span>
-                  </div>
-                  <div class="row">
-                    <span class="field-name">created_at</span>
-                    <span class="field-type">TIMESTAMP</span>
-                  </div>
+                  <div class="row"><span class="field-name">id PK</span><span class="field-type">BIGINT</span></div>
+                  <div class="row"><span class="field-name">user_id FK</span><span class="field-type">UUID</span></div>
+                  <div class="row"><span class="field-name">book_id FK</span><span class="field-type">BIGINT</span></div>
+                  <div class="row"><span class="field-name">created_at</span><span class="field-type">TIMESTAMP</span></div>
                 </div>
               </div>
 
@@ -532,7 +436,7 @@
           </div>
         </div>
 
-        <!--  Müdafiə üçün istifadə oluna biləcək qısa izah kartları. -->
+        <!--  Müdafiə üçün qısa schema qeydləri. -->
         <div class="panel" style="margin-top:22px;">
           <h3>Schema Notes for Presentation</h3>
 
@@ -567,11 +471,11 @@
     </section>
   </main>
 
-  <!--  Saytın footer hissəsi. -->
+  <!--  Saytın alt hissəsi olan footer burada başlayır. -->
   <footer class="site-footer">
     <div class="container">
       <div class="footer-card">
-        <!--  Sol tərəfdə ünvan və əlaqə məlumatı göstərilir. -->
+        <!--  Sol tərəfdə əlaqə və ünvan məlumatları göstərilir. -->
         <div>
           <h3>Visit or Contact</h3>
           <p class="muted">A refined online bookstore interface designed for an academic project presentation and user experience showcase.</p>
@@ -584,7 +488,7 @@
           </div>
         </div>
 
-        <!--  Sağ tərəfdə sürətli keçidlər. -->
+        <!--  Sağ tərəfdə sürətli keçid düymələri yerləşir. -->
         <div>
           <h3>Quick Links</h3>
 
