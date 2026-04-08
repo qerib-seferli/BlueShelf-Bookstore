@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- AZ QEYD: HTML sənədinin kodlaşdırmasını UTF-8 edirik ki, mətnlər düzgün görünsün. -->
+  <meta charset="UTF-8">
+  <!-- AZ QEYD: Mobil və fərqli ekranlarda responsive görünüş üçün viewport əlavə olunur. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- AZ QEYD: Brauzer başlığında görünəcək səhifə adı. -->
+  <title>Author Details | BlueShelf</title>
+  <!-- AZ QEYD: Font Awesome ikon kitabxanasını qoşuruq. -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <!-- AZ QEYD: Əsas stil faylı qoşulur. -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="author-page" data-page="author-detail">
+  <!-- AZ QEYD: Saytın yuxarı sabit başlıq hissəsi burada başlayır. -->
+  <header class="site-header">
+    <!-- AZ QEYD: container sinifi məzmunu ortalayır və maksimum en verir. -->
+    <div class="container header-row">
+      <!-- AZ QEYD: Loqo və sayt adı kliklə ana səhifəyə aparır. -->
+      <a class="brand" href="index.html">
+        <!-- AZ QEYD: Loqo şəkli üçün qabıq. -->
+        <div class="brand-badge">
+          <!-- AZ QEYD: GitHub layihəsində /img/logo-book.png faylı istifadə olunur. -->
+          <img src="img/logo-book.png" alt="BlueShelf logo">
+        </div>
+        <!-- AZ QEYD: Sayt adının mətn hissəsi. -->
+        <div class="brand-text">
+          <h1>BlueShelf Bookstore</h1>
+          <span>Curated reads, smooth discovery, elegant design.</span>
+        </div>
+      </a>
+
+      <!-- AZ QEYD: Header-in sağ hissəsində nav, axtarış və auth düymələri yerləşir. -->
+      <div class="header-tools">
+        <!-- AZ QEYD: Ümumi naviqasiya keçidləri. -->
+        <nav class="nav-links">
+          <a class="nav-link" href="index.html">Home</a>
+          <a class="nav-link" href="favorites.html">Favorites</a>
+          <a class="nav-link" href="profile.html">Profile</a>
+          <a class="nav-link" href="diagrams.html">ERD</a>
+        </nav>
+
+        <!-- AZ QEYD: Axtarış forması title, author, description üzrə işləyir. -->
+        <form class="search-shell" id="searchForm">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input id="searchInput" type="text" placeholder="Search by title, author, category, or text">
+          <button class="btn btn-primary" type="submit">Search</button>
+        </form>
+
+        <!-- AZ QEYD: Auth düymələri bu boş konteynerə JS ilə yazılır. -->
+        <div id="authActions" class="nav-links"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- AZ QEYD: Səhifənin əsas məzmunu burada yerləşir. -->
+  <main>
+    
+    <!-- AZ QEYD: Müəllif məlumat hissəsi. -->
+    <section class="section">
+      <div class="container">
+        <div id="authorDetailSection"></div>
+      </div>
+    </section>
+
+    <!-- AZ QEYD: Müəllifə aid kitabların grid hissəsi. -->
+    <section class="section">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <h3>Books By This Author</h3>
+            <p>Click any title to open its own dedicated detail page.</p>
+          </div>
+        </div>
+        <div id="authorBooksGrid" class="book-grid"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- AZ QEYD: Saytın alt hissəsi əlaqə və ünvan məlumatını göstərir. -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-card">
+        <div>
+          <h3>Visit or Contact</h3>
+          <p class="muted">A refined online bookstore interface designed for an academic project presentation and user experience showcase.</p>
+          <div class="contact-list">
+            <div><strong>Address:</strong> Pasaż Stokłosy 3, 02-787 Warsaw, Poland</div>
+            <div><strong>Institution:</strong> Akademia Finansów i Biznesu Vistula</div>
+            <div><strong>Email:</strong> <a href="mailto:m.lisiecki@vistula.edu.pl">m.lisiecki@vistula.edu.pl</a></div>
+          </div>
+        </div>
+        <div>
+          <h3>Quick Links</h3>
+          <div class="contact-list">
+            <a class="btn btn-secondary" href="https://maps.apple.com/place?address=Pasa%C5%BC%20Stok%C5%82osy%203,%2002-787%20Warsaw,%20Poland&coordinate=52.158803,21.034130&name=Akademia%20Finans%C3%B3w%20i%20Biznesu%20Vistula&place-id=I8366BBF6C455E7BC&map=explore" target="_blank" rel="noreferrer">Open Map</a>
+            <a class="btn btn-secondary" href="login.html">Member Access</a>
+            <a class="btn btn-primary" href="admin.html">Admin Panel</a>
+          </div>
+          <p class="muted" style="margin-top:16px;">© <span id="currentYear"></span> BlueShelf Bookstore. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- AZ QEYD: Özümüzə məxsus toast bildiriş elementi. -->
+  <div class="toast" id="toast"></div>
+
+  <!-- AZ QEYD: Supabase JavaScript kitabxanasını qoşuruq. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- AZ QEYD: Supabase bağlantı parametrlərini saxlayan fayl. -->
+  <script src="js/supabase-config.js"></script>
+  <!-- AZ QEYD: Əsas funksionallıq faylı. -->
+  <script src="app.js"></script>
+</body>
+</html>
