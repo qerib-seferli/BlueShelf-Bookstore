@@ -3,15 +3,348 @@
 <head>
   <!--  HTML sənədinin kodlaşdırmasını UTF-8 edirik ki, mətnlər düzgün görünsün. -->
   <meta charset="UTF-8">
+
   <!--  Mobil və fərqli ekranlarda responsive görünüş üçün viewport əlavə olunur. -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <!--  Brauzer başlığında görünəcək səhifə adı. -->
   <title>Admin | BlueShelf</title>
+
   <!--  Font Awesome ikon kitabxanasını qoşuruq. -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
   <!--  Əsas stil faylı qoşulur. -->
   <link rel="stylesheet" href="style.css">
+
+  <style>
+    /*  Admin səhifəsində əlavə panel stillərini burada yazırıq ki, əsas layihəyə uyğun premium görünüş alınsın. */
+    .admin-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+      margin-bottom: 22px;
+    }
+
+    /*  Kateqoriya və müəllif siyahıları üçün daxili blok görünüşü. */
+    .admin-subpanel {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(88, 136, 199, 0.16);
+    }
+
+    /*  Daxili alt başlıqlar üçün daha yığcam görünüş. */
+    .admin-subpanel h4 {
+      margin: 0 0 14px;
+      font-size: 1rem;
+      color: #1a4f9d;
+    }
+
+    /*  Siyahı elementləri üçün ümumi görünüş. */
+    .admin-stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    /*  Hər bir kateqoriya və müəllif sətri üçün kart görnüşü. */
+    .admin-row-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #ffffff, #f4f9ff);
+      border: 1px solid rgba(97, 151, 232, 0.16);
+      box-shadow: 0 10px 20px rgba(33, 72, 128, 0.06);
+    }
+
+    /*  Sol hissədəki mətn blokları üçün görünüş. */
+    .admin-row-card .meta {
+      min-width: 0;
+    }
+
+    /*  Ad başlığı üçün görünüş. */
+    .admin-row-card .meta strong {
+      display: block;
+      color: #163f7a;
+      font-size: 0.98rem;
+      margin-bottom: 4px;
+    }
+
+    /*  Alt məlumat mətnləri üçün görünüş. */
+    .admin-row-card .meta span {
+      color: #5a7599;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+    /*  Sağ tərəfdə düymələri səliqəli düzürük. */
+    .admin-row-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    /*  Kiçik ölçülü idarəetmə düymələri üçün xüsusi sinif. */
+    .btn-sm {
+      padding: 8px 12px;
+      font-size: 0.84rem;
+      border-radius: 12px;
+    }
+
+    /*  Sil düyməsi üçün ayrıca rəng tonu veririk. */
+    .btn-danger {
+      background: linear-gradient(180deg, #ff7f7f, #eb5f5f);
+      color: #ffffff;
+      border: none;
+      box-shadow: 0 10px 18px rgba(202, 66, 66, 0.18);
+    }
+
+    /*  Boş siyahı olduqda göstəriləcək yumşaq info qutusu. */
+    .empty-note {
+      padding: 16px;
+      border-radius: 16px;
+      background: #f5faff;
+      border: 1px dashed rgba(92, 142, 212, 0.24);
+      color: #6481a8;
+      font-size: 0.94rem;
+    }
+
+    /*  İstifadəçilər bölməsinin açılıb-bağlanan hissəsi üçün üst düymə görünüşü. */
+    .accordion-toggle {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(97, 151, 232, 0.18);
+      background: linear-gradient(180deg, #ffffff, #f2f8ff);
+      color: #173f7a;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(31, 72, 131, 0.06);
+    }
+
+    /*  Açılıb-bağlanan bölmənin iç hissəsi. Başlanğıcda gizlənir. */
+    .accordion-content {
+      display: none;
+      margin-top: 14px;
+    }
+
+    /*  Açıq olanda görünən variant. */
+    .accordion-content.is-open {
+      display: block;
+    }
+
+    /*  İstifadəçi kartlarının grid görünüşü. */
+    .users-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    /*  Hər istifadəçi preview kartı üçün görünüş. */
+    .user-preview-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #ffffff, #f4f9ff);
+      border: 1px solid rgba(97, 151, 232, 0.16);
+      box-shadow: 0 10px 20px rgba(33, 72, 128, 0.06);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    /*  Hover zamanı kartın bir az qalxması üçün effekt. */
+    .user-preview-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(33, 72, 128, 0.10);
+    }
+
+    /*  Avatar dairəsi üçün görünüş. */
+    .user-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex: 0 0 52px;
+      background: linear-gradient(180deg, #dcebff, #b8d8ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #245aa7;
+      font-weight: 700;
+      font-size: 1rem;
+      border: 1px solid rgba(91, 142, 220, 0.22);
+    }
+
+    /*  Avatar içində şəkil varsa düzgün yerləşsin. */
+    .user-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /*  Modal arxa fon qatı üçün stil. */
+    .user-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 35, 68, 0.46);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 9999;
+      backdrop-filter: blur(6px);
+    }
+
+    /*  Modal açıq olduqda görünür. */
+    .user-modal.is-open {
+      display: flex;
+    }
+
+    /*  İstifadəçi haqqında tam məlumat kartı. */
+    .user-modal-card {
+      width: min(700px, 100%);
+      background: linear-gradient(180deg, #ffffff, #f4f9ff);
+      border: 1px solid rgba(88, 141, 224, 0.18);
+      border-radius: 26px;
+      box-shadow: 0 22px 50px rgba(20, 54, 104, 0.18);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /*  Modal kartın yuxarı hissəsi. */
+    .user-modal-header {
+      padding: 22px 22px 16px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      border-bottom: 1px solid rgba(88, 141, 224, 0.12);
+    }
+
+    /*  Modal bağlama düyməsi üçün görünüş. */
+    .user-modal-close {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: #eaf3ff;
+      color: #1d4e98;
+      cursor: pointer;
+      flex: 0 0 40px;
+      font-size: 1rem;
+    }
+
+    /*  Modalın əsas məzmun hissəsi. */
+    .user-modal-body {
+      padding: 22px;
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 20px;
+    }
+
+    /*  Böyük avatar hissəsi üçün görünüş. */
+    .user-modal-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 24px;
+      overflow: hidden;
+      background: linear-gradient(180deg, #dcebff, #bddbff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #245aa7;
+      font-size: 2rem;
+      font-weight: 700;
+      border: 1px solid rgba(88, 141, 224, 0.18);
+    }
+
+    /*  Böyük avatar içində şəkil varsa tam görünsün. */
+    .user-modal-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /*  İstifadəçi məlumatlarını bloklarla düzürük. */
+    .user-detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    /*  Hər bir detal qutusu üçün stil. */
+    .user-detail-box {
+      padding: 14px;
+      border-radius: 16px;
+      background: #ffffff;
+      border: 1px solid rgba(92, 142, 212, 0.14);
+    }
+
+    /*  Detal başlığının görünüşü. */
+    .user-detail-box small {
+      display: block;
+      margin-bottom: 6px;
+      color: #6783a8;
+      font-size: 0.8rem;
+    }
+
+    /*  Detal dəyərinin görünüşü. */
+    .user-detail-box strong,
+    .user-detail-box span,
+    .user-detail-box p {
+      color: #173f7a;
+      line-height: 1.6;
+      word-break: break-word;
+      margin: 0;
+    }
+
+    /*  Tam genişlik verilməli olan detail qutuları üçün sinif. */
+    .full-width {
+      grid-column: 1 / -1;
+    }
+
+    /*  Orta ekranlarda iki sütunlu layout-u bir sütuna endiririk. */
+    @media (max-width: 980px) {
+      .admin-grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .user-modal-body {
+        grid-template-columns: 1fr;
+      }
+
+      .user-detail-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /*  Kiçik ekranlarda sağ düymələri alt-alta düşmədən səliqəli saxlayırıq. */
+    @media (max-width: 640px) {
+      .admin-row-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .admin-row-actions {
+        width: 100%;
+        justify-content: flex-start;
+      }
+    }
+  </style>
 </head>
+
 <body class="admin-page" data-page="admin">
   <!--  Saytın yuxarı sabit başlıq hissəsi burada başlayır. -->
   <header class="site-header">
@@ -56,7 +389,7 @@
 
   <!--  Səhifənin əsas məzmunu burada yerləşir. -->
   <main>
-    
+
     <!--  Admin səhifə burada başlayır. -->
     <section class="section">
       <div class="container">
@@ -71,55 +404,69 @@
         <div class="panel" style="margin-bottom:22px;">
           <h3>Book Form</h3>
           <form id="bookForm" class="form-grid">
+            <!--  Gizli input redaktə zamanı kitabın ID dəyərini saxlamaq üçündür. -->
             <input id="bookId" type="hidden">
+
             <div class="field">
               <label for="bookTitle">Book Title</label>
               <input id="bookTitle" name="title" type="text" placeholder="Enter book title" required>
             </div>
+
             <div class="field">
               <label for="bookAuthor">Author</label>
               <select id="bookAuthor" name="author_id" required></select>
             </div>
+
             <div class="field">
               <label for="bookCategory">Category</label>
               <select id="bookCategory" name="category_id" required></select>
             </div>
+
             <div class="field">
               <label for="bookPublishYear">Publish Year</label>
               <input id="bookPublishYear" name="publish_year" type="number" placeholder="2024">
             </div>
+
             <div class="field">
               <label for="bookPages">Pages</label>
               <input id="bookPages" name="pages" type="number" placeholder="320">
             </div>
+
             <div class="field">
               <label for="bookIsbn">ISBN</label>
               <input id="bookIsbn" name="isbn" type="text" placeholder="978-...">
             </div>
+
             <div class="field">
               <label for="bookLanguage">Language</label>
               <input id="bookLanguage" name="language" type="text" value="English">
             </div>
+
             <div class="field">
               <label for="bookFormat">Format</label>
               <input id="bookFormat" name="format_type" type="text" value="Paperback">
             </div>
+
             <div class="field full-span">
               <label for="bookShortDescription">Short Description</label>
               <textarea id="bookShortDescription" name="short_description" placeholder="Short card summary"></textarea>
             </div>
+
             <div class="field full-span">
               <label for="bookDescription">Detailed Description</label>
               <textarea id="bookDescription" name="description" placeholder="Full detail page description"></textarea>
             </div>
+
             <div class="field">
               <label for="bookCoverUrl">Cover URL</label>
               <input id="bookCoverUrl" name="cover_url" type="url" placeholder="https://...">
             </div>
+
             <div class="field">
               <label for="bookCoverFile">Upload Cover</label>
               <input id="bookCoverFile" type="file" accept="image/*">
             </div>
+
             <div class="full-span hero-actions">
               <button class="btn btn-primary" type="submit">Save Book</button>
               <button class="btn btn-secondary" type="reset">Clear Form</button>
@@ -127,48 +474,87 @@
           </form>
         </div>
 
-        <!--  Müəllif və kateqoriya əlavə kartları. -->
-        <div class="form-grid" style="margin-bottom:22px;">
+        <!--  Müəllif və kateqoriya əlavə kartlarını iki sütunlu grid-də göstəririk. -->
+        <div class="admin-grid-2">
+
+          <!--  Kateqoriya idarəetmə paneli. -->
           <div class="panel">
             <h3>Add Category</h3>
+
+            <!--  Kateqoriya redaktə zamanı ID-ni gizli input-da saxlayırıq. -->
             <form id="categoryForm" class="form-grid">
+              <input id="categoryId" type="hidden">
+
               <div class="field full-span">
                 <label for="categoryName">Category Name</label>
                 <input id="categoryName" type="text" placeholder="Fiction, Science, Business..." required>
               </div>
-              <div class="full-span">
-                <button class="btn btn-primary" type="submit">Add Category</button>
+
+              <div class="full-span hero-actions">
+                <button class="btn btn-primary" type="submit">Save Category</button>
+                <button class="btn btn-secondary" type="button" id="clearCategoryFormBtn">Clear</button>
               </div>
             </form>
+
+            <!--  Bazada olan bütün category-ləri bu hissədə göstərəcəyik. -->
+            <div class="admin-subpanel">
+              <h4>All Categories</h4>
+
+              <!--  JS burada mövcud category siyahısını yaradacaq. -->
+              <div id="adminCategoriesList" class="admin-stack">
+                <div class="empty-note">Categories will appear here.</div>
+              </div>
+            </div>
           </div>
+
+          <!--  Müəllif idarəetmə paneli. -->
           <div class="panel">
             <h3>Add Author</h3>
+
+            <!--  Müəllif redaktə zamanı ID-ni gizli input-da saxlayırıq. -->
             <form id="authorForm" class="form-grid">
+              <input id="authorId" type="hidden">
+
               <div class="field">
                 <label for="authorName">Author Name</label>
                 <input id="authorName" type="text" placeholder="Author full name" required>
               </div>
+
               <div class="field">
                 <label for="authorNationality">Nationality</label>
                 <input id="authorNationality" type="text" placeholder="Polish, British, American...">
               </div>
+
               <div class="field">
                 <label for="authorBirthYear">Birth Year</label>
                 <input id="authorBirthYear" type="number" placeholder="1970">
               </div>
+
               <div class="field full-span">
                 <label for="authorBiography">Biography</label>
                 <textarea id="authorBiography" placeholder="Short biography of the author"></textarea>
               </div>
-              <div class="full-span">
-                <button class="btn btn-primary" type="submit">Add Author</button>
+
+              <div class="full-span hero-actions">
+                <button class="btn btn-primary" type="submit">Save Author</button>
+                <button class="btn btn-secondary" type="button" id="clearAuthorFormBtn">Clear</button>
               </div>
             </form>
+
+            <!--  Bazadakı bütün müəllifləri burada göstərəcəyik. -->
+            <div class="admin-subpanel">
+              <h4>All Authors</h4>
+
+              <!--  JS burada müəllif siyahısını dolduracaq. -->
+              <div id="adminAuthorsList" class="admin-stack">
+                <div class="empty-note">Authors will appear here.</div>
+              </div>
+            </div>
           </div>
         </div>
 
         <!--  Mövcud kitabların idarəetmə cədvəli. -->
-        <div class="panel">
+        <div class="panel" style="margin-bottom:22px;">
           <h3>Catalog Records</h3>
           <div class="table-wrap">
             <table>
@@ -181,8 +567,27 @@
                   <th>Actions</th>
                 </tr>
               </thead>
+
+              <!--  JS kitab siyahısını bu tbody içində yaradacaq. -->
               <tbody id="adminBooksTableBody"></tbody>
             </table>
+          </div>
+        </div>
+
+        <!--  İstifadəçilər bölməsi açılıb-bağlanan panel şəklində qurulur. -->
+        <div class="panel">
+          <button id="usersAccordionToggle" class="accordion-toggle" type="button" aria-expanded="false" aria-controls="usersAccordionContent">
+            <span><i class="fa-solid fa-users"></i> Users Directory</span>
+            <span><i class="fa-solid fa-chevron-down" id="usersAccordionIcon"></i></span>
+          </button>
+
+          <!--  Açılıb-bağlanan istifadəçilər siyahısı bu konteynerdə saxlanılır. -->
+          <div id="usersAccordionContent" class="accordion-content">
+            <div style="margin-top:16px;">
+              <div id="adminUsersGrid" class="users-grid">
+                <div class="empty-note">Users will appear here.</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -197,13 +602,15 @@
         <div>
           <h3>Visit or Contact</h3>
           <p class="muted">A refined online bookstore interface designed for an academic project presentation and user experience showcase.</p>
+
           <div class="contact-list">
             <div><strong>Address:</strong> Pasaż Stokłosy 3, 02-787 Warsaw, Poland</div>
             <div><strong>Institution:</strong> Akademia Finansów i Biznesu Vistula</div>
             <div><strong>Email:</strong> <a href="mailto:m.lisiecki@vistula.edu.pl">m.lisiecki@vistula.edu.pl</a></div>
-            <div><strong>Email:</strong> <a href="mailto:m.lisiecki@vistula.edu.pl">njafaro1@stu.vistula.edu.pl</a></div>
+            <div><strong>Email:</strong> <a href="mailto:njafaro1@stu.vistula.edu.pl">njafaro1@stu.vistula.edu.pl</a></div>
           </div>
         </div>
+
         <div>
           <h3>Quick Links</h3>
           <div class="contact-list">
@@ -220,10 +627,42 @@
   <!--  Özümüzə məxsus toast bildiriş elementi. -->
   <div class="toast" id="toast"></div>
 
+  <!--  İstifadəçi məlumatını kart/modal kimi göstərən pəncərədir. Başlanğıcda gizlidir. -->
+  <div id="userDetailsModal" class="user-modal" aria-hidden="true">
+    <div class="user-modal-card">
+      <div class="user-modal-header">
+        <div>
+          <h3 style="margin:0;">User Details</h3>
+          <p class="muted" style="margin:8px 0 0;">Full profile information is shown here in card format.</p>
+        </div>
+
+        <!--  Sağdakı X düyməsi modalı bağlamaq üçündür. -->
+        <button id="userDetailsCloseBtn" class="user-modal-close" type="button" aria-label="Close user details">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="user-modal-body">
+        <!--  Böyük avatar hissəsi. -->
+        <div id="userDetailsAvatar" class="user-modal-avatar">U</div>
+
+        <!--  İstifadəçi haqqında bütün məlumatlar JS ilə bu grid içində doldurulacaq. -->
+        <div id="userDetailsGrid" class="user-detail-grid">
+          <div class="user-detail-box">
+            <small>Full Name</small>
+            <strong>-</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!--  Supabase JavaScript kitabxanasını qoşuruq. -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <!--  Supabase bağlantı parametrlərini saxlayan fayl. -->
   <script src="js/supabase-config.js"></script>
+
   <!--  Əsas funksionallıq faylı. -->
   <script src="app.js"></script>
 </body>
