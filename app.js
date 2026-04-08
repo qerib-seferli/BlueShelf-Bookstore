@@ -904,3 +904,557 @@ async function boot() { //  Səhifə ilk açıldıqda çağırılır.
 
 //  DOM tam yüklənəndə əsas boot funksiyasını başladırıq.
 document.addEventListener("DOMContentLoaded", boot); //  Səhifə hazır olanda işə düşür.
+
+// ===============================================================
+//  AŞAĞIDAKI BLOKLAR SON DÜZƏLİŞLƏR ÜÇÜN ƏLAVƏ OLUNUB.
+//  Məqsəd:
+//  1) Favorit əlavə edilən kitabı yenidən kliklə çıxarmaq,
+//  2) Admin paneldə category edit/delete işlətmək,
+//  3) Admin paneldə author edit/delete işlətmək,
+//  4) Users siyahısını açılıb-bağlanan hissədə göstərmək,
+//  5) İstifadəçi kartını modal/pəncərə şəklində göstərmək.
+// ===============================================================
+
+// ===============================================================
+//  Bu funksiya cari istifadəçinin favorit kitab ID-lərini qaytarır.
+// ===============================================================
+async function fetchFavoriteBookIds() { //  Cari istifadəçinin favorit kitablarını ID formasında alırıq.
+  const user = await getCurrentUser(); //  Giriş etmiş istifadəçini oxuyuruq.
+  if (!user) return new Set(); //  User yoxdursa boş Set qaytarırıq.
+  const { data, error } = await sb //  Supabase sorğusunu başladırıq.
+    .from("favorites") //  favorites cədvəlindən oxuyuruq.
+    .select("book_id") //  Yalnız book_id sahəsi bizə lazımdır.
+    .eq("user_id", user.id); //  Cari user-ə aid favoritlər.
+  if (error) { //  Xəta baş veribsə.
+    console.error(error); //  Konsola yazırıq.
+    return new Set(); //  Boş Set qaytarırıq.
+  }
+  return new Set((data || []).map((row) => String(row.book_id))); //  Bütün ID-ləri Set formasında qaytarırıq.
+}
+
+// ===============================================================
+//  Bu funksiya favorit düymələrinin ikon və mətnini vəziyyətə görə yeniləyir.
+// ===============================================================
+async function syncFavoriteButtonsState() { //  Bütün favorit düymələrinin görünüşünü sinxron edir.
+  const buttons = $$(".favorite-toggle"); //  Səhifədəki bütün favorit düymələri.
+  if (!buttons.length) return; //  Heç düymə yoxdursa çıxırıq.
+  const favorites = await fetchFavoriteBookIds(); //  Cari favorit ID-ləri.
+  buttons.forEach((button) => { //  Hər düymə üzərində dönürük.
+    const icon = button.querySelector("i"); //  Düymə içindəki ikon.
+    const isSaved = favorites.has(String(button.dataset.bookId)); //  Bu kitab favoritdədir ya yox.
+    button.dataset.saved = isSaved ? "true" : "false"; //  Cari vəziyyəti data atributunda saxlayırıq.
+    if (icon) { //  İkon elementi varsa.
+      icon.className = isSaved ? "fa-solid fa-heart" : "fa-regular fa-heart"; //  Dolu və ya boş ürək göstəririk.
+    }
+    const labelNode = Array.from(button.childNodes).find((node) => node.nodeType === Node.TEXT_NODE && node.textContent.trim()); //  Düymənin mətn hissəsini tapırıq.
+    const label = isSaved ? " Remove Favorite" : " Add to Favorites"; //  Vəziyyətə uyğun düymə mətni.
+    if (labelNode) { //  Mövcud mətn node-u varsa.
+      labelNode.textContent = label; //  Onu yeniləyirik.
+    } else { //  Mətin node-u yoxdursa.
+      button.append(document.createTextNode(label)); //  Yeni mətn əlavə edirik.
+    }
+    button.classList.toggle("is-saved", isSaved); //  İstəyə bağlı stil üçün sinif veririk.
+  });
+}
+
+// ===============================================================
+//  Bu funksiya bir kitabı favoritə əlavə edir və ya çıxarır.
+// ===============================================================
+async function toggleFavoriteBook(bookId) { //  bookId klik olunan kitabın identifikatorudur.
+  const user = await getCurrentUser(); //  Cari istifadəçini alırıq.
+  if (!user) { //  Giriş olunmayıbsa.
+    showToast("Please log in to manage favorites.", true); //  İstifadəçiyə xəbər veririk.
+    window.location.href = "login.html"; //  Login səhifəsinə yönləndiririk.
+    return { ok: false, changed: false }; //  Əməliyyat alınmadı.
+  }
+
+  const { data: existing, error: checkError } = await sb //  Əvvəl bu kitab favoritdə varmı yoxlayırıq.
+    .from("favorites") //  favorites cədvəli.
+    .select("id") //  Təkcə id bizə kifayətdir.
+    .eq("user_id", user.id) //  Cari user.
+    .eq("book_id", bookId) //  Cari kitab.
+    .maybeSingle(); //  0 və ya 1 nəticə gözləyirik.
+
+  if (checkError) { //  Yoxlama zamanı xəta olarsa.
+    showToast(checkError.message, true); //  Xətanı göstəririk.
+    return { ok: false, changed: false }; //  Əməliyyat alınmadı.
+  }
+
+  if (existing?.id) { //  Əgər artıq favoritdədirsə.
+    const { error } = await sb.from("favorites").delete().eq("id", existing.id); //  Həmin favorit sətrini silirik.
+    if (error) { //  Silmə xətası varsa.
+      showToast(error.message, true); //  Mesaj göstər.
+      return { ok: false, changed: false }; //  Dayan.
+    }
+    showToast("Book removed from favorites."); //  Uğurlu silinmə mesajı.
+    return { ok: true, changed: true, saved: false }; //  Yeni vəziyyət favoritdə deyil.
+  }
+
+  const { error } = await sb.from("favorites").insert({ user_id: user.id, book_id: bookId }); //  Yeni favorit əlavə edirik.
+  if (error) { //  Əlavə etmə xətası.
+    showToast(error.message, true); //  Xətanı göstər.
+    return { ok: false, changed: false }; //  Dayan.
+  }
+
+  showToast("Book saved to favorites."); //  Uğurlu əlavə mesajı.
+  return { ok: true, changed: true, saved: true }; //  Yeni vəziyyət favoritdədir.
+}
+
+// ===============================================================
+//  Bu funksiya favori düymələrinə klik hadisəsi bağlayır.
+//  Yeni variantda həm əlavə, həm çıxarma işləyir.
+// ===============================================================
+function bindFavoriteButtons() { //  Bütün favorit düymələrini yenidən aktivləşdiririk.
+  $$(".favorite-toggle").forEach((button) => { //  Hər favorit düyməsinə baxırıq.
+    if (button.dataset.bound === "true") return; //  Daha əvvəl event bağlanıbsa təkrar bağlamırıq.
+    button.dataset.bound = "true"; //  Bu düyməyə event bağlandığını işarələyirik.
+    button.addEventListener("click", async () => { //  Klik hadisəsi.
+      const bookId = button.dataset.bookId; //  Klik olunan kitabın ID-si.
+      const result = await toggleFavoriteBook(bookId); //  Toggle əməliyyatını çağırırıq.
+      if (!result.ok) return; //  Əməliyyat uğursuzdursa çıxırıq.
+      await syncFavoriteButtonsState(); //  Bütün favorit düymələrinin görünüşünü yeniləyirik.
+      if (page === "favorites") { //  Əgər favorit səhifəsindəyiksə.
+        await renderFavoritesPage(); //  Siyahını dərhal yenidən çəkirik.
+      }
+    });
+  });
+  syncFavoriteButtonsState(); //  İlk vəziyyəti də sinxronlaşdırırıq.
+}
+
+// ===============================================================
+//  Bu funksiya favorit səhifəsini doldurur.
+//  Yeni variantda remove əməliyyatı da problemsiz işləyir.
+// ===============================================================
+async function renderFavoritesPage() { //  favorites.html üçün yeni loader.
+  const holder = $("#favoritesGrid"); //  Hədəf grid elementi.
+  if (!holder) return; //  Element yoxdursa çıxırıq.
+  const user = await getCurrentUser(); //  Cari istifadəçi.
+  if (!user) { //  Login edilməyibsə.
+    showToast("Please log in to access your favorites.", true); //  Xəbərdarlıq göstəririk.
+    window.location.href = "login.html"; //  Login səhifəsinə keçid veririk.
+    return; //  Dayanırıq.
+  }
+
+  holder.innerHTML = `<div class="spinner"></div>`; //  Gözləmə görünüşü.
+  const { data, error } = await sb //  Favoritləri əlaqəli kitablarla birlikdə oxuyuruq.
+    .from("favorites")
+    .select(`
+      id,
+      book_id,
+      books (
+        *,
+        authors ( id, name, biography, nationality ),
+        categories ( id, name, slug )
+      )
+    `)
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: false });
+
+  if (error) { //  Xəta olarsa.
+    showToast(error.message, true); //  Xəta mesajını göstəririk.
+    holder.innerHTML = `<div class="empty-state">Favorites could not be loaded.</div>`; //  Ekranda boş vəziyyət göstəririk.
+    return; //  Dayanırıq.
+  }
+
+  const books = (data || []).map((row) => row.books).filter(Boolean); //  İçindəki kitab obyektlərini çıxarırıq.
+  holder.innerHTML = books.length //  Kitab varsa.
+    ? books.map(createBookCard).join("") //  Kartları göstəririk.
+    : `<div class="empty-state">Your saved books will appear here.</div>`; //  Yoxdursa boş mətn.
+  bindFavoriteButtons(); //  Favorit düymələrini aktivləşdiririk.
+}
+
+// ===============================================================
+//  Bu funksiya admin üçün bütün kateqoriyaları siyahı şəklində göstərir.
+// ===============================================================
+async function renderAdminCategoriesList() { //  Admin kateqoriya siyahısını qurur.
+  const holder = $("#adminCategoriesList"); //  Kateqoriya siyahısı konteyneri.
+  if (!holder) return; //  Element yoxdursa çıxırıq.
+  const categories = await fetchCategories(); //  Bütün kateqoriyaları alırıq.
+  holder.innerHTML = categories.length
+    ? categories.map((item) => `
+        <div class="admin-row-card">
+          <div class="meta">
+            <strong>${escapeHtml(item.name)}</strong>
+            <span>Slug: ${escapeHtml(safe(item.slug, "—"))}</span>
+          </div>
+          <div class="admin-row-actions">
+            <button class="btn btn-secondary btn-sm admin-category-edit" data-category-id="${item.id}">Edit</button>
+            <button class="btn btn-danger btn-sm admin-category-delete" data-category-id="${item.id}">Delete</button>
+          </div>
+        </div>
+      `).join("")
+    : `<div class="empty-note">No categories have been added yet.</div>`;
+  bindAdminCategoryActions(categories); //  Edit və delete eventlərini bağlayırıq.
+}
+
+// ===============================================================
+//  Bu funksiya kateqoriya siyahısındakı edit və delete düymələrini işləyir.
+// ===============================================================
+function bindAdminCategoryActions(categories) { //  Mövcud kateqoriyalar massivi qəbul edir.
+  $$(".admin-category-edit").forEach((button) => { //  Bütün edit düymələri.
+    button.addEventListener("click", () => { //  Klik hadisəsi.
+      const category = categories.find((item) => String(item.id) === String(button.dataset.categoryId)); //  Klik olunan kateqoriyanı tapırıq.
+      if (!category) return; //  Tapılmazsa çıxırıq.
+      $("#categoryId").value = category.id; //  Gizli id input-na yazırıq.
+      $("#categoryName").value = category.name || ""; //  Ad input-nu doldururuq.
+      showToast("Category loaded for editing."); //  Bildiriş göstəririk.
+      window.scrollTo({ top: 0, behavior: "smooth" }); //  İstəyə görə yuxarı qaldırırıq.
+    });
+  });
+
+  $$(".admin-category-delete").forEach((button) => { //  Bütün delete düymələri.
+    button.addEventListener("click", async () => { //  Klik hadisəsi.
+      const confirmed = window.confirm("Delete this category?"); //  Təsdiq pəncərəsi.
+      if (!confirmed) return; //  Ləğv olunarsa çıx.
+      const { error } = await sb.from("categories").delete().eq("id", button.dataset.categoryId); //  Kateqoriyanı silirik.
+      if (error) { //  Xəta halı.
+        showToast(error.message, true); //  Xətanı göstəririk.
+        return; //  Dayanırıq.
+      }
+      showToast("Category deleted."); //  Uğurlu mesaj.
+      await renderAdminCategoriesList(); //  Siyahını yeniləyirik.
+      await populateCategorySelect("#bookCategory"); //  Select siyahısını da yeniləyirik.
+    });
+  });
+}
+
+// ===============================================================
+//  Bu funksiya admin üçün bütün müəllifləri siyahı şəklində göstərir.
+// ===============================================================
+async function renderAdminAuthorsList() { //  Admin müəllif siyahısını qurur.
+  const holder = $("#adminAuthorsList"); //  Müəllif siyahısı konteyneri.
+  if (!holder) return; //  Element yoxdursa çıxırıq.
+  const authors = await fetchAuthors(); //  Bütün müəllifləri alırıq.
+  holder.innerHTML = authors.length
+    ? authors.map((item) => `
+        <div class="admin-row-card">
+          <div class="meta">
+            <strong>${escapeHtml(item.name)}</strong>
+            <span>${escapeHtml(safe(item.nationality, "Unknown nationality"))} • ${escapeHtml(safe(item.birth_year, "Unknown year"))}</span>
+          </div>
+          <div class="admin-row-actions">
+            <button class="btn btn-secondary btn-sm admin-author-edit" data-author-id="${item.id}">Edit</button>
+            <button class="btn btn-danger btn-sm admin-author-delete" data-author-id="${item.id}">Delete</button>
+          </div>
+        </div>
+      `).join("")
+    : `<div class="empty-note">No authors have been added yet.</div>`;
+  bindAdminAuthorActions(authors); //  Edit və delete eventlərini bağlayırıq.
+}
+
+// ===============================================================
+//  Bu funksiya müəllif siyahısındakı edit və delete düymələrini işləyir.
+// ===============================================================
+function bindAdminAuthorActions(authors) { //  Mövcud müəlliflər massivi qəbul edir.
+  $$(".admin-author-edit").forEach((button) => { //  Edit düymələri.
+    button.addEventListener("click", () => { //  Klik hadisəsi.
+      const author = authors.find((item) => String(item.id) === String(button.dataset.authorId)); //  Klik olunan müəllifi tapırıq.
+      if (!author) return; //  Tapılmazsa çıxırıq.
+      $("#authorId").value = author.id; //  Müəllif id-ni gizli input-a yazırıq.
+      $("#authorName").value = author.name || ""; //  Ad.
+      $("#authorNationality").value = author.nationality || ""; //  Mənsubiyyət.
+      $("#authorBirthYear").value = author.birth_year || ""; //  Doğum ili.
+      $("#authorBiography").value = author.biography || ""; //  Bio.
+      showToast("Author loaded for editing."); //  Bildiriş.
+      window.scrollTo({ top: 0, behavior: "smooth" }); //  Yuxarı qaldırırıq.
+    });
+  });
+
+  $$(".admin-author-delete").forEach((button) => { //  Delete düymələri.
+    button.addEventListener("click", async () => { //  Klik hadisəsi.
+      const confirmed = window.confirm("Delete this author?"); //  Təsdiq pəncərəsi.
+      if (!confirmed) return; //  Ləğv olunarsa çıx.
+      const { error } = await sb.from("authors").delete().eq("id", button.dataset.authorId); //  Müəllifi silirik.
+      if (error) { //  Xəta halı.
+        showToast(error.message, true); //  Xətanı göstəririk.
+        return; //  Dayanırıq.
+      }
+      showToast("Author deleted."); //  Uğurlu mesaj.
+      await renderAdminAuthorsList(); //  Siyahını yeniləyirik.
+      await populateAuthorSelect("#bookAuthor"); //  Select siyahısını da yeniləyirik.
+    });
+  });
+}
+
+// ===============================================================
+//  Bu funksiya admin paneldə kateqoriya formunu işləyir.
+//  Yeni variantda həm əlavə, həm redaktə edilir.
+// ===============================================================
+function bindAddCategoryForm() { //  categoryForm üçün yeni variant.
+  const form = $("#categoryForm"); //  Forma elementi.
+  if (!form) return; //  Forma yoxdursa çıxırıq.
+  form.addEventListener("submit", async (event) => { //  Submit hadisəsi.
+    event.preventDefault(); //  Səhifənin yenilənməsini saxlayırıq.
+    const id = $("#categoryId")?.value.trim(); //  Redaktə üçün gizli id sahəsi.
+    const name = $("#categoryName").value.trim(); //  Kateqoriya adı.
+    if (!name) return; //  Boşdursa çıxırıq.
+    const slug = normalizeText(name).replace(/\s+/g, "-"); //  Slug yaradırıq.
+    const response = id //  Əgər id varsa update, yoxdursa insert edirik.
+      ? await sb.from("categories").update({ name, slug }).eq("id", id)
+      : await sb.from("categories").insert({ name, slug });
+    if (response.error) { //  Xəta olarsa.
+      showToast(response.error.message, true); //  İstifadəçiyə göstəririk.
+      return; //  Dayanırıq.
+    }
+    showToast(id ? "Category updated." : "Category added."); //  Uğur mesajı.
+    form.reset(); //  Formu təmizləyirik.
+    if ($("#categoryId")) $("#categoryId").value = ""; //  Gizli id-ni sıfırlayırıq.
+    await renderAdminCategoriesList(); //  Siyahını yenidən çəkirik.
+    await populateCategorySelect("#bookCategory"); //  Book form select-ni yeniləyirik.
+  });
+
+  $("#clearCategoryFormBtn")?.addEventListener("click", () => { //  Clear düyməsinə klik.
+    form.reset(); //  Form təmizlənir.
+    if ($("#categoryId")) $("#categoryId").value = ""; //  Gizli id boşaldılır.
+    showToast("Category form cleared."); //  Mesaj göstərilir.
+  });
+}
+
+// ===============================================================
+//  Bu funksiya admin paneldə müəllif formunu işləyir.
+//  Yeni variantda həm əlavə, həm redaktə edilir.
+// ===============================================================
+function bindAddAuthorForm() { //  authorForm üçün yeni variant.
+  const form = $("#authorForm"); //  Forma elementi.
+  if (!form) return; //  Yoxdursa çıxırıq.
+  form.addEventListener("submit", async (event) => { //  Submit hadisəsi.
+    event.preventDefault(); //  Default submit-i dayandırırıq.
+    const id = $("#authorId")?.value.trim(); //  Redaktə üçün gizli id.
+    const payload = { //  authors cədvəlinə gedəcək obyekt.
+      name: $("#authorName").value.trim(), //  Müəllif adı.
+      nationality: $("#authorNationality").value.trim(), //  Mənsubiyyət.
+      birth_year: Number($("#authorBirthYear").value) || null, //  Doğum ili.
+      biography: $("#authorBiography").value.trim(), //  Bio.
+    };
+    const response = id //  id varsa yenilə, yoxdursa əlavə et.
+      ? await sb.from("authors").update(payload).eq("id", id)
+      : await sb.from("authors").insert(payload);
+    if (response.error) { //  Xəta halı.
+      showToast(response.error.message, true); //  Xətanı göstər.
+      return; //  Dayan.
+    }
+    showToast(id ? "Author updated." : "Author added."); //  Uğur mesajı.
+    form.reset(); //  Formu təmizlə.
+    if ($("#authorId")) $("#authorId").value = ""; //  Gizli id-ni sıfırla.
+    await renderAdminAuthorsList(); //  Siyahını yenilə.
+    await populateAuthorSelect("#bookAuthor"); //  Select siyahısını yenilə.
+    await renderAuthorMarquee(); //  Home müəllif lentini də yenilə.
+  });
+
+  $("#clearAuthorFormBtn")?.addEventListener("click", () => { //  Clear düyməsi.
+    form.reset(); //  Formu təmizləyirik.
+    if ($("#authorId")) $("#authorId").value = ""; //  Gizli id boşaldılır.
+    showToast("Author form cleared."); //  Mesaj göstəririk.
+  });
+}
+
+// ===============================================================
+//  Bu funksiya profiles cədvəlindən bütün istifadəçiləri oxuyur.
+// ===============================================================
+async function fetchAllProfiles() { //  Admin üçün bütün profile məlumatlarını alır.
+  const { data, error } = await sb.from("profiles").select("*").order("created_at", { ascending: false }); //  Profiles cədvəlini oxuyuruq.
+  if (error) { //  Xəta halı.
+    console.error(error); //  Konsola yazırıq.
+    showToast(error.message, true); //  İstifadəçiyə göstəririk.
+    return []; //  Boş massiv qaytarırıq.
+  }
+  return data || []; //  Profile siyahısını qaytarırıq.
+}
+
+// ===============================================================
+//  Bu funksiya adda görə avatar üçün başlanğıc hərf yaradır.
+// ===============================================================
+function getInitials(value = "User") { //  Ad və soyad mətni qəbul edir.
+  return String(value)
+    .trim()
+    .split(/\s+/) //  Boşluqlara görə parçalayırıq.
+    .slice(0, 2) //  İlk iki hissəni götürürük.
+    .map((part) => part.charAt(0).toUpperCase()) //  İlk hərfləri böyük edirik.
+    .join("") || "U"; //  Nəticə boş qalsa U qaytarırıq.
+}
+
+// ===============================================================
+//  Bu funksiya istifadəçilər siyahısını admin paneldə göstərir.
+// ===============================================================
+async function renderAdminUsersGrid() { //  Users grid hissəsini qurur.
+  const holder = $("#adminUsersGrid"); //  Hədəf grid elementi.
+  if (!holder) return; //  Element yoxdursa çıxırıq.
+  const users = await fetchAllProfiles(); //  Bütün istifadəçiləri alırıq.
+  holder.innerHTML = users.length
+    ? users.map((user) => {
+        const avatar = user.avatar_url ? `<img src="${escapeHtml(user.avatar_url)}" alt="${escapeHtml(safe(user.full_name, "User"))}">` : escapeHtml(getInitials(user.full_name || user.email || "User"));
+        return `
+          <button type="button" class="user-preview-card" data-user-id="${escapeHtml(user.id)}">
+            <div class="user-avatar">${avatar}</div>
+            <div class="meta" style="text-align:left;">
+              <strong style="display:block; color:#173f7a; margin-bottom:4px;">${escapeHtml(safe(user.full_name, "Unnamed User"))}</strong>
+              <span style="display:block; color:#6280a8; font-size:0.88rem;">${escapeHtml(safe(user.email, "No email"))}</span>
+              <span style="display:block; color:#6280a8; font-size:0.82rem; margin-top:4px;">Role: ${escapeHtml(safe(user.role, "user"))}</span>
+            </div>
+          </button>
+        `;
+      }).join("")
+    : `<div class="empty-note">Users will appear here after registration.</div>`;
+
+  $$(".user-preview-card").forEach((button) => { //  Hər istifadəçi kartına klik eventini bağlayırıq.
+    button.addEventListener("click", async () => { //  Klik hadisəsi.
+      const userId = button.dataset.userId; //  Hansı istifadəçi klik olunub.
+      const usersList = await fetchAllProfiles(); //  Təzə siyahı oxuyuruq.
+      const selected = usersList.find((item) => String(item.id) === String(userId)); //  Həmin istifadəçini tapırıq.
+      if (!selected) return; //  Tapılmazsa çıxırıq.
+      openUserDetailsModal(selected); //  Modalı açırıq.
+    });
+  });
+}
+
+// ===============================================================
+//  Bu funksiya istifadəçi detal modalını doldurur və açır.
+// ===============================================================
+function openUserDetailsModal(profile) { //  profile seçilmiş istifadəçi obyektidir.
+  const modal = $("#userDetailsModal"); //  Modal konteyneri.
+  const avatarHolder = $("#userDetailsAvatar"); //  Avatar sahəsi.
+  const grid = $("#userDetailsGrid"); //  Məlumat qutuları üçün grid.
+  if (!modal || !avatarHolder || !grid) return; //  Elementlər yoxdursa çıxırıq.
+
+  avatarHolder.innerHTML = profile.avatar_url //  Şəkil varsa şəkil göstəririk.
+    ? `<img src="${escapeHtml(profile.avatar_url)}" alt="${escapeHtml(safe(profile.full_name, "User"))}">`
+    : escapeHtml(getInitials(profile.full_name || profile.email || "User")); //  Yoxdursa başlanğıc hərfləri göstəririk.
+
+  grid.innerHTML = `
+    <div class="user-detail-box">
+      <small>Full Name</small>
+      <strong>${escapeHtml(safe(profile.full_name, "Not provided"))}</strong>
+    </div>
+    <div class="user-detail-box">
+      <small>Email</small>
+      <span>${escapeHtml(safe(profile.email, "Not provided"))}</span>
+    </div>
+    <div class="user-detail-box">
+      <small>Role</small>
+      <span>${escapeHtml(safe(profile.role, "user"))}</span>
+    </div>
+    <div class="user-detail-box">
+      <small>Address</small>
+      <span>${escapeHtml(safe(profile.address, "Not provided"))}</span>
+    </div>
+    <div class="user-detail-box full-width">
+      <small>Avatar URL</small>
+      <span>${escapeHtml(safe(profile.avatar_url, "Not provided"))}</span>
+    </div>
+    <div class="user-detail-box full-width">
+      <small>About</small>
+      <p>${escapeHtml(safe(profile.bio, "No biography added yet."))}</p>
+    </div>
+    <div class="user-detail-box">
+      <small>Created At</small>
+      <span>${escapeHtml(formatDate(profile.created_at))}</span>
+    </div>
+    <div class="user-detail-box">
+      <small>Updated At</small>
+      <span>${escapeHtml(formatDate(profile.updated_at))}</span>
+    </div>
+  `; //  Bütün məlumat qutularını yaradırıq.
+
+  modal.classList.add("is-open"); //  Modalı görünən edirik.
+  modal.setAttribute("aria-hidden", "false"); //  Accessibility üçün atributu yeniləyirik.
+}
+
+// ===============================================================
+//  Bu funksiya istifadəçi detal modalını bağlayır.
+// ===============================================================
+function closeUserDetailsModal() { //  Modalı gizlədir.
+  const modal = $("#userDetailsModal"); //  Modal elementi.
+  if (!modal) return; //  Yoxdursa çıxırıq.
+  modal.classList.remove("is-open"); //  Açıq sinfini silirik.
+  modal.setAttribute("aria-hidden", "true"); //  Accessibility atributunu yeniləyirik.
+}
+
+// ===============================================================
+//  Bu funksiya users accordion hissəsini işləyir.
+// ===============================================================
+function bindUsersAccordion() { //  Açılıb-bağlanan istifadəçi paneli üçün.
+  const toggle = $("#usersAccordionToggle"); //  Açıb-bağlayan düymə.
+  const content = $("#usersAccordionContent"); //  İç məzmun hissəsi.
+  const icon = $("#usersAccordionIcon"); //  Chevron ikonu.
+  if (!toggle || !content) return; //  Element yoxdursa çıxırıq.
+
+  toggle.addEventListener("click", async () => { //  Klik hadisəsi.
+    const isOpen = content.classList.contains("is-open"); //  Hazırda açıqdırmı?
+    content.classList.toggle("is-open", !isOpen); //  Yeni vəziyyətə keçiririk.
+    toggle.setAttribute("aria-expanded", String(!isOpen)); //  Accessibility atributunu yeniləyirik.
+    if (icon) { //  İkon varsa.
+      icon.className = !isOpen ? "fa-solid fa-chevron-up" : "fa-solid fa-chevron-down"; //  Yuxarı/aşağı ikonunu dəyişirik.
+    }
+    if (!isOpen) { //  Yeni açılırsa.
+      await renderAdminUsersGrid(); //  İstifadəçiləri yükləyirik.
+    }
+  });
+
+  $("#userDetailsCloseBtn")?.addEventListener("click", closeUserDetailsModal); //  X düyməsi modalı bağlayır.
+  $("#userDetailsModal")?.addEventListener("click", (event) => { //  Arxa fon klikini də izləyirik.
+    if (event.target.id === "userDetailsModal") { //  Yalnız overlay klik olunubsa.
+      closeUserDetailsModal(); //  Modalı bağlayırıq.
+    }
+  });
+}
+
+// ===============================================================
+//  Bu funksiya admin səhifəsinin son variant əsas loader-idir.
+//  admin.html içindəki yeni ID-lər və bölmələr bununla işləyəcək.
+// ===============================================================
+async function bindAdminPage() { //  admin.html üçün yenilənmiş əsas loader.
+  const user = await assertAdmin(); //  Admin icazəsini yoxlayırıq.
+  if (!user) return; //  İcazə yoxdursa çıxırıq.
+
+  await populateCategorySelect("#bookCategory"); //  Book form üçün category select doldurulur.
+  await populateAuthorSelect("#bookAuthor"); //  Book form üçün author select doldurulur.
+  await renderAdminBooksTable(); //  Kitab cədvəli qurulur.
+  await renderAdminCategoriesList(); //  Category siyahısı qurulur.
+  await renderAdminAuthorsList(); //  Author siyahısı qurulur.
+
+  bindAddCategoryForm(); //  Category form eventləri bağlanır.
+  bindAddAuthorForm(); //  Author form eventləri bağlanır.
+  bindUsersAccordion(); //  Users accordion və modal eventləri bağlanır.
+
+  const form = $("#bookForm"); //  Kitab forması elementi.
+  if (!form || form.dataset.bound === "true") return; //  Form yoxdursa və ya daha əvvəl bağlanıbsa çıxırıq.
+  form.dataset.bound = "true"; //  Bu form üçün event bağlandığını qeyd edirik.
+
+  form.addEventListener("submit", async (event) => { //  Submit hadisəsi.
+    event.preventDefault(); //  Standart submit-i dayandırırıq.
+    try { //  Qoruyucu try bloku.
+      const formData = new FormData(form); //  Form məlumatlarını yığırıq.
+      const editId = $("#bookId").value.trim(); //  Gizli id doludursa redaktədir.
+      const coverFile = $("#bookCoverFile").files[0]; //  Fayl input-dan şəkil.
+      let coverUrl = $("#bookCoverUrl").value.trim(); //  Əldəki URL və ya input dəyəri.
+      if (coverFile) { //  Yeni şəkil seçilibsə.
+        coverUrl = await uploadBookCover(coverFile); //  Storage-a yükləyib URL alırıq.
+      }
+      const payload = { //  books cədvəlinə gedəcək obyekt.
+        title: formData.get("title"), //  Kitab adı.
+        author_id: formData.get("author_id"), //  Müəllif id-si.
+        category_id: formData.get("category_id"), //  Kateqoriya id-si.
+        short_description: formData.get("short_description"), //  Qısa təsvir.
+        description: formData.get("description"), //  Tam təsvir.
+        publish_year: Number(formData.get("publish_year")) || null, //  Nəşr ili.
+        pages: Number(formData.get("pages")) || null, //  Səhifə sayı.
+        isbn: formData.get("isbn"), //  ISBN.
+        language: formData.get("language"), //  Dil.
+        format_type: formData.get("format_type"), //  Format.
+        cover_url: coverUrl, //  Qabıq şəkli URL-si.
+        is_published: true, //  Saytda göstərilsin.
+      };
+      const response = editId //  id varsa yenilə, yoxdursa əlavə et.
+        ? await sb.from("books").update(payload).eq("id", editId)
+        : await sb.from("books").insert(payload);
+      if (response.error) throw response.error; //  Səhv varsa catch-ə ötürürük.
+      showToast(editId ? "Book updated successfully." : "New book added successfully."); //  Uğur mesajı.
+      form.reset(); //  Formu təmizləyirik.
+      $("#bookId").value = ""; //  Gizli id-ni sıfırlayırıq.
+      await renderAdminBooksTable(); //  Kitab cədvəlini yeniləyirik.
+    } catch (error) { //  Xəta tutma bloku.
+      console.error(error); //  Konsola yazırıq.
+      showToast(error.message || "Admin action failed.", true); //  İstifadəçiyə göstəririk.
+    }
+  });
+}
