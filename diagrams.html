@@ -82,7 +82,7 @@
       overflow: visible;
     }
 
-    /*  Xətlərin üslubunu burada təyin edirik, yuvarlaq yox kəskin görünüş seçirik. */
+    /*  Xətlərin üslubunu burada təyin edirik, yuvarlaq yox, kəskin görünüş seçirik. */
     .erd-lines path,
     .erd-lines line,
     .erd-lines polyline {
@@ -341,22 +341,22 @@
               <!--  Xətləri çəkən SVG qatı. -->
               <svg class="erd-lines" viewBox="0 0 1180 860" preserveAspectRatio="none" aria-hidden="true">
                 <!--  AUTHORS cədvəlindən BOOKS cədvəlinə gedən xətt. -->
-                <polyline points="430,210 520,210 520,352 565,352"></polyline>
+                <polyline points="390,210 500,210 500,352 565,352"></polyline>
 
                 <!--  CATEGORIES cədvəlindən BOOKS cədvəlinə gedən xətt. -->
-                <polyline points="760,200 760,300 825,300 825,352"></polyline>
+                <polyline points="840,200 840,300 825,300 825,352"></polyline>
 
                 <!--  BOOKS cədvəlindən FAVORITES cədvəlinə gedən xətt. -->
-                <polyline points="825,554 825,635 860,635 860,700"></polyline>
+                <polyline points="825,554 825,620 975,620 975,660"></polyline>
 
                 <!--  PROFILES cədvəlindən FAVORITES cədvəlinə gedən xətt. -->
-                <polyline points="340,650 340,735 640,735 640,700"></polyline>
+                <polyline points="340,650 340,760 900,760 900,660"></polyline>
 
                 <!--  Xətt uclarında marker nöqtələri. -->
                 <circle class="marker-dot" cx="565" cy="352" r="3.5"></circle>
                 <circle class="marker-dot" cx="825" cy="352" r="3.5"></circle>
-                <circle class="marker-dot" cx="860" cy="700" r="3.5"></circle>
-                <circle class="marker-dot" cx="640" cy="700" r="3.5"></circle>
+                <circle class="marker-dot" cx="975" cy="660" r="3.5"></circle>
+                <circle class="marker-dot" cx="900" cy="660" r="3.5"></circle>
               </svg>
 
               <!--  AUTHORS cədvəli sol yuxarı hissədə yerləşir. -->
@@ -373,7 +373,7 @@
               </div>
 
               <!--  CATEGORIES cədvəli sağ yuxarı hissədə yerləşir. -->
-              <div class="erd-table" style="left: 760px; top: 90px;">
+              <div class="erd-table" style="left: 840px; top: 90px;">
                 <div class="table-title">CATEGORIES</div>
                 <div class="table-body">
                   <div class="row"><span class="field-name">id PK</span><span class="field-type">BIGINT</span></div>
@@ -421,8 +421,8 @@
                 </div>
               </div>
 
-              <!--  FAVORITES cədvəli aşağı mərkəz-sağ hissədə yerləşir. -->
-              <div class="erd-table" style="left: 640px; top: 700px;">
+              <!--  FAVORITES cədvəli daha sağa çəkilib ki, BOOKS cədvəlinin üstünə düşməsin. -->
+              <div class="erd-table" style="left: 900px; top: 660px;">
                 <div class="table-title">FAVORITES</div>
                 <div class="table-body">
                   <div class="row"><span class="field-name">id PK</span><span class="field-type">BIGINT</span></div>
