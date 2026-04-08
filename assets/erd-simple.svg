@@ -1,0 +1,30 @@
+<svg width="1200" height="700" viewBox="0 0 1200 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="700" rx="24" fill="#FFFDF8"/>
+  <text x="600" y="58" text-anchor="middle" font-family="Arial" font-size="28" font-weight="700" fill="#2A2340">Simple Relationship View</text>
+
+  <rect x="110" y="220" width="240" height="130" rx="20" fill="#FFFFFF" stroke="#FF7A9C" stroke-width="3"/>
+  <text x="230" y="275" text-anchor="middle" font-family="Arial" font-size="26" font-weight="700" fill="#2A2340">AUTHORS</text>
+  <text x="230" y="312" text-anchor="middle" font-family="Arial" font-size="20" fill="#5B5B75">One author can write many books</text>
+
+  <rect x="480" y="200" width="240" height="170" rx="20" fill="#FFFFFF" stroke="#6C4DF6" stroke-width="3"/>
+  <text x="600" y="265" text-anchor="middle" font-family="Arial" font-size="30" font-weight="700" fill="#2A2340">BOOKS</text>
+  <text x="600" y="302" text-anchor="middle" font-family="Arial" font-size="20" fill="#5B5B75">Central table of the system</text>
+  <text x="600" y="334" text-anchor="middle" font-family="Arial" font-size="18" fill="#5B5B75">Contains title, description, year, FKs</text>
+
+  <rect x="850" y="220" width="240" height="130" rx="20" fill="#FFFFFF" stroke="#11B4C6" stroke-width="3"/>
+  <text x="970" y="275" text-anchor="middle" font-family="Arial" font-size="26" font-weight="700" fill="#2A2340">CATEGORIES</text>
+  <text x="970" y="312" text-anchor="middle" font-family="Arial" font-size="20" fill="#5B5B75">One category contains many books</text>
+
+  <rect x="480" y="470" width="240" height="110" rx="20" fill="#FFFFFF" stroke="#FF8F5A" stroke-width="3"/>
+  <text x="600" y="520" text-anchor="middle" font-family="Arial" font-size="26" font-weight="700" fill="#2A2340">USERS</text>
+  <text x="600" y="555" text-anchor="middle" font-family="Arial" font-size="20" fill="#5B5B75">Used for login / register</text>
+
+  <line x1="350" y1="285" x2="480" y2="285" stroke="#FF7A9C" stroke-width="5"/>
+  <text x="415" y="260" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="#FF7A9C">1 : N</text>
+
+  <line x1="720" y1="285" x2="850" y2="285" stroke="#11B4C6" stroke-width="5"/>
+  <text x="785" y="260" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="#11B4C6">N : 1</text>
+
+  <line x1="600" y1="370" x2="600" y2="470" stroke="#FF8F5A" stroke-width="5" stroke-dasharray="12 12"/>
+  <text x="620" y="430" font-family="Arial" font-size="18" font-weight="700" fill="#FF8F5A">auth flow</text>
+</svg>
