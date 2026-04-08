@@ -340,23 +340,23 @@
 
               <!--  Xətləri çəkən SVG qatı. -->
               <svg class="erd-lines" viewBox="0 0 1180 860" preserveAspectRatio="none" aria-hidden="true">
-                <!--  AUTHORS cədvəlindən BOOKS cədvəlinə gedən xətt. -->
-                <polyline points="390,210 500,210 500,352 565,352"></polyline>
+                <!--  AUTHORS cədvəlindən BOOKS cədvəlinin sol tərəfinə gələn xətt. -->
+                <polyline points="390,210 500,210 500,462 565,462"></polyline>
 
-                <!--  CATEGORIES cədvəlindən BOOKS cədvəlinə gedən xətt. -->
-                <polyline points="840,200 840,300 825,300 825,352"></polyline>
+                <!--  CATEGORIES cədvəlindən BOOKS cədvəlinin sağ tərəfinə gələn xətt. -->
+                <polyline points="840,170 930,170 930,430 825,430"></polyline>
 
-                <!--  BOOKS cədvəlindən FAVORITES cədvəlinə gedən xətt. -->
-                <polyline points="825,554 825,620 975,620 975,660"></polyline>
+                <!--  BOOKS cədvəlindən FAVORITES cədvəlinin yuxarı hissəsinə gedən xətt. -->
+                <polyline points="825,610 885,610 885,680 900,680"></polyline>
 
-                <!--  PROFILES cədvəlindən FAVORITES cədvəlinə gedən xətt. -->
-                <polyline points="340,650 340,760 900,760 900,660"></polyline>
+                <!--  PROFILES cədvəlindən FAVORITES cədvəlinin sol tərəfinə gedən xətt. -->
+                <polyline points="340,610 500,610 500,760 900,760"></polyline>
 
-                <!--  Xətt uclarında marker nöqtələri. -->
-                <circle class="marker-dot" cx="565" cy="352" r="3.5"></circle>
-                <circle class="marker-dot" cx="825" cy="352" r="3.5"></circle>
-                <circle class="marker-dot" cx="975" cy="660" r="3.5"></circle>
-                <circle class="marker-dot" cx="900" cy="660" r="3.5"></circle>
+                <!--  Xətt uclarında marker nöqtələri. */
+                <circle class="marker-dot" cx="565" cy="462" r="3.5"></circle>
+                <circle class="marker-dot" cx="825" cy="430" r="3.5"></circle>
+                <circle class="marker-dot" cx="900" cy="680" r="3.5"></circle>
+                <circle class="marker-dot" cx="900" cy="760" r="3.5"></circle>
               </svg>
 
               <!--  AUTHORS cədvəli sol yuxarı hissədə yerləşir. -->
@@ -383,8 +383,8 @@
                 </div>
               </div>
 
-              <!--  BOOKS əsas cədvəl olduğu üçün mərkəzdə yerləşdirilir. -->
-              <div class="erd-table" style="left: 565px; top: 352px; width: 260px;">
+              <!--  BOOKS əsas cədvəl olduğu üçün tam mərkəzdə yerləşdirilir. -->
+              <div class="erd-table" style="left: 565px; top: 320px; width: 260px;">
                 <div class="table-title">BOOKS</div>
                 <div class="table-body">
                   <div class="row"><span class="field-name">id PK</span><span class="field-type">BIGINT</span></div>
@@ -421,8 +421,8 @@
                 </div>
               </div>
 
-              <!--  FAVORITES cədvəli daha sağa çəkilib ki, BOOKS cədvəlinin üstünə düşməsin. -->
-              <div class="erd-table" style="left: 900px; top: 660px;">
+              <!--  FAVORITES cədvəli sağ aşağı hissədə yerləşir. -->
+              <div class="erd-table" style="left: 900px; top: 680px;">
                 <div class="table-title">FAVORITES</div>
                 <div class="table-body">
                   <div class="row"><span class="field-name">id PK</span><span class="field-type">BIGINT</span></div>
