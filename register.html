@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up | BookNest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="auth-page-bg">
+  <header class="mini-header container">
+    <a href="index.html" class="logo">BookNest</a>
+  </header>
+
+  <main class="auth-main">
+    <section class="auth-card">
+      <p class="section-label">Account</p>
+      <h1>Sign Up</h1>
+      <p class="auth-info">Create a simple demo account for the thesis website.</p>
+
+      <!-- Qeydiyyat formu -->
+      <form id="registerForm" class="auth-form">
+        <label>Full Name</label>
+        <input type="text" id="registerName" placeholder="Enter your full name" required />
+
+        <label>Email</label>
+        <input type="email" id="registerEmail" placeholder="Enter your email" required />
+
+        <label>Password</label>
+        <input type="password" id="registerPassword" placeholder="Create a password" required />
+
+        <button type="submit" class="btn btn-primary full-btn">Create Account</button>
+      </form>
+
+      <p id="registerMessage" class="form-message"></p>
+      <p class="bottom-link">Already have an account? <a href="login.html">Login</a></p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

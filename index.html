@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BookNest | Online Book Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Header: əsas naviqasiya və auth düymələri -->
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="logo">BookNest</a>
+
+      <nav class="main-nav">
+        <a href="#home">Home</a>
+        <a href="#books">Books</a>
+        <a href="diagrams.html">ERD</a>
+        <a href="notes.html">Project Notes</a>
+      </nav>
+
+      <!-- Auth düymələri: login/register və logout vəziyyətə görə göstərilir -->
+      <div class="auth-buttons">
+        <span id="welcomeUser" class="welcome-user"></span>
+        <a id="loginBtn" class="btn btn-light" href="login.html">Login</a>
+        <a id="registerBtn" class="btn btn-primary" href="register.html">Sign Up</a>
+        <button id="logoutBtn" class="btn btn-dark hidden" type="button">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero bölməsi: saytın giriş hissəsi -->
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div>
+          <p class="hero-badge">Simple thesis project</p>
+          <h1>Beautiful Online Book Store Interface</h1>
+          <p class="hero-text">
+            Search books, open details, explore categories, and demonstrate a clean academic project in English.
+          </p>
+          <div class="hero-actions">
+            <a href="#books" class="btn btn-primary">Browse Books</a>
+            <a href="notes.html" class="btn btn-light">Study Notes</a>
+          </div>
+        </div>
+
+        <!-- Sağdakı kartlar sırf vizual görünüş üçün -->
+        <div class="hero-card-stack">
+          <article class="floating-card">
+            <span>Popular</span>
+            <h3>Design-focused layout</h3>
+            <p>Clean cards, soft colors, modern typography.</p>
+          </article>
+          <article class="floating-card">
+            <span>Working</span>
+            <h3>Search + Auth</h3>
+            <p>Login, register, logout and local storage logic.</p>
+          </article>
+          <article class="floating-card accent-card">
+            <span>Academic</span>
+            <h3>ERD + Explanations</h3>
+            <p>Ready for thesis presentation and viva questions.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Search hissəsi -->
+    <section class="search-section" id="books">
+      <div class="container">
+        <div class="section-top">
+          <div>
+            <p class="section-label">Library</p>
+            <h2>Find Your Next Book</h2>
+          </div>
+          <div class="filters-row">
+            <!-- Axtarış inputu: JS ilə kitablar filtr olunur -->
+            <input id="searchInput" type="text" placeholder="Search by title, author, category..." />
+            <!-- Kateqoriya seçimi -->
+            <select id="categoryFilter">
+              <option value="all">All Categories</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Statistik kartlar -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3 id="bookCount">0</h3>
+            <p>Total Books</p>
+          </div>
+          <div class="stat-card">
+            <h3>English UI</h3>
+            <p>Ready for thesis</p>
+          </div>
+          <div class="stat-card">
+            <h3>LocalStorage</h3>
+            <p>Simple data handling</p>
+          </div>
+        </div>
+
+        <!-- Kitab kartları burada JS ilə yaradılır -->
+        <div id="booksGrid" class="books-grid"></div>
+        <p id="emptyState" class="empty-state hidden">No books found for your search.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal: seçilən kitabın detalları burada açılır -->
+  <div id="bookModal" class="modal hidden">
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal-content">
+      <button class="modal-close" id="closeModal" type="button">&times;</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container footer-flex">
+      <p>© 2026 BookNest. Thesis demo project.</p>
+      <p>Prepared for educational use.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

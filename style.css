@@ -1,0 +1,642 @@
+/* =========================================================
+   BOOKNEST - THESIS PROJECT STYLES
+   Qeyd: Bu fayldakı şərhlər Azərbaycan dilindədir ki,
+   müdafiədə sənə izah etmək rahat olsun.
+   ========================================================= */
+
+:root {
+  --bg: #f8f5ff;
+  --bg-soft: #fff8f1;
+  --primary: #6c4df6;
+  --primary-dark: #4f35cf;
+  --text: #1f1f2e;
+  --muted: #707086;
+  --white: #ffffff;
+  --card: rgba(255, 255, 255, 0.88);
+  --border: rgba(108, 77, 246, 0.14);
+  --shadow: 0 18px 45px rgba(76, 61, 160, 0.14);
+  --radius: 22px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, #f7e8ff 0%, transparent 28%),
+    radial-gradient(circle at bottom right, #eaf4ff 0%, transparent 30%),
+    linear-gradient(135deg, var(--bg) 0%, #fdfcff 45%, var(--bg-soft) 100%);
+  min-height: 100vh;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+.container {
+  width: min(1140px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Header hissəsi */
+.site-header,
+.mini-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.75);
+  border-bottom: 1px solid rgba(108, 77, 246, 0.08);
+}
+
+.mini-header {
+  position: static;
+  padding: 20px 0 0;
+  background: transparent;
+  border-bottom: none;
+}
+
+.nav-wrapper {
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.logo {
+  text-decoration: none;
+  color: var(--text);
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.main-nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.main-nav a:hover {
+  color: var(--primary);
+}
+
+.auth-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.welcome-user {
+  color: var(--primary-dark);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/* Düymələr */
+.btn {
+  border: none;
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 12px 20px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), #8a6bff);
+  color: var(--white);
+  box-shadow: 0 12px 24px rgba(108, 77, 246, 0.24);
+}
+
+.btn-light {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text);
+  border: 1px solid rgba(108, 77, 246, 0.12);
+}
+
+.btn-dark {
+  background: var(--text);
+  color: var(--white);
+}
+
+.full-btn {
+  width: 100%;
+}
+
+/* Hero hissəsi */
+.hero {
+  padding: 72px 0 40px;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 28px;
+  align-items: center;
+}
+
+.hero-badge,
+.section-label {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(108, 77, 246, 0.1);
+  color: var(--primary-dark);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.hero h1,
+.page-section h1 {
+  font-size: clamp(2.1rem, 5vw, 4rem);
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+.hero-text,
+.page-intro,
+.auth-info {
+  color: var(--muted);
+  line-height: 1.8;
+  max-width: 680px;
+}
+
+.hero-actions {
+  margin-top: 24px;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.hero-card-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.floating-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 26px;
+}
+
+.floating-card span {
+  font-size: 0.9rem;
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+
+.floating-card h3 {
+  font-size: 1.25rem;
+  margin: 10px 0;
+}
+
+.floating-card p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.accent-card {
+  background: linear-gradient(135deg, rgba(108, 77, 246, 0.95), rgba(140, 115, 255, 0.96));
+  color: var(--white);
+}
+
+.accent-card span,
+.accent-card p {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* Search və kitablar hissəsi */
+.search-section,
+.page-section {
+  padding: 24px 0 70px;
+}
+
+.section-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.section-top h2 {
+  font-size: clamp(1.6rem, 3vw, 2.5rem);
+}
+
+.filters-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.filters-row input,
+.filters-row select,
+.auth-form input {
+  min-width: 220px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(108, 77, 246, 0.16);
+  background: rgba(255, 255, 255, 0.92);
+  outline: none;
+}
+
+.filters-row input:focus,
+.filters-row select:focus,
+.auth-form input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(108, 77, 246, 0.1);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 26px;
+}
+
+.stat-card,
+.book-card,
+.auth-card,
+.note-box,
+.diagram-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.stat-card {
+  padding: 22px;
+}
+
+.stat-card h3 {
+  font-size: 1.8rem;
+  margin-bottom: 6px;
+}
+
+.stat-card p {
+  color: var(--muted);
+}
+
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+/* Kitab kartı */
+.book-card {
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-8px);
+}
+
+.book-cover {
+  height: 280px;
+  display: flex;
+  align-items: end;
+  padding: 20px;
+  color: var(--white);
+  background: linear-gradient(135deg, #6f54ff, #ff7a9c);
+}
+
+.book-card:nth-child(2n) .book-cover {
+  background: linear-gradient(135deg, #11b4c6, #5a7dff);
+}
+
+.book-card:nth-child(3n) .book-cover {
+  background: linear-gradient(135deg, #ff8f5a, #ff4f7f);
+}
+
+.book-cover small {
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(4px);
+  padding: 7px 12px;
+  border-radius: 999px;
+}
+
+.book-body {
+  padding: 20px;
+}
+
+.book-body h3 {
+  margin-bottom: 10px;
+  font-size: 1.15rem;
+}
+
+.book-meta,
+.empty-state,
+.form-message,
+.bottom-link,
+.note-box li {
+  color: var(--muted);
+}
+
+.book-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+  line-height: 1.7;
+}
+
+.card-action {
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+
+.empty-state {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1rem;
+}
+
+/* Modal hissəsi */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+.modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(21, 17, 45, 0.56);
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  position: relative;
+  width: min(760px, 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #fbf9ff 100%);
+  border-radius: 28px;
+  padding: 30px;
+  box-shadow: 0 28px 60px rgba(18, 14, 38, 0.25);
+  z-index: 2;
+}
+
+.modal-close {
+  position: absolute;
+  right: 18px;
+  top: 12px;
+  border: none;
+  background: transparent;
+  font-size: 2rem;
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.modal-book-top {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.modal-cover {
+  min-height: 280px;
+  border-radius: 22px;
+  padding: 20px;
+  color: var(--white);
+  background: linear-gradient(135deg, #6f54ff, #ff7a9c);
+  display: flex;
+  align-items: end;
+}
+
+.modal-text h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.modal-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.modal-tags span {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(108, 77, 246, 0.1);
+  color: var(--primary-dark);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.modal-description {
+  margin-top: 10px;
+  line-height: 1.9;
+  color: #4a4a5f;
+}
+
+/* Auth səhifələri */
+.auth-page-bg {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, #ffeaf1 0%, transparent 30%),
+    radial-gradient(circle at bottom right, #e8f1ff 0%, transparent 30%),
+    linear-gradient(135deg, #faf7ff 0%, #fffdf7 100%);
+}
+
+.auth-main {
+  min-height: calc(100vh - 70px);
+  display: grid;
+  place-items: center;
+  padding: 30px 16px 50px;
+}
+
+.auth-card {
+  width: min(520px, 100%);
+  padding: 32px;
+}
+
+.auth-card h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+.auth-form {
+  display: grid;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.auth-form label {
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.form-message {
+  margin-top: 16px;
+  min-height: 24px;
+}
+
+.bottom-link {
+  margin-top: 12px;
+}
+
+.bottom-link a {
+  color: var(--primary-dark);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Digər səhifələr */
+.notes-grid,
+.diagram-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+  margin-top: 28px;
+}
+
+.note-box,
+.diagram-card {
+  padding: 24px;
+}
+
+.note-box h2,
+.diagram-card h2 {
+  margin-bottom: 14px;
+}
+
+.note-box ul {
+  padding-left: 18px;
+  line-height: 1.9;
+}
+
+.diagram-card img {
+  border-radius: 18px;
+  border: 1px solid rgba(108, 77, 246, 0.12);
+}
+
+/* Footer */
+.site-footer {
+  padding: 24px 0 34px;
+}
+
+.footer-flex {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* Telefon və planşet uyğunluğu */
+@media (max-width: 980px) {
+  .hero-grid,
+  .books-grid,
+  .stats-grid,
+  .notes-grid,
+  .diagram-grid,
+  .modal-book-top,
+  .section-top {
+    grid-template-columns: 1fr;
+  }
+
+  .section-top {
+    display: grid;
+    align-items: start;
+  }
+
+  .filters-row {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .filters-row input,
+  .filters-row select {
+    width: 100%;
+  }
+
+  .main-nav {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .nav-wrapper {
+    min-height: auto;
+    padding: 16px 0;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .auth-buttons {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .hero {
+    padding-top: 34px;
+  }
+
+  .book-cover {
+    height: 240px;
+  }
+
+  .modal-content,
+  .auth-card,
+  .note-box,
+  .diagram-card,
+  .stat-card {
+    padding: 20px;
+  }
+
+  .modal-text h2 {
+    font-size: 1.6rem;
+  }
+}

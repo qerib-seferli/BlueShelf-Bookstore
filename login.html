@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | BookNest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="auth-page-bg">
+  <header class="mini-header container">
+    <a href="index.html" class="logo">BookNest</a>
+  </header>
+
+  <main class="auth-main">
+    <section class="auth-card">
+      <p class="section-label">Account</p>
+      <h1>Login</h1>
+      <p class="auth-info">Use a registered email and password to sign in.</p>
+
+      <!-- Login formu -->
+      <form id="loginForm" class="auth-form">
+        <label>Email</label>
+        <input type="email" id="loginEmail" placeholder="Enter your email" required />
+
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="Enter your password" required />
+
+        <button type="submit" class="btn btn-primary full-btn">Login</button>
+      </form>
+
+      <p id="loginMessage" class="form-message"></p>
+      <p class="bottom-link">Don't have an account? <a href="register.html">Sign Up</a></p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
