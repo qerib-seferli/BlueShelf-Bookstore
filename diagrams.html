@@ -1,73 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!--  HTML sənədinin simvol kodlamasını UTF-8 edirik ki, bütün mətnlər düzgün oxunsun. -->
+  <!--  HTML sənədinin simvol kodlaşdırmasını UTF-8 edirik ki, bütün hərflər düzgün görünsün. -->
   <meta charset="UTF-8">
 
-  <!--  Bu meta teqi mobil və fərqli ekranlarda səhifənin responsive işləməsi üçündür. -->
+  <!--  Mobil və fərqli ekranlarda səhifənin responsive işləməsi üçün viewport təyin olunur. -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!--  Brauzerin yuxarı hissəsində görünəcək səhifə başlığıdır. -->
+  <!--  Brauzer tabında görünəcək səhifə başlığı. -->
   <title>ERD Diagram | BlueShelf</title>
 
-  <!--  Font Awesome ikon kitabxanasını qoşuruq ki, ikonlardan istifadə edə bilək. -->
+  <!--  Font Awesome ikon kitabxanasını qoşuruq. -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-  <!--  Layihənin əsas CSS faylı burada qoşulur. -->
+  <!--  Layihənin əsas stil faylı. -->
   <link rel="stylesheet" href="style.css">
 
   <style>
-    /*  Səhifənin ümumi fon rəngini daha sxem üslubuna yaxınlaşdırırıq. */
+    /*  Bu səhifəyə xüsusi açıq mavi-ağ fon veririk. */
     body.diagram-page {
-      background: linear-gradient(180deg, #eef5ff 0%, #e7f1ff 100%);
+      background:
+        radial-gradient(circle at top left, rgba(132, 188, 255, 0.22), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(184, 226, 255, 0.28), transparent 24%),
+        linear-gradient(180deg, #f7fbff 0%, #edf6ff 52%, #e7f2ff 100%);
     }
 
-    /*  Bölmə başlığının görünüşünü bir az daha premium edirik. */
-    .diagram-hero-note {
+    /*  Yuxarıdakı kiçik badge üçün stil. */
+    .diagram-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 10px 16px;
+      padding: 10px 15px;
       border-radius: 999px;
-      background: rgba(73, 132, 220, 0.10);
-      border: 1px solid rgba(73, 132, 220, 0.18);
-      color: #1b4f9c;
+      background: rgba(80, 150, 255, 0.10);
+      color: #1d59b3;
+      border: 1px solid rgba(80, 150, 255, 0.18);
       font-size: 0.92rem;
+      font-weight: 600;
       margin-bottom: 12px;
+    }
+
+    /*  ERD sahəsinin əsas panel görünüşü. */
+    .erd-wrapper {
+      position: relative;
+      border-radius: 28px;
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(243,249,255,0.96));
+      border: 1px solid rgba(104, 164, 255, 0.18);
+      box-shadow: 0 22px 50px rgba(39, 87, 158, 0.12);
+      overflow: hidden;
+    }
+
+    /*  ERD board hissəsi göndərdiyin şəkil kimi neytral fon üzərində qurulur. */
+    .erd-board {
+      position: relative;
+      overflow: auto;
+      border-radius: 18px;
+      background: #dfe6ee;
+      border: 1px solid rgba(79, 110, 146, 0.20);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.72);
+      padding: 18px;
+    }
+
+    /*  Daxildə böyük virtual iş sahəsi yaradırıq ki, cədvəlləri sərbəst yerləşdirək. */
+    .erd-canvas {
+      position: relative;
+      width: 1400px;
+      height: 920px;
+      margin: 0 auto;
+    }
+
+    /*  Xətləri çəkən SVG layı bütün iş sahəsinin alt qatında yerləşir. */
+    .erd-lines {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      overflow: visible;
+      pointer-events: none;
+    }
+
+    /*  SVG içindəki xətlərin ümumi görünüşünü idarə edirik. */
+    .erd-lines path,
+    .erd-lines line,
+    .erd-lines polyline {
+      stroke: #335b91;
+      stroke-width: 2.2;
+      fill: none;
+      stroke-linecap: square;
+      stroke-linejoin: miter;
+      shape-rendering: crispEdges;
+    }
+
+    /*  Xətlərin uclarındakı kiçik markerlər üçün stil. */
+    .erd-lines .marker-dot {
+      fill: #335b91;
+    }
+
+    /*  Hər cədvəl qutusu üçün ümumi stil. */
+    .erd-table {
+      position: absolute;
+      z-index: 2;
+      width: 220px;
+      border: 1px solid #4f79b6;
+      border-radius: 0;
+      overflow: hidden;
+      background: #ffffff;
+      box-shadow: 0 10px 20px rgba(32, 67, 117, 0.10);
+    }
+
+    /*  Cədvəlin başlıq hissəsi. */
+    .erd-table .table-title {
+      padding: 8px 10px;
+      background: linear-gradient(180deg, #7fb2ff, #5f97ef);
+      color: #ffffff;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-bottom: 1px solid #456fa8;
+    }
+
+    /*  Cədvəl daxilində sətirlərin saxlandığı hissə. */
+    .erd-table .table-body {
+      background: #fafdff;
+    }
+
+    /*  Hər bir sütun sətri üçün stil. */
+    .erd-table .row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 7px 10px;
+      border-bottom: 1px solid #d8e8ff;
+      font-size: 0.75rem;
+      color: #22426e;
+      line-height: 1.3;
+    }
+
+    /*  Sonuncu sətirdə alt border göstərmirik. */
+    .erd-table .row:last-child {
+      border-bottom: none;
+    }
+
+    /*  Sütun adını daha vurğulu göstəririk. */
+    .erd-table .field-name {
       font-weight: 600;
     }
 
-    /*  ERD panelinin ümumi qabığını formalaşdırırıq. */
-    .erd-shell {
-      position: relative;
-      overflow: hidden;
-      border-radius: 28px;
-      padding: 20px;
-      background: linear-gradient(180deg, #dfe9f5 0%, #d7e2ef 100%);
-      border: 1px solid rgba(70, 96, 124, 0.18);
-      box-shadow: 0 24px 50px rgba(31, 54, 90, 0.12);
+    /*  Sütun tipinin rəngini azca sakit edirik. */
+    .erd-table .field-type {
+      color: #5477a8;
+      font-size: 0.7rem;
+      font-weight: 700;
+      white-space: nowrap;
     }
 
-    /*  Diaqramın yerləşdiyi daxili sahədir, burada scroll da işləyə bilər. */
-    .erd-board {
-      overflow: auto;
-      border-radius: 22px;
-      padding: 24px;
-      background: #dcdcdc;
-      border: 1px solid rgba(94, 94, 94, 0.18);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
-    }
-
-    /*  Mermaid elementinə minimum en veririk ki, diaqram yığılmasın və xətlər səliqəli qalsın. */
-    .erd-board .mermaid {
-      min-width: 1400px;
-      min-height: 720px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /*  ERD alt hissəsində qısa izah kartlarını grid şəklində düzürük. */
+    /*  Kiçik məlumat kartları üçün grid. */
     .schema-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -75,97 +166,87 @@
       margin-top: 18px;
     }
 
-    /*  Hər bir izah kartının dizaynı. */
+    /*  Qısa izah kartları. */
     .schema-note {
       padding: 18px;
       border-radius: 20px;
-      background: linear-gradient(180deg, #ffffff 0%, #f2f8ff 100%);
-      border: 1px solid rgba(94, 140, 210, 0.15);
-      box-shadow: 0 12px 30px rgba(26, 60, 110, 0.08);
+      background: linear-gradient(180deg, #ffffff, #f3f9ff);
+      border: 1px solid rgba(95, 151, 239, 0.15);
+      box-shadow: 0 10px 24px rgba(34, 72, 130, 0.07);
     }
 
-    /*  Kart başlıqları üçün stil. */
+    /*  Qısa izah kartı başlığı. */
     .schema-note h4 {
       margin: 0 0 10px;
-      color: #183f79;
+      color: #1b4e9a;
       font-size: 1rem;
     }
 
-    /*  Kart mətnləri üçün stil. */
+    /*  Qısa izah kartı mətni. */
     .schema-note p {
       margin: 0;
-      color: #557096;
+      color: #597499;
       line-height: 1.7;
       font-size: 0.95rem;
     }
 
-    /*  İstəyə bağlı olaraq sxem haqqında yuxarıda kiçik məlumat kartı göstəririk. */
+    /*  Üstdə kiçik info chip-lər üçün stil. */
     .diagram-topline {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
       flex-wrap: wrap;
-      margin-bottom: 16px;
+      gap: 12px;
+      margin-bottom: 18px;
     }
 
-    /*  Kiçik məlumat kapsulu. */
+    /*  Hər info chip üçün görünüş. */
     .diagram-chip {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 9px 14px;
+      padding: 10px 14px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.72);
-      border: 1px solid rgba(90, 120, 160, 0.15);
-      color: #385680;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(97, 150, 232, 0.16);
+      color: #365c90;
       font-size: 0.9rem;
       font-weight: 600;
     }
 
-    /*  Mobil ekranda ERD blokunun iç boşluqlarını azaldırıq. */
+    /*  Kiçik ekranlarda scroll rahat olsun deyə canvas eni bir az azaldılır. */
     @media (max-width: 768px) {
-      .erd-shell {
-        padding: 14px;
-      }
-
-      .erd-board {
-        padding: 14px;
-      }
-
-      .erd-board .mermaid {
-        min-width: 1180px;
-        min-height: 640px;
+      .erd-canvas {
+        width: 1180px;
+        height: 920px;
       }
     }
   </style>
 </head>
 
 <body class="diagram-page" data-page="diagram">
-  <!--  Saytın yuxarı hissəsində görünən əsas header bölməsi başlayır. -->
+  <!--  Saytın başlıq hissəsi. -->
   <header class="site-header">
-    <!--  container sinifi kontenti ortalayır və maksimum en saxlayır. -->
+    <!--  Məzmunu ortalayan container. -->
     <div class="container header-row">
 
-      <!--  Loqo və sayt adı hissəsi. Üstünə klik ediləndə ana səhifəyə qayıdır. -->
+      <!--  Logo və sayt adı. Üstünə klik ediləndə ana səhifəyə aparır. -->
       <a class="brand" href="index.html">
-        <!--  Loqonun görünən hissəsini saxlayan qutu. -->
+        <!--  Logo üçün qutu. -->
         <div class="brand-badge">
-          <!--  Loqo şəkli GitHub layihəsində img/logo-book.png yolundan gəlir. -->
+          <!--  GitHub layihəsində img/logo-book.png faylı istifadə olunur. -->
           <img src="img/logo-book.png" alt="BlueShelf logo">
         </div>
 
-        <!--  Saytın ad və qısa slogan hissəsi. -->
+        <!--  Saytın adı və alt başlıq mətni. -->
         <div class="brand-text">
           <h1>BlueShelf Bookstore</h1>
           <span>Curated reads, smooth discovery, elegant design.</span>
         </div>
       </a>
 
-      <!--  Header-in sağ hissəsində menyu, axtarış və auth hissələri yerləşir. -->
+      <!--  Header-in sağ hissəsində menyu, axtarış və auth düymələri. -->
       <div class="header-tools">
 
-        <!--  Ümumi keçid menyuları burada yerləşir. -->
+        <!--  Ümumi naviqasiya linkləri. -->
         <nav class="nav-links">
           <a class="nav-link" href="index.html">Home</a>
           <a class="nav-link" href="favorites.html">Favorites</a>
@@ -173,19 +254,19 @@
           <a class="nav-link" href="diagrams.html">ERD</a>
         </nav>
 
-        <!--  Axtarış forması title, author, category və text üzrə axtarış üçün istifadə olunur. -->
+        <!--  Kitab, müəllif, kateqoriya və mətinə görə axtarış forması. -->
         <form class="search-shell" id="searchForm">
-          <!--  Axtarış işarəsini göstərən ikon. -->
+          <!--  Axtarış ikonu. -->
           <i class="fa-solid fa-magnifying-glass"></i>
 
-          <!--  İstifadəçinin yazdığı axtarış sözü bu input-a daxil edilir. -->
+          <!--  İstifadəçi axtarış sözünü bu input-a yazır. -->
           <input id="searchInput" type="text" placeholder="Search by title, author, category, or text">
 
-          <!--  Form submit olunduqda axtarış prosesini işə salır. -->
+          <!--  Form submit düyməsi. -->
           <button class="btn btn-primary" type="submit">Search</button>
         </form>
 
-        <!--  Login, logout və digər auth düymələri JS vasitəsilə bu konteynerə yazılır. -->
+        <!--  Login, logout və digər auth düymələri bu hissəyə JS ilə yazılır. -->
         <div id="authActions" class="nav-links"></div>
       </div>
     </div>
@@ -193,207 +274,304 @@
 
   <!--  Səhifənin əsas məzmun hissəsi burada başlayır. -->
   <main>
-    <!--  ERD diaqramını saxlayan əsas section. -->
+    <!--  ERD bölməsi. -->
     <section class="section">
       <div class="container">
-        <!--  Bölmənin yuxarı başlıq və izah hissəsi. -->
+        <!--  Bölmənin başlıq hissəsi. -->
         <div class="section-heading">
           <div>
-            <!--  Kiçik vizual badge. -->
-            <span class="diagram-hero-note">
+            <!--  Kiçik üst badge. -->
+            <span class="diagram-badge">
               <i class="fa-solid fa-diagram-project"></i>
               Relational Structure
             </span>
 
-            <!--  Bölmənin əsas başlığı. -->
+            <!--  Əsas başlıq. -->
             <h3>Database ERD</h3>
 
-            <!--  Bölmənin qısa izah mətni. -->
-            <p>The bookstore schema is presented below in a structured relational format inspired by formal academic ERD layouts.</p>
+            <!--  Qısa izah mətni. -->
+            <p>The bookstore schema is presented below in a structured layout with sharp table borders and precise relationship lines.</p>
           </div>
         </div>
 
-        <!--  Yuxarıdakı kiçik məlumat chip-ləri. -->
+        <!--  Kiçik məlumat kapsulları. -->
         <div class="diagram-topline">
-          <!--  Birinci məlumat çipi. -->
           <div class="diagram-chip">
             <i class="fa-solid fa-table"></i>
             Public Tables: profiles, authors, categories, books, favorites
           </div>
 
-          <!--  İkinci məlumat çipi. -->
           <div class="diagram-chip">
             <i class="fa-solid fa-link"></i>
-            One-to-many relations are visualized below
+            Relations: author → books, category → books, user → favorites
           </div>
         </div>
 
-        <!--  ERD üçün əsas qabıq. -->
-        <div class="panel erd-shell">
-          <!--  Diaqramın özünü saxlayan daxili lövhə. -->
+        <!--  ERD-nin əsas qabığı. -->
+        <div class="panel erd-wrapper">
+          <!--  Scroll olan daxili lövhə. -->
           <div class="erd-board">
-            <!--  Mermaid diaqramı burada yazılır və JS vasitəsilə vizual sxemə çevrilir. -->
-            <pre class="mermaid" id="erdDiagram">
-erDiagram
-    profiles {
-        uuid id PK
-        text full_name
-        text email
-        text address
-        text avatar_url
-        text bio
-        text role
-        timestamp created_at
-        timestamp updated_at
-    }
+            <!--  Bütün cədvəllər və xətlər bu canvas daxilində yerləşir. -->
+            <div class="erd-canvas">
 
-    authors {
-        bigint id PK
-        text name
-        text nationality
-        int birth_year
-        text biography
-        timestamp created_at
-    }
+              <!--  Əlaqə xətlərini çəkən SVG qat. -->
+              <svg class="erd-lines" viewBox="0 0 1400 920" preserveAspectRatio="none" aria-hidden="true">
+                <!--  authors cədvəlindən books cədvəlinə gedən xətt. -->
+                <polyline points="440,250 520,250 520,392 585,392"></polyline>
 
-    categories {
-        bigint id PK
-        text name
-        text slug
-        timestamp created_at
-    }
+                <!--  categories cədvəlindən books cədvəlinə gedən xətt. -->
+                <polyline points="760,250 760,330 815,330 815,392"></polyline>
 
-    books {
-        bigint id PK
-        bigint author_id FK
-        bigint category_id FK
-        text title
-        text isbn
-        int publish_year
-        int pages
-        text language
-        text format_type
-        text short_description
-        text description
-        text cover_url
-        boolean is_published
-        timestamp created_at
-        timestamp updated_at
-    }
+                <!--  books cədvəlindən favorites cədvəlinə gedən xətt. -->
+                <polyline points="815,520 815,610 945,610 945,708"></polyline>
 
-    favorites {
-        bigint id PK
-        uuid user_id FK
-        bigint book_id FK
-        timestamp created_at
-    }
+                <!--  profiles cədvəlindən favorites cədvəlinə gedən xətt. -->
+                <polyline points="250,680 250,760 715,760 715,708"></polyline>
 
-    authors ||--o{ books : writes
-    categories ||--o{ books : groups
-    profiles ||--o{ favorites : saves
-    books ||--o{ favorites : appears_in
-            </pre>
+                <!--  books cədvəlindən authors-a yön xəttinin uc markerləri. -->
+                <circle class="marker-dot" cx="585" cy="392" r="3.5"></circle>
+
+                <!--  categories xətti üçün bir marker. -->
+                <circle class="marker-dot" cx="815" cy="392" r="3.5"></circle>
+
+                <!--  favorites xətti üçün marker. -->
+                <circle class="marker-dot" cx="945" cy="708" r="3.5"></circle>
+
+                <!--  profiles xətti üçün marker. -->
+                <circle class="marker-dot" cx="715" cy="708" r="3.5"></circle>
+              </svg>
+
+              <!--  AUTHORS cədvəli. -->
+              <div class="erd-table" style="left: 220px; top: 120px;">
+                <div class="table-title">AUTHORS</div>
+                <div class="table-body">
+                  <div class="row">
+                    <span class="field-name">id PK</span>
+                    <span class="field-type">BIGINT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">name</span>
+                    <span class="field-type">TEXT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">nationality</span>
+                    <span class="field-type">TEXT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">birth_year</span>
+                    <span class="field-type">INT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">biography</span>
+                    <span class="field-type">TEXT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">created_at</span>
+                    <span class="field-type">TIMESTAMP</span>
+                  </div>
+                </div>
+              </div>
+
+              <!--  CATEGORIES cədvəli. -->
+              <div class="erd-table" style="left: 650px; top: 120px;">
+                <div class="table-title">CATEGORIES</div>
+                <div class="table-body">
+                  <div class="row">
+                    <span class="field-name">id PK</span>
+                    <span class="field-type">BIGINT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">name</span>
+                    <span class="field-type">TEXT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">slug</span>
+                    <span class="field-type">TEXT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">created_at</span>
+                    <span class="field-type">TIMESTAMP</span>
+                  </div>
+                </div>
+              </div>
+
+              <!--  BOOKS cədvəli əsas mərkəzdə yerləşdirilir. -->
+              <div class="erd-table" style="left: 585px; top: 392px; width: 260px;">
+                <div class="table-title">BOOKS</div>
+                <div class="table-body">
+                  <div class="row">
+                    <span class="field-name">id PK</span>
+                    <span class="field-type">BIGINT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">author_id FK</span>
+                    <span class="field-type">BIGINT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">category_id FK</span>
+                    <span class="field-type">BIGINT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">title</span>
+                    <span class="field-type">TEXT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">isbn</span>
+                    <span class="field-type">TEXT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">publish_year</span>
+                    <span class="field-type">INT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">pages</span>
+                    <span class="field-type">INT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">language</span>
+                    <span class="field-type">TEXT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">format_type</span>
+                    <span class="field-type">TEXT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">short_description</span>
+                    <span class="field-type">TEXT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">description</span>
+                    <span class="field-type">TEXT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">cover_url</span>
+                    <span class="field-type">TEXT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">is_published</span>
+                    <span class="field-type">BOOLEAN</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">created_at</span>
+                    <span class="field-type">TIMESTAMP</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">updated_at</span>
+                    <span class="field-type">TIMESTAMP</span>
+                  </div>
+                </div>
+              </div>
+
+              <!--  PROFILES cədvəli sol alt hissədə yerləşir. -->
+              <div class="erd-table" style="left: 80px; top: 520px; width: 250px;">
+                <div class="table-title">PROFILES</div>
+                <div class="table-body">
+                  <div class="row">
+                    <span class="field-name">id PK</span>
+                    <span class="field-type">UUID</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">full_name</span>
+                    <span class="field-type">TEXT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">email</span>
+                    <span class="field-type">TEXT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">address</span>
+                    <span class="field-type">TEXT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">avatar_url</span>
+                    <span class="field-type">TEXT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">bio</span>
+                    <span class="field-type">TEXT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">role</span>
+                    <span class="field-type">TEXT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">created_at</span>
+                    <span class="field-type">TIMESTAMP</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">updated_at</span>
+                    <span class="field-type">TIMESTAMP</span>
+                  </div>
+                </div>
+              </div>
+
+              <!--  FAVORITES cədvəli aşağı sağ hissədə yerləşir. -->
+              <div class="erd-table" style="left: 595px; top: 708px;">
+                <div class="table-title">FAVORITES</div>
+                <div class="table-body">
+                  <div class="row">
+                    <span class="field-name">id PK</span>
+                    <span class="field-type">BIGINT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">user_id FK</span>
+                    <span class="field-type">UUID</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">book_id FK</span>
+                    <span class="field-type">BIGINT</span>
+                  </div>
+                  <div class="row">
+                    <span class="field-name">created_at</span>
+                    <span class="field-type">TIMESTAMP</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
 
-        <!--  Müdafiə zamanı istifadə edilə biləcək qısa schema qeydləri. -->
+        <!--  Müdafiə üçün istifadə oluna biləcək qısa izah kartları. -->
         <div class="panel" style="margin-top:22px;">
-          <!--  Panel başlığı. -->
           <h3>Schema Notes for Presentation</h3>
 
-          <!--  Cədvəl izahlarını kartlar şəklində düzürük. -->
           <div class="schema-grid">
-            <!--  profiles cədvəli üçün izah. -->
             <div class="schema-note">
               <h4>profiles</h4>
               <p>Stores each authenticated user’s public information such as full name, email, address, avatar, biography, and role.</p>
             </div>
 
-            <!--  authors cədvəli üçün izah. -->
             <div class="schema-note">
               <h4>authors</h4>
               <p>Stores author identity details and biography information used on author and book detail views.</p>
             </div>
 
-            <!--  categories cədvəli üçün izah. -->
             <div class="schema-note">
               <h4>categories</h4>
               <p>Defines genres and catalog groups so books can be filtered and searched by category.</p>
             </div>
 
-            <!--  books cədvəli üçün izah. -->
             <div class="schema-note">
               <h4>books</h4>
               <p>The main catalog table. Each book connects to one author and one category and contains all display content.</p>
             </div>
 
-            <!--  favorites cədvəli üçün izah. -->
             <div class="schema-note">
               <h4>favorites</h4>
-              <p>Creates the saved-books relationship between a user profile and the books selected by that user.</p>
+              <p>Creates the saved-books relation between a user profile and the books selected by that user.</p>
             </div>
           </div>
         </div>
       </div>
     </section>
-
-    <!--  Mermaid kitabxanasını ayrıca modul kimi qoşuruq ki, mətn diaqrama çevrilsin. -->
-    <script type="module">
-      //  Mermaid modulunu CDN üzərindən import edirik.
-      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-
-      //  Bu konfiqurasiya diaqramın rəngini, təhlükəsizlik rejimini və görünüş detallarını idarə edir.
-      const mermaidConfig = {
-        startOnLoad: true,
-        theme: 'base',
-        securityLevel: 'loose',
-        er: {
-          useMaxWidth: false
-        },
-        flowchart: {
-          curve: 'linear'
-        },
-        themeVariables: {
-          background: '#dcdcdc',
-          mainBkg: '#e7c993',
-          secondBkg: '#e7c993',
-          tertiaryColor: '#efe2bf',
-          primaryColor: '#e6c88f',
-          primaryTextColor: '#2e2418',
-          primaryBorderColor: '#725632',
-          lineColor: '#373737',
-          nodeBorder: '#725632',
-          clusterBkg: '#dcdcdc',
-          clusterBorder: '#6c6c6c',
-          fontFamily: 'Arial, Segoe UI, sans-serif',
-          fontSize: '15px'
-        }
-      };
-
-      //  Mermaid kitabxanasını yuxarıdakı konfiqurasiya ilə işə salırıq.
-      mermaid.initialize(mermaidConfig);
-
-      //  Səhifədə mermaid elementi varsa, onu yenidən render etməyə məcbur edirik ki, görünüş daha stabil açılsın.
-      const erdElement = document.getElementById('erdDiagram');
-
-      //  Əgər ERD elementi tapılıbsa, render prosesini davam etdiririk.
-      if (erdElement) {
-        //  setTimeout kiçik gecikmə verir ki, DOM tam yükləndikdən sonra diaqram daha problemsiz çəkilsin.
-        setTimeout(async () => {
-          //  Mermaid bloklarını əl ilə emal edib diaqramı çəkirik.
-          await mermaid.run({
-            nodes: [erdElement]
-          });
-        }, 60);
-      }
-    </script>
   </main>
 
-  <!--  Saytın alt footer hissəsi burada başlayır. -->
+  <!--  Saytın footer hissəsi. -->
   <footer class="site-footer">
     <div class="container">
       <div class="footer-card">
-        <!--  Sol hissədə əlaqə və ünvan məlumatı göstərilir. -->
+        <!--  Sol tərəfdə ünvan və əlaqə məlumatı göstərilir. -->
         <div>
           <h3>Visit or Contact</h3>
           <p class="muted">A refined online bookstore interface designed for an academic project presentation and user experience showcase.</p>
@@ -402,11 +580,11 @@ erDiagram
             <div><strong>Address:</strong> Pasaż Stokłosy 3, 02-787 Warsaw, Poland</div>
             <div><strong>Institution:</strong> Akademia Finansów i Biznesu Vistula</div>
             <div><strong>Email:</strong> <a href="mailto:m.lisiecki@vistula.edu.pl">m.lisiecki@vistula.edu.pl</a></div>
-            <div><strong>Student Email:</strong> <a href="mailto:njafaro1@stu.vistula.edu.pl">njafaro1@stu.vistula.edu.pl</a></div>
+            <div><strong>Email:</strong> <a href="mailto:njafaro1@stu.vistula.edu.pl">njafaro1@stu.vistula.edu.pl</a></div>
           </div>
         </div>
 
-        <!--  Sağ hissədə sürətli keçidlər yerləşir. -->
+        <!--  Sağ tərəfdə sürətli keçidlər. -->
         <div>
           <h3>Quick Links</h3>
 
@@ -416,23 +594,22 @@ erDiagram
             <a class="btn btn-primary" href="admin.html">Admin Panel</a>
           </div>
 
-          <!--  Cari ili JS ilə doldurmaq üçün span istifadə olunur. -->
           <p class="muted" style="margin-top:16px;">© <span id="currentYear"></span> BlueShelf Bookstore. All rights reserved.</p>
         </div>
       </div>
     </div>
   </footer>
 
-  <!--  Özümüzə məxsus toast elementidir, lazım olduqda JS mesaj göstərə bilər. -->
+  <!--  Öz toast mesaj elementi. -->
   <div class="toast" id="toast"></div>
 
   <!--  Supabase JS kitabxanasını qoşuruq. -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!--  Supabase URL və anon key burada saxlanılır. -->
+  <!--  Supabase URL və anon key saxlanan fayl. -->
   <script src="js/supabase-config.js"></script>
 
-  <!--  Layihənin əsas JS funksiyaları burada yerləşir. -->
+  <!--  Layihənin əsas JS faylı. -->
   <script src="app.js"></script>
 </body>
 </html>
