@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="style.css">
 
   <style>
-    /*  Admin səhifəsində əlavə panel stillərini burada yazırıq ki, əsas layihəyə uyğun premium görünüş alınsın. */
+    /*  Admin səhifəsi üçün iki sütunlu blok düzümü. */
     .admin-grid-2 {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -25,27 +25,76 @@
       margin-bottom: 22px;
     }
 
-    /*  Kateqoriya və müəllif siyahıları üçün daxili blok görünüşü. */
+    /*  Daxili alt panel hissəsi üçün üst boşluq və ayırıcı xətt. */
     .admin-subpanel {
       margin-top: 18px;
       padding-top: 18px;
       border-top: 1px solid rgba(88, 136, 199, 0.16);
     }
 
-    /*  Daxili alt başlıqlar üçün daha yığcam görünüş. */
+    /*  Alt panel başlıqları üçün görünüş. */
     .admin-subpanel h4 {
       margin: 0 0 14px;
       font-size: 1rem;
       color: #1a4f9d;
     }
 
-    /*  Siyahı elementləri üçün ümumi görünüş. */
+    /*  Kateqoriya və müəllif bloklarının üst hissəsində başlıq və kiçik məlumatı yan-yana düzürük. */
+    .subpanel-topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    /*  Kiçik məlumat nişanı. */
+    .mini-info-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(92, 146, 228, 0.10);
+      color: #1c539f;
+      border: 1px solid rgba(92, 146, 228, 0.16);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    /*  Siyahı elementləri üçün grid düzüm. */
     .admin-stack {
       display: grid;
       gap: 12px;
     }
 
-    /*  Hər bir kateqoriya və müəllif sətri üçün kart görnüşü. */
+    /*  All Categories və All Authors hissəsinin çox uzanmaması üçün sabit maksimum hündürlük veririk. */
+    .scroll-limited-list {
+      max-height: 430px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    /*  Scroll bar-ı daha səliqəli göstəririk. */
+    .scroll-limited-list::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    /*  Scroll bar arxa fon hissəsi. */
+    .scroll-limited-list::-webkit-scrollbar-track {
+      background: #eef5ff;
+      border-radius: 999px;
+    }
+
+    /*  Scroll bar sürüşən hissəsi. */
+    .scroll-limited-list::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #8bb9ff, #679df6);
+      border-radius: 999px;
+      border: 2px solid #eef5ff;
+    }
+
+    /*  Hər bir category və author sətri üçün kart görnüşü. */
     .admin-row-card {
       display: flex;
       align-items: center;
@@ -58,12 +107,13 @@
       box-shadow: 0 10px 20px rgba(33, 72, 128, 0.06);
     }
 
-    /*  Sol hissədəki mətn blokları üçün görünüş. */
+    /*  Sol tərəfdə mətn məlumatlarının olduğu blok. */
     .admin-row-card .meta {
       min-width: 0;
+      flex: 1;
     }
 
-    /*  Ad başlığı üçün görünüş. */
+    /*  Sətrin əsas başlığı. */
     .admin-row-card .meta strong {
       display: block;
       color: #163f7a;
@@ -71,7 +121,7 @@
       margin-bottom: 4px;
     }
 
-    /*  Alt məlumat mətnləri üçün görünüş. */
+    /*  Sətrin alt izah mətni. */
     .admin-row-card .meta span {
       color: #5a7599;
       font-size: 0.88rem;
@@ -79,31 +129,33 @@
       word-break: break-word;
     }
 
-    /*  Sağ tərəfdə düymələri səliqəli düzürük. */
+    /*  Sağ hissədə edit/delete düymələrini düzürük. */
     .admin-row-actions {
       display: flex;
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
       justify-content: flex-end;
+      flex: 0 0 auto;
     }
 
-    /*  Kiçik ölçülü idarəetmə düymələri üçün xüsusi sinif. */
+    /*  Kiçik düymələr üçün görünüş. */
     .btn-sm {
       padding: 8px 12px;
       font-size: 0.84rem;
       border-radius: 12px;
+      line-height: 1;
     }
 
-    /*  Sil düyməsi üçün ayrıca rəng tonu veririk. */
+    /*  Sil düyməsi üçün ayrıca rəng tonu. */
     .btn-danger {
-      background: linear-gradient(180deg, #ff7f7f, #eb5f5f);
+      background: linear-gradient(180deg, #ff8b8b, #ea6262);
       color: #ffffff;
       border: none;
       box-shadow: 0 10px 18px rgba(202, 66, 66, 0.18);
     }
 
-    /*  Boş siyahı olduqda göstəriləcək yumşaq info qutusu. */
+    /*  Siyahı boş olduqda görünən info qutusu. */
     .empty-note {
       padding: 16px;
       border-radius: 16px;
@@ -113,7 +165,7 @@
       font-size: 0.94rem;
     }
 
-    /*  İstifadəçilər bölməsinin açılıb-bağlanan hissəsi üçün üst düymə görünüşü. */
+    /*  İstifadəçilər bölməsinin açılıb-bağlanan üst düyməsi. */
     .accordion-toggle {
       width: 100%;
       display: flex;
@@ -130,25 +182,25 @@
       box-shadow: 0 10px 20px rgba(31, 72, 131, 0.06);
     }
 
-    /*  Açılıb-bağlanan bölmənin iç hissəsi. Başlanğıcda gizlənir. */
+    /*  Açılıb-bağlanan hissə ilkin olaraq gizlidir. */
     .accordion-content {
       display: none;
       margin-top: 14px;
     }
 
-    /*  Açıq olanda görünən variant. */
+    /*  Açıq olduqda görünən sinif. */
     .accordion-content.is-open {
       display: block;
     }
 
-    /*  İstifadəçi kartlarının grid görünüşü. */
+    /*  Users kartlarını grid ilə düzürük. */
     .users-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 16px;
     }
 
-    /*  Hər istifadəçi preview kartı üçün görünüş. */
+    /*  İstifadəçi preview kartı. */
     .user-preview-card {
       display: flex;
       align-items: center;
@@ -162,13 +214,13 @@
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    /*  Hover zamanı kartın bir az qalxması üçün effekt. */
+    /*  Hover effekti. */
     .user-preview-card:hover {
       transform: translateY(-2px);
       box-shadow: 0 14px 28px rgba(33, 72, 128, 0.10);
     }
 
-    /*  Avatar dairəsi üçün görünüş. */
+    /*  İstifadəçi kiçik avatarı. */
     .user-avatar {
       width: 52px;
       height: 52px;
@@ -185,7 +237,7 @@
       border: 1px solid rgba(91, 142, 220, 0.22);
     }
 
-    /*  Avatar içində şəkil varsa düzgün yerləşsin. */
+    /*  Avatar içində şəkil varsa düzgün göstəririk. */
     .user-avatar img {
       width: 100%;
       height: 100%;
@@ -193,7 +245,7 @@
       display: block;
     }
 
-    /*  Modal arxa fon qatı üçün stil. */
+    /*  Modal arxa fon qatı. */
     .user-modal {
       position: fixed;
       inset: 0;
@@ -206,12 +258,12 @@
       backdrop-filter: blur(6px);
     }
 
-    /*  Modal açıq olduqda görünür. */
+    /*  Modal açıq olduqda göstərilir. */
     .user-modal.is-open {
       display: flex;
     }
 
-    /*  İstifadəçi haqqında tam məlumat kartı. */
+    /*  Modal içindəki əsas kart görünüşü. */
     .user-modal-card {
       width: min(700px, 100%);
       background: linear-gradient(180deg, #ffffff, #f4f9ff);
@@ -222,7 +274,7 @@
       position: relative;
     }
 
-    /*  Modal kartın yuxarı hissəsi. */
+    /*  Modal başlıq hissəsi. */
     .user-modal-header {
       padding: 22px 22px 16px;
       display: flex;
@@ -232,7 +284,7 @@
       border-bottom: 1px solid rgba(88, 141, 224, 0.12);
     }
 
-    /*  Modal bağlama düyməsi üçün görünüş. */
+    /*  Modal bağlama düyməsi. */
     .user-modal-close {
       width: 40px;
       height: 40px;
@@ -245,7 +297,7 @@
       font-size: 1rem;
     }
 
-    /*  Modalın əsas məzmun hissəsi. */
+    /*  Modal əsas məzmun hissəsi. */
     .user-modal-body {
       padding: 22px;
       display: grid;
@@ -253,7 +305,7 @@
       gap: 20px;
     }
 
-    /*  Böyük avatar hissəsi üçün görünüş. */
+    /*  Böyük avatar sahəsi. */
     .user-modal-avatar {
       width: 120px;
       height: 120px;
@@ -269,7 +321,7 @@
       border: 1px solid rgba(88, 141, 224, 0.18);
     }
 
-    /*  Böyük avatar içində şəkil varsa tam görünsün. */
+    /*  Böyük avatar içində şəkil varsa düzgün göstəririk. */
     .user-modal-avatar img {
       width: 100%;
       height: 100%;
@@ -277,14 +329,14 @@
       display: block;
     }
 
-    /*  İstifadəçi məlumatlarını bloklarla düzürük. */
+    /*  İstifadəçi detalları üçün grid görünüş. */
     .user-detail-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 14px;
     }
 
-    /*  Hər bir detal qutusu üçün stil. */
+    /*  Hər detail qutusu üçün stil. */
     .user-detail-box {
       padding: 14px;
       border-radius: 16px;
@@ -292,7 +344,7 @@
       border: 1px solid rgba(92, 142, 212, 0.14);
     }
 
-    /*  Detal başlığının görünüşü. */
+    /*  Detail başlıqları üçün stil. */
     .user-detail-box small {
       display: block;
       margin-bottom: 6px;
@@ -300,7 +352,7 @@
       font-size: 0.8rem;
     }
 
-    /*  Detal dəyərinin görünüşü. */
+    /*  Detail dəyərləri üçün stil. */
     .user-detail-box strong,
     .user-detail-box span,
     .user-detail-box p {
@@ -310,12 +362,12 @@
       margin: 0;
     }
 
-    /*  Tam genişlik verilməli olan detail qutuları üçün sinif. */
+    /*  Tam genişlik tələb edən detallar üçün sinif. */
     .full-width {
       grid-column: 1 / -1;
     }
 
-    /*  Orta ekranlarda iki sütunlu layout-u bir sütuna endiririk. */
+    /*  Orta ekranlarda iki sütunlu bloklar tək sütuna düşür. */
     @media (max-width: 980px) {
       .admin-grid-2 {
         grid-template-columns: 1fr;
@@ -330,7 +382,7 @@
       }
     }
 
-    /*  Kiçik ekranlarda sağ düymələri alt-alta düşmədən səliqəli saxlayırıq. */
+    /*  Kiçik ekranlarda sətr kartları alt-alta düzülür. */
     @media (max-width: 640px) {
       .admin-row-card {
         flex-direction: column;
@@ -498,10 +550,13 @@
 
             <!--  Bazada olan bütün category-ləri bu hissədə göstərəcəyik. -->
             <div class="admin-subpanel">
-              <h4>All Categories</h4>
+              <div class="subpanel-topline">
+                <h4>All Categories</h4>
+                <span class="mini-info-chip"><i class="fa-solid fa-layer-group"></i> Visible area limited</span>
+              </div>
 
-              <!--  JS burada mövcud category siyahısını yaradacaq. -->
-              <div id="adminCategoriesList" class="admin-stack">
+              <!--  Burada çox uzanmaması üçün scroll-lu blok verdik. -->
+              <div id="adminCategoriesList" class="admin-stack scroll-limited-list">
                 <div class="empty-note">Categories will appear here.</div>
               </div>
             </div>
@@ -543,10 +598,13 @@
 
             <!--  Bazadakı bütün müəllifləri burada göstərəcəyik. -->
             <div class="admin-subpanel">
-              <h4>All Authors</h4>
+              <div class="subpanel-topline">
+                <h4>All Authors</h4>
+                <span class="mini-info-chip"><i class="fa-solid fa-pen-nib"></i> Visible area limited</span>
+              </div>
 
-              <!--  JS burada müəllif siyahısını dolduracaq. -->
-              <div id="adminAuthorsList" class="admin-stack">
+              <!--  Burada da siyahı çox uzanmasın deyə scroll-lu blok verdik. -->
+              <div id="adminAuthorsList" class="admin-stack scroll-limited-list">
                 <div class="empty-note">Authors will appear here.</div>
               </div>
             </div>
@@ -602,7 +660,6 @@
         <div>
           <h3>Visit or Contact</h3>
           <p class="muted">A refined online bookstore interface designed for an academic project presentation and user experience showcase.</p>
-
           <div class="contact-list">
             <div><strong>Address:</strong> Pasaż Stokłosy 3, 02-787 Warsaw, Poland</div>
             <div><strong>Institution:</strong> Akademia Finansów i Biznesu Vistula</div>
@@ -610,7 +667,6 @@
             <div><strong>Email:</strong> <a href="mailto:njafaro1@stu.vistula.edu.pl">njafaro1@stu.vistula.edu.pl</a></div>
           </div>
         </div>
-
         <div>
           <h3>Quick Links</h3>
           <div class="contact-list">
@@ -659,10 +715,8 @@
 
   <!--  Supabase JavaScript kitabxanasını qoşuruq. -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <!--  Supabase bağlantı parametrlərini saxlayan fayl. -->
   <script src="js/supabase-config.js"></script>
-
   <!--  Əsas funksionallıq faylı. -->
   <script src="app.js"></script>
 </body>
