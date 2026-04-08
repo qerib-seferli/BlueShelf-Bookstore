@@ -1,41 +1,98 @@
 <!DOCTYPE html>
+<!-- HTML5 sənəd tipi. -->
 <html lang="en">
+<!-- Sənəd dili ingilis olaraq göstərilir. -->
 <head>
+  <!-- Head hissəsi başlayır. -->
   <meta charset="UTF-8" />
+  <!-- UTF-8 kodlaşdırması aktiv edilir. -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ERD Diagrams | BookNest</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Responsive görünüş üçün viewport verilir. -->
+  <title>BookVerse | ERD Diagrams</title>
+  <!-- Brauzer tab başlığı. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <!-- Google Fonts serverinə öncədən bağlantı. -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Şrift resursu üçün əlavə bağlantı. -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Inter şrifti layihəyə əlavə olunur. -->
   <link rel="stylesheet" href="style.css" />
+  <!-- style.css qoşulur. -->
 </head>
+<!-- Head bağlanır. -->
 <body>
-  <header class="site-header">
-    <div class="container nav-wrapper">
-      <a href="index.html" class="logo">BookNest</a>
-      <nav class="main-nav">
-        <a href="index.html">Home</a>
-        <a href="diagrams.html">ERD</a>
-        <a href="notes.html">Project Notes</a>
+  <!-- Body başlayır. -->
+  <div class="page-shell">
+    <!-- Ümumi səhifə konteyneri. -->
+    <header class="site-header compact-header">
+      <!-- Yuxarı naviqasiya sahəsi. -->
+      <div class="brand-area">
+        <!-- Brend sahəsi. -->
+        <div class="brand-mark">B</div>
+        <!-- Logo işarəsi. -->
+        <div>
+          <!-- Brend mətnləri üçün blok. -->
+          <p class="brand-caption">Database Planning</p>
+          <!-- Kiçik yuxarı mətn. -->
+          <h1 class="brand-title">BookVerse ERD</h1>
+          <!-- Səhifə başlığı. -->
+        </div>
+      </div>
+      <!-- Brend hissəsi bağlanır. -->
+      <nav class="top-actions">
+        <!-- Naviqasiya düymələri. -->
+        <a class="ghost-link" href="index.html">Home</a>
+        <!-- Ana səhifəyə link. -->
+        <a class="ghost-link" href="login.html">Login</a>
+        <!-- Login səhifəsinə link. -->
+        <a class="ghost-link" href="register.html">Sign Up</a>
+        <!-- Sign up səhifəsinə link. -->
       </nav>
-    </div>
-  </header>
+      <!-- Nav bağlanır. -->
+    </header>
+    <!-- Header bağlanır. -->
 
-  <main class="page-section container">
-    <p class="section-label">Database Design</p>
-    <h1>ERD Diagrams</h1>
-    <p class="page-intro">These diagrams match the thesis website logic: users can register/login, books belong to categories, and each book has one author.</p>
+    <main class="diagram-main">
+      <!-- Diaqram səhifəsinin əsas hissəsi. -->
+      <section class="diagram-hero">
+        <!-- Üst məlumat bölməsi. -->
+        <span class="hero-badge">Entity Relationship Diagrams</span>
+        <!-- Kiçik etiket. -->
+        <h2>Database structure prepared for the online bookstore concept</h2>
+        <!-- Əsas başlıq. -->
+        <p>
+          These diagrams show how users, books, authors, genres, and orders can be connected in a
+          future full-stack version of the project.
+        </p>
+        <!-- Açıqlama mətni. -->
+      </section>
+      <!-- diagram-hero bağlanır. -->
 
-    <div class="diagram-grid">
-      <article class="diagram-card">
-        <h2>Main ERD</h2>
-        <img src="assets/erd-main.svg" alt="Main ERD Diagram" />
-      </article>
-      <article class="diagram-card">
-        <h2>Simple Relationship View</h2>
-        <img src="assets/erd-simple.svg" alt="Simple ERD Diagram" />
-      </article>
-    </div>
-  </main>
+      <section class="diagram-grid">
+        <!-- Diaqram kartlarını grid şəklində düzür. -->
+        <article class="diagram-card">
+          <!-- Birinci diaqram kartı. -->
+          <h3>Main ERD</h3>
+          <!-- Kart başlığı. -->
+          <img src="assets/erd-main.svg" alt="Main ERD diagram for online bookstore" />
+          <!-- Əsas ERD şəkli. alt atributu şəkil açılmasa mətn göstərir və accessibility üçün vacibdir. -->
+        </article>
+        <!-- Birinci kart bağlanır. -->
+        <article class="diagram-card">
+          <!-- İkinci diaqram kartı. -->
+          <h3>Simple ERD</h3>
+          <!-- Kart başlığı. -->
+          <img src="assets/erd-simple.svg" alt="Simple ERD diagram for online bookstore" />
+          <!-- Sadə ERD şəkli. -->
+        </article>
+        <!-- İkinci kart bağlanır. -->
+      </section>
+      <!-- diagram-grid bağlanır. -->
+    </main>
+    <!-- Main bağlanır. -->
+  </div>
+  <!-- page-shell bağlanır. -->
 </body>
+<!-- Body bağlanır. -->
 </html>
+<!-- HTML bağlanır. -->

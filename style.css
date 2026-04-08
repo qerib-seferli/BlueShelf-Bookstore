@@ -1,642 +1,925 @@
-/* =========================================================
-   BOOKNEST - THESIS PROJECT STYLES
-   Qeyd: Bu fayldakı şərhlər Azərbaycan dilindədir ki,
-   müdafiədə sənə izah etmək rahat olsun.
-   ========================================================= */
+/* Bu sətir bütün fayl üçün Azərbaycan dilində geniş izahlı CSS qeydlərinin başladığını göstərir. */
 
+/* :root selektoru bütün sənəd üçün ümumi dəyişənlər təyin etmək üçündür. */
 :root {
-  --bg: #f8f5ff;
-  --bg-soft: #fff8f1;
-  --primary: #6c4df6;
-  --primary-dark: #4f35cf;
-  --text: #1f1f2e;
-  --muted: #707086;
-  --white: #ffffff;
-  --card: rgba(255, 255, 255, 0.88);
-  --border: rgba(108, 77, 246, 0.14);
-  --shadow: 0 18px 45px rgba(76, 61, 160, 0.14);
-  --radius: 22px;
+  /* --bg-color dəyişəni əsas fon rəngini saxlayır. */
+  --bg-color: #f5f1ea;
+  /* --surface-color dəyişəni kartların və ağ sahələrin rəngini saxlayır. */
+  --surface-color: rgba(255, 255, 255, 0.82);
+  /* --surface-strong dəyişəni daha dolu və aydın fon üçündür. */
+  --surface-strong: #ffffff;
+  /* --text-color dəyişəni əsas mətn rəngidir. */
+  --text-color: #1f1a17;
+  /* --muted-color dəyişəni ikinci dərəcəli, daha sakit mətnlər üçündür. */
+  --muted-color: #72675f;
+  /* --primary-color dəyişəni əsas vurğu rəngidir. */
+  --primary-color: #6a3d22;
+  /* --primary-soft dəyişəni primary rəngin yumşaq tonudur. */
+  --primary-soft: #a66a43;
+  /* --gold-color dəyişəni dekorativ qızılı rəng üçündür. */
+  --gold-color: #d6a04a;
+  /* --border-color dəyişəni incə sərhəd xətləri üçündür. */
+  --border-color: rgba(106, 61, 34, 0.12);
+  /* --shadow-soft dəyişəni yumşaq kölgə effekti verir. */
+  --shadow-soft: 0 16px 40px rgba(55, 35, 18, 0.12);
+  /* --shadow-card dəyişəni kartlar üçün ayrıca kölgə dəyəridir. */
+  --shadow-card: 0 12px 24px rgba(68, 42, 24, 0.08);
+  /* --radius-xl dəyişəni böyük radius dəyəridir. */
+  --radius-xl: 28px;
+  /* --radius-lg dəyişəni orta radius dəyəridir. */
+  --radius-lg: 20px;
+  /* --radius-md dəyişəni kiçik radius dəyəridir. */
+  --radius-md: 14px;
 }
 
+/* Ulduz selektoru bütün elementlərə təsir edir. */
 * {
+  /* box-sizing: border-box eni və hündürlüyü hesablarkən padding və border daxil etməyə kömək edir. */
   box-sizing: border-box;
+  /* margin: 0 bütün elementlərin standart boşluğunu sıfırlayır. */
   margin: 0;
+  /* padding: 0 bütün elementlərin standart iç boşluğunu sıfırlayır. */
   padding: 0;
 }
 
+/* html selektoru bütün sənədin əsas struktur elementinə aiddir. */
 html {
+  /* scroll-behavior: smooth səhifədaxili keçidlərin yumşaq animasiya ilə olmasını təmin edir. */
   scroll-behavior: smooth;
 }
 
+/* body selektoru görünən əsas səhifə sahəsinə stil verir. */
 body {
-  font-family: 'Poppins', sans-serif;
-  color: var(--text);
-  background:
-    radial-gradient(circle at top left, #f7e8ff 0%, transparent 28%),
-    radial-gradient(circle at bottom right, #eaf4ff 0%, transparent 30%),
-    linear-gradient(135deg, var(--bg) 0%, #fdfcff 45%, var(--bg-soft) 100%);
+  /* min-height tam ekran boyu hündürlük verir. */
   min-height: 100vh;
+  /* font-family əsas şrift ailəsini təyin edir. */
+  font-family: "Inter", sans-serif;
+  /* background fonu bir neçə gradient ilə kitab mağazası hissi yaratmaq üçün qurulur. */
+  background:
+    radial-gradient(circle at top left, rgba(214, 160, 74, 0.20), transparent 32%),
+    radial-gradient(circle at top right, rgba(166, 106, 67, 0.16), transparent 28%),
+    linear-gradient(135deg, #f8f4ee 0%, #efe3d3 50%, #f8f3ec 100%);
+  /* color əsas mətn rəngini müəyyən edir. */
+  color: var(--text-color);
 }
 
-img {
-  max-width: 100%;
-  display: block;
+/* a selektoru bütün linklər üçün baza görünüş yaradır. */
+a {
+  /* text-decoration: none alt xətti silir. */
+  text-decoration: none;
+  /* color: inherit linklərin valideyn rəngini götürməsini təmin edir. */
+  color: inherit;
 }
 
+/* button, input selektoru form elementlərində eyni şriftin istifadəsi üçündür. */
 button,
-input,
-select {
+input {
+  /* font: inherit valideyn elementin şrift parametrlərini götürür. */
   font: inherit;
 }
 
-.container {
-  width: min(1140px, calc(100% - 32px));
-  margin: 0 auto;
+/* img selektoru bütün şəkillərin responsive görünməsi üçündür. */
+img {
+  /* max-width şəkilin öz konteynerindən böyük olmamasını təmin edir. */
+  max-width: 100%;
+  /* display: block alt hissədə yaranan boşluğu aradan qaldırır. */
+  display: block;
 }
 
-.hidden {
-  display: none !important;
+/* .page-shell bütün səhifə məzmununu ortalayır və maksimum en verir. */
+.page-shell {
+  /* width konteyneri tam enə yayır. */
+  width: min(1200px, calc(100% - 40px));
+  /* margin yuxarı-aşağı 28px, sağ-sol auto ilə ortalama edir. */
+  margin: 28px auto;
 }
 
-/* Header hissəsi */
-.site-header,
-.mini-header {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  backdrop-filter: blur(14px);
-  background: rgba(255, 255, 255, 0.75);
-  border-bottom: 1px solid rgba(108, 77, 246, 0.08);
-}
-
-.mini-header {
-  position: static;
-  padding: 20px 0 0;
-  background: transparent;
-  border-bottom: none;
-}
-
-.nav-wrapper {
-  min-height: 78px;
+/* .site-header yuxarı hissə üçündür. */
+.site-header {
+  /* display: flex elementləri üfüqi düzür. */
   display: flex;
+  /* align-items: center şaquli ortalama edir. */
   align-items: center;
+  /* justify-content: space-between iki tərəfə ayırır. */
   justify-content: space-between;
-  gap: 18px;
+  /* gap elementlər arasında boşluq yaradır. */
+  gap: 20px;
+  /* padding header içi boşluq verir. */
+  padding: 20px 24px;
+  /* background şəffaf-ağ səth yaradır. */
+  background: var(--surface-color);
+  /* backdrop-filter fonu blur edərək glass effekt yaradır. */
+  backdrop-filter: blur(18px);
+  /* border incə xətt verir. */
+  border: 1px solid var(--border-color);
+  /* border-radius yumru künclər verir. */
+  border-radius: var(--radius-xl);
+  /* box-shadow kölgə əlavə edir. */
+  box-shadow: var(--shadow-soft);
 }
 
-.logo {
-  text-decoration: none;
-  color: var(--text);
-  font-size: 1.6rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
+/* .compact-header bəzi səhifələrdə daha az alt boşluq üçün istifadə olunur. */
+.compact-header {
+  /* margin-bottom header ilə alt hissə arasında boşluq yaradır. */
+  margin-bottom: 26px;
 }
 
-.main-nav {
+/* .brand-area logo və yazıların yan-yana düzülməsi üçündür. */
+.brand-area {
   display: flex;
   align-items: center;
-  gap: 22px;
+  gap: 14px;
 }
 
-.main-nav a {
-  color: var(--muted);
-  text-decoration: none;
-  font-weight: 500;
+/* .brand-mark sadə dairəvi logo görünüşü yaradır. */
+.brand-mark {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--primary-color), #3f2414);
+  color: #ffffff;
+  font-size: 1.4rem;
+  font-weight: 800;
+  box-shadow: 0 10px 24px rgba(106, 61, 34, 0.30);
 }
 
-.main-nav a:hover {
-  color: var(--primary);
+/* .brand-caption kiçik üst yazıdır. */
+.brand-caption {
+  font-size: 0.78rem;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--muted-color);
+  margin-bottom: 4px;
 }
 
-.auth-buttons {
+/* .brand-title əsas logo yazısıdır. */
+.brand-title {
+  font-size: 1.55rem;
+  font-weight: 800;
+}
+
+/* .top-actions düymələri hizalayır. */
+.top-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
   flex-wrap: wrap;
-  justify-content: flex-end;
+  gap: 10px;
 }
 
-.welcome-user {
-  color: var(--primary-dark);
-  font-size: 0.95rem;
-  font-weight: 600;
-}
-
-/* Düymələr */
-.btn {
-  border: none;
-  text-decoration: none;
+/* .ghost-link şəffaf düymə görünüşlü linkdir. */
+.ghost-link {
+  padding: 12px 16px;
   border-radius: 999px;
-  padding: 12px 20px;
-  cursor: pointer;
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.58);
+  color: var(--text-color);
   font-weight: 600;
-  transition: 0.25s ease;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+/* Hover zamanı yüngül hərəkət effekti verir. */
+.ghost-link:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+/* .solid-button əsas dolu düymə stilidir. */
+.solid-button {
+  border: none;
+  cursor: pointer;
+  padding: 14px 20px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--primary-soft), var(--primary-color));
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 12px 22px rgba(106, 61, 34, 0.24);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Solid düymənin hover effekti. */
+.solid-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 28px rgba(106, 61, 34, 0.30);
+}
+
+/* .outline-button xəttli ikinci tip düymədir. */
+.outline-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-}
-
-.btn:hover {
-  transform: translateY(-2px);
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, var(--primary), #8a6bff);
-  color: var(--white);
-  box-shadow: 0 12px 24px rgba(108, 77, 246, 0.24);
-}
-
-.btn-light {
-  background: rgba(255, 255, 255, 0.9);
-  color: var(--text);
-  border: 1px solid rgba(108, 77, 246, 0.12);
-}
-
-.btn-dark {
-  background: var(--text);
-  color: var(--white);
-}
-
-.full-btn {
-  width: 100%;
-}
-
-/* Hero hissəsi */
-.hero {
-  padding: 72px 0 40px;
-}
-
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 28px;
-  align-items: center;
-}
-
-.hero-badge,
-.section-label {
-  display: inline-block;
-  padding: 8px 14px;
+  padding: 14px 20px;
   border-radius: 999px;
-  background: rgba(108, 77, 246, 0.1);
-  color: var(--primary-dark);
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin-bottom: 16px;
+  border: 1.5px solid rgba(106, 61, 34, 0.22);
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--primary-color);
+  font-weight: 700;
+  transition: transform 0.25s ease, background 0.25s ease;
 }
 
-.hero h1,
-.page-section h1 {
-  font-size: clamp(2.1rem, 5vw, 4rem);
-  line-height: 1.1;
-  margin-bottom: 16px;
+/* Outline düymənin hover effekti. */
+.outline-button:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.9);
 }
 
-.hero-text,
-.page-intro,
-.auth-info {
-  color: var(--muted);
-  line-height: 1.8;
-  max-width: 680px;
+/* main daxilindəki section-lara ümumi alt boşluq verilir. */
+main section {
+  margin-bottom: 26px;
 }
 
-.hero-actions {
-  margin-top: 24px;
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
-.hero-card-stack {
+/* .hero-section böyük təqdimat blokudur. */
+.hero-section {
   display: grid;
-  gap: 18px;
+  grid-template-columns: 1.3fr 0.9fr;
+  gap: 22px;
+  align-items: stretch;
+  margin-top: 26px;
 }
 
-.floating-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+/* .hero-content mətn sahəsini stilizə edir. */
+.hero-content {
+  padding: 42px;
+  border-radius: 34px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 248, 239, 0.78)),
+    linear-gradient(135deg, rgba(166, 106, 67, 0.08), rgba(214, 160, 74, 0.12));
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-soft);
+}
+
+/* .hero-badge kiçik vurğulu etiket yaradır. */
+.hero-badge {
+  display: inline-flex;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(214, 160, 74, 0.18);
+  color: var(--primary-color);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+/* Hero başlığı üçün stil. */
+.hero-content h2 {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1.08;
+  max-width: 12ch;
+  margin-bottom: 18px;
+}
+
+/* Hero paraqrafı üçün stil. */
+.hero-content p {
+  color: var(--muted-color);
+  max-width: 60ch;
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+/* Hero düymə qrupu. */
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+/* .hero-panel sağ tərəf panelidir. */
+.hero-panel {
   padding: 26px;
+  border-radius: 34px;
+  background: linear-gradient(160deg, #442919, #6a3d22 55%, #8e5736 100%);
+  color: #ffffff;
+  box-shadow: var(--shadow-soft);
 }
 
-.floating-card span {
-  font-size: 0.9rem;
-  color: var(--primary-dark);
+/* Panel içində kiçik başlıq. */
+.panel-mini-title {
+  opacity: 0.8;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 18px;
+  font-size: 0.78rem;
+}
+
+/* Statistik grid. */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+/* Hər bir statistik kart. */
+.stat-card {
+  padding: 18px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  min-height: 118px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Statistik sayın görünüşü. */
+.stat-card strong {
+  font-size: 1.8rem;
+}
+
+/* Statistik izahı üçün stil. */
+.stat-card span {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* .info-strip xüsusiyyət zolağıdır. */
+.info-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* .info-pill kiçik pill görünüşüdür. */
+.info-pill {
+  padding: 13px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-card);
+  color: var(--primary-color);
   font-weight: 600;
 }
 
-.floating-card h3 {
-  font-size: 1.25rem;
-  margin: 10px 0;
-}
-
-.floating-card p {
-  color: var(--muted);
-  line-height: 1.7;
-}
-
-.accent-card {
-  background: linear-gradient(135deg, rgba(108, 77, 246, 0.95), rgba(140, 115, 255, 0.96));
-  color: var(--white);
-}
-
-.accent-card span,
-.accent-card p {
-  color: rgba(255, 255, 255, 0.92);
-}
-
-/* Search və kitablar hissəsi */
-.search-section,
-.page-section {
-  padding: 24px 0 70px;
-}
-
-.section-top {
+/* Bölmə başlığı üçün ümumi blok. */
+.section-header-block {
   display: flex;
   justify-content: space-between;
   align-items: end;
-  gap: 24px;
-  margin-bottom: 28px;
+  gap: 20px;
+  padding: 12px 2px;
 }
 
-.section-top h2 {
-  font-size: clamp(1.6rem, 3vw, 2.5rem);
+/* Kiçik bölmə başlıq etiketi. */
+.section-kicker {
+  color: var(--primary-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.78rem;
+  font-weight: 800;
+  margin-bottom: 8px;
 }
 
-.filters-row {
+/* Bölmə başlığı üçün H3. */
+.section-header-block h3,
+.cta-panel h3,
+.diagram-hero h2 {
+  font-size: clamp(1.7rem, 3vw, 2.5rem);
+}
+
+/* .search-box axtarış hissəsini blok şəklində göstərir. */
+.search-box {
+  min-width: min(100%, 360px);
   display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--muted-color);
+  font-weight: 600;
 }
 
-.filters-row input,
-.filters-row select,
-.auth-form input {
-  min-width: 220px;
-  padding: 14px 16px;
+/* Axtarış inputunun görünüşü. */
+.search-box input {
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.86);
+  border-radius: 16px;
+  padding: 16px 18px;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Axtarış inputu fokus olanda görünüşü dəyişir. */
+.search-box input:focus {
+  border-color: rgba(106, 61, 34, 0.35);
+  box-shadow: 0 0 0 4px rgba(106, 61, 34, 0.08);
+}
+
+/* Janr kartları üçün sətir. */
+.genre-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* Hər bir janr kartı. */
+.genre-card {
+  padding: 20px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-card);
+}
+
+/* Janr kartındakı əsas mətn. */
+.genre-card span {
+  display: block;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+/* Janr kartındakı kiçik izah. */
+.genre-card small {
+  color: var(--muted-color);
+  line-height: 1.5;
+}
+
+/* .book-grid kitab kartları üçün grid sahəsidir. */
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* .book-card hər bir kitabı göstərən kartdır. */
+.book-card {
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.84);
+  border-radius: 26px;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+/* Hover effekti kartı azca qaldırır. */
+.book-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 30px rgba(68, 42, 24, 0.14);
+}
+
+/* .book-cover kitab üz qabığını rəngli dekor kimi yaradır. */
+.book-cover {
+  min-height: 210px;
+  padding: 22px;
+  display: flex;
+  align-items: end;
+  color: #ffffff;
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+/* .book-body kartın alt mətn hissəsidir. */
+.book-body {
+  padding: 22px;
+}
+
+/* Kitab kartındakı janr etiketi. */
+.book-tag {
+  display: inline-flex;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(214, 160, 74, 0.15);
+  color: var(--primary-color);
+  font-size: 0.78rem;
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+
+/* Kitab başlığı üçün stil. */
+.book-body h4 {
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+}
+
+/* Kitab müəllif sətri. */
+.book-author-line {
+  color: var(--muted-color);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+/* Kitab qısa təsviri. */
+.book-description-preview {
+  color: var(--muted-color);
+  line-height: 1.7;
+  min-height: 78px;
+}
+
+/* Kart alt hissə düzülüşü. */
+.book-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+/* Kiçik il etiketi. */
+.book-year {
+  color: var(--primary-soft);
+  font-weight: 700;
+}
+
+/* Ətraflı bax düyməsi. */
+.details-button {
+  border: none;
+  cursor: pointer;
+  padding: 12px 16px;
   border-radius: 14px;
-  border: 1px solid rgba(108, 77, 246, 0.16);
+  background: #2d1d13;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* Nəticə tapılmayanda görünən kart. */
+.no-results-card {
+  grid-column: 1 / -1;
+  padding: 26px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px dashed rgba(106, 61, 34, 0.22);
+  text-align: center;
+  color: var(--muted-color);
+}
+
+/* CTA panel görünüşü. */
+.cta-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 28px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.84), rgba(255, 247, 237, 0.9));
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-soft);
+}
+
+/* CTA mətninin rəngi. */
+.cta-text {
+  color: var(--muted-color);
+  max-width: 64ch;
+  line-height: 1.75;
+  margin-top: 8px;
+}
+
+/* CTA düymələri üçün blok. */
+.cta-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Footer stili. */
+.site-footer {
+  padding: 12px 4px 28px;
+  text-align: center;
+  color: var(--muted-color);
+}
+
+/* Auth səhifələri üçün əsas düzülüş. */
+.auth-page-shell {
+  min-height: calc(100vh - 56px);
+}
+
+/* Auth main ekranın ortasına yaxın yerləşdirir. */
+.auth-main {
+  display: grid;
+  place-items: center;
+  min-height: calc(100vh - 180px);
+}
+
+/* Auth kart görünüşü. */
+.auth-card {
+  width: min(560px, 100%);
+  padding: 34px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid var(--border-color);
+  border-radius: 32px;
+  box-shadow: var(--shadow-soft);
+}
+
+/* Auth giriş hissəsi. */
+.auth-intro {
+  margin-bottom: 22px;
+}
+
+/* Auth intro paraqrafı. */
+.auth-intro p {
+  color: var(--muted-color);
+  line-height: 1.7;
+  margin-top: 8px;
+}
+
+/* Auth formu daxilində elementlərin düzülüşü. */
+.auth-form {
+  display: grid;
+  gap: 16px;
+}
+
+/* Form label-ləri blok şəklində düzür. */
+.auth-form label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted-color);
+  font-weight: 600;
+}
+
+/* Form input görünüşü. */
+.auth-form input {
+  padding: 15px 16px;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
   background: rgba(255, 255, 255, 0.92);
   outline: none;
 }
 
-.filters-row input:focus,
-.filters-row select:focus,
+/* Input fokus görünüşü. */
 .auth-form input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 4px rgba(108, 77, 246, 0.1);
+  border-color: rgba(106, 61, 34, 0.35);
+  box-shadow: 0 0 0 4px rgba(106, 61, 34, 0.08);
 }
 
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-  margin-bottom: 26px;
+/* Auth submit düyməsi en olaraq tam yer tutur. */
+.auth-submit {
+  width: 100%;
+  margin-top: 6px;
 }
 
-.stat-card,
-.book-card,
-.auth-card,
-.note-box,
-.diagram-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
-
-.stat-card {
-  padding: 22px;
-}
-
-.stat-card h3 {
-  font-size: 1.8rem;
-  margin-bottom: 6px;
-}
-
-.stat-card p {
-  color: var(--muted);
-}
-
-.books-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
-}
-
-/* Kitab kartı */
-.book-card {
-  overflow: hidden;
-  cursor: pointer;
-  transition: 0.25s ease;
-}
-
-.book-card:hover {
-  transform: translateY(-8px);
-}
-
-.book-cover {
-  height: 280px;
-  display: flex;
-  align-items: end;
-  padding: 20px;
-  color: var(--white);
-  background: linear-gradient(135deg, #6f54ff, #ff7a9c);
-}
-
-.book-card:nth-child(2n) .book-cover {
-  background: linear-gradient(135deg, #11b4c6, #5a7dff);
-}
-
-.book-card:nth-child(3n) .book-cover {
-  background: linear-gradient(135deg, #ff8f5a, #ff4f7f);
-}
-
-.book-cover small {
-  background: rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(4px);
-  padding: 7px 12px;
-  border-radius: 999px;
-}
-
-.book-body {
-  padding: 20px;
-}
-
-.book-body h3 {
-  margin-bottom: 10px;
-  font-size: 1.15rem;
-}
-
-.book-meta,
-.empty-state,
-.form-message,
-.bottom-link,
-.note-box li {
-  color: var(--muted);
-}
-
-.book-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 14px;
-  line-height: 1.7;
-}
-
-.card-action {
-  color: var(--primary-dark);
-  font-weight: 600;
-}
-
-.empty-state {
+/* Yardımçı mətn. */
+.auth-helper {
   text-align: center;
-  margin-top: 20px;
-  font-size: 1rem;
+  color: var(--muted-color);
 }
 
-/* Modal hissəsi */
-.modal {
+/* Yardımçı link görünüşü. */
+.auth-helper a {
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+/* Form nəticə mesajı. */
+.form-message {
+  min-height: 24px;
+  text-align: center;
+  font-weight: 700;
+}
+
+/* Uğurlu mesaj rəngi. */
+.form-message.success {
+  color: #1d6b41;
+}
+
+/* Xəta mesajı rəngi. */
+.form-message.error {
+  color: #a03030;
+}
+
+/* Modal fon örtüyü. */
+.modal-overlay {
   position: fixed;
   inset: 0;
-  z-index: 50;
-  display: flex;
+  background: rgba(34, 22, 14, 0.62);
+  display: none;
   align-items: center;
   justify-content: center;
-  padding: 18px;
-}
-
-.modal-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(21, 17, 45, 0.56);
-  backdrop-filter: blur(4px);
-}
-
-.modal-content {
-  position: relative;
-  width: min(760px, 100%);
-  background: linear-gradient(180deg, #ffffff 0%, #fbf9ff 100%);
-  border-radius: 28px;
-  padding: 30px;
-  box-shadow: 0 28px 60px rgba(18, 14, 38, 0.25);
-  z-index: 2;
-}
-
-.modal-close {
-  position: absolute;
-  right: 18px;
-  top: 12px;
-  border: none;
-  background: transparent;
-  font-size: 2rem;
-  cursor: pointer;
-  color: var(--muted);
-}
-
-.modal-book-top {
-  display: grid;
-  grid-template-columns: 220px 1fr;
-  gap: 24px;
-  align-items: start;
-}
-
-.modal-cover {
-  min-height: 280px;
-  border-radius: 22px;
   padding: 20px;
-  color: var(--white);
-  background: linear-gradient(135deg, #6f54ff, #ff7a9c);
+  z-index: 1000;
+}
+
+/* .modal-overlay.active görünəndə flex olur. */
+.modal-overlay.active {
   display: flex;
-  align-items: end;
 }
 
-.modal-text h2 {
+/* Modal kart görünüşü. */
+.modal-card {
+  width: min(720px, 100%);
+  max-height: 92vh;
+  overflow: auto;
+  background: #fffdfb;
+  border-radius: 30px;
+  padding: 24px;
+  position: relative;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.26);
+}
+
+/* Bağlama düyməsi. */
+.close-button {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(45, 29, 19, 0.08);
+  color: #2d1d13;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Modal cover sahəsi. */
+.modal-cover {
+  min-height: 220px;
+  border-radius: 24px;
+  margin-bottom: 20px;
+}
+
+/* Modal başlıq. */
+.modal-card h3 {
   font-size: 2rem;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
-.modal-tags {
+/* Müəllif sətri. */
+.modal-author {
+  color: var(--muted-color);
+  font-size: 1rem;
+  margin-bottom: 14px;
+}
+
+/* Modal kiçik məlumatlar. */
+.modal-meta {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin: 16px 0;
+  margin-bottom: 16px;
 }
 
-.modal-tags span {
-  padding: 8px 14px;
+/* Modal meta içindəki hər span. */
+.modal-meta span {
+  padding: 9px 12px;
   border-radius: 999px;
-  background: rgba(108, 77, 246, 0.1);
-  color: var(--primary-dark);
-  font-size: 0.92rem;
-  font-weight: 600;
+  background: rgba(214, 160, 74, 0.16);
+  color: var(--primary-color);
+  font-weight: 700;
 }
 
+/* Modal açıqlama mətni. */
 .modal-description {
-  margin-top: 10px;
-  line-height: 1.9;
-  color: #4a4a5f;
+  color: var(--muted-color);
+  line-height: 1.85;
+  margin-bottom: 20px;
 }
 
-/* Auth səhifələri */
-.auth-page-bg {
-  min-height: 100vh;
-  background:
-    radial-gradient(circle at top left, #ffeaf1 0%, transparent 30%),
-    radial-gradient(circle at bottom right, #e8f1ff 0%, transparent 30%),
-    linear-gradient(135deg, #faf7ff 0%, #fffdf7 100%);
+/* Müəllif qutusu. */
+.author-box {
+  padding: 18px;
+  border-radius: 20px;
+  background: rgba(245, 241, 234, 0.8);
+  border: 1px solid var(--border-color);
 }
 
-.auth-main {
-  min-height: calc(100vh - 70px);
-  display: grid;
-  place-items: center;
-  padding: 30px 16px 50px;
-}
-
-.auth-card {
-  width: min(520px, 100%);
-  padding: 32px;
-}
-
-.auth-card h1 {
-  font-size: 2.2rem;
+/* Müəllif qutusundakı başlıq. */
+.author-box h4 {
   margin-bottom: 10px;
 }
 
-.auth-form {
+/* Diaqram səhifəsinin əsas quruluşu. */
+.diagram-main {
   display: grid;
-  gap: 12px;
-  margin-top: 22px;
+  gap: 24px;
 }
 
-.auth-form label {
-  font-weight: 600;
-  margin-top: 4px;
+/* Diaqram hero hissəsi. */
+.diagram-hero {
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.84);
+  border-radius: 30px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-soft);
 }
 
-.form-message {
-  margin-top: 16px;
-  min-height: 24px;
-}
-
-.bottom-link {
+/* Diaqram hero paraqrafı. */
+.diagram-hero p {
   margin-top: 12px;
+  max-width: 72ch;
+  color: var(--muted-color);
+  line-height: 1.8;
 }
 
-.bottom-link a {
-  color: var(--primary-dark);
-  font-weight: 600;
-  text-decoration: none;
-}
-
-/* Digər səhifələr */
-.notes-grid,
+/* Diaqram kartları grid görünüşü. */
 .diagram-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 22px;
-  margin-top: 28px;
+  gap: 20px;
 }
 
-.note-box,
+/* Hər diaqram kartı. */
 .diagram-card {
-  padding: 24px;
+  padding: 22px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-card);
 }
 
-.note-box h2,
-.diagram-card h2 {
-  margin-bottom: 14px;
+/* Diaqram kartı başlığı. */
+.diagram-card h3 {
+  margin-bottom: 16px;
 }
 
-.note-box ul {
-  padding-left: 18px;
-  line-height: 1.9;
-}
-
+/* Diaqram şəkli üçün görünüş. */
 .diagram-card img {
+  width: 100%;
   border-radius: 18px;
-  border: 1px solid rgba(108, 77, 246, 0.12);
+  border: 1px solid rgba(106, 61, 34, 0.10);
+  background: #ffffff;
 }
 
-/* Footer */
-.site-footer {
-  padding: 24px 0 34px;
+/* Auth elementlərinin gizlədilmə sinfi. */
+.hidden-auth {
+  display: none !important;
 }
 
-.footer-flex {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-  color: var(--muted);
-  font-size: 0.95rem;
-}
-
-/* Telefon və planşet uyğunluğu */
+/* 980px və daha kiçik ekranlar üçün qaydalar. */
 @media (max-width: 980px) {
-  .hero-grid,
-  .books-grid,
-  .stats-grid,
-  .notes-grid,
-  .diagram-grid,
-  .modal-book-top,
-  .section-top {
+  /* Hero hissəsi tək sütuna düşür. */
+  .hero-section {
     grid-template-columns: 1fr;
   }
 
-  .section-top {
-    display: grid;
-    align-items: start;
+  /* Janr kartları 2 sütun olur. */
+  .genre-row {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .filters-row {
-    width: 100%;
-    justify-content: stretch;
+  /* Kitab kartları 2 sütun olur. */
+  .book-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .filters-row input,
-  .filters-row select {
-    width: 100%;
+  /* CTA panel tək sütun olur. */
+  .cta-panel {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  .main-nav {
-    display: none;
+  /* Diaqram grid tək sütuna düşür. */
+  .diagram-grid {
+    grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 640px) {
-  .nav-wrapper {
-    min-height: auto;
-    padding: 16px 0;
-    align-items: flex-start;
-    flex-direction: column;
+/* 720px və daha kiçik ekranlar üçün mobil qaydalar. */
+@media (max-width: 720px) {
+  /* Səhifə enində daha az kənar boşluq verir. */
+  .page-shell {
+    width: min(100% - 22px, 1200px);
+    margin: 12px auto;
   }
 
-  .auth-buttons {
-    width: 100%;
+  /* Header mobilə uyğun tək sütun olur. */
+  .site-header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 18px;
+  }
+
+  /* Düymələr sola yığılır. */
+  .top-actions {
     justify-content: flex-start;
   }
 
-  .hero {
-    padding-top: 34px;
+  /* Hero mətn hissəsinin padding-i azalır. */
+  .hero-content,
+  .hero-panel,
+  .cta-panel,
+  .diagram-hero,
+  .auth-card {
+    padding: 22px;
   }
 
-  .book-cover {
-    height: 240px;
+  /* Hero başlığı mobil ölçüyə uyğunlaşır. */
+  .hero-content h2 {
+    max-width: none;
+    font-size: 2rem;
   }
 
-  .modal-content,
-  .auth-card,
-  .note-box,
-  .diagram-card,
-  .stat-card {
-    padding: 20px;
+  /* Bölmə başlığı və axtarış alt-alta düzülür. */
+  .section-header-block {
+    flex-direction: column;
+    align-items: stretch;
   }
 
-  .modal-text h2 {
-    font-size: 1.6rem;
+  /* Janr kartları mobil tək sütun olur. */
+  .genre-row {
+    grid-template-columns: 1fr;
+  }
+
+  /* Kitab kartları mobil tək sütun olur. */
+  .book-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Statistik kartlar tək sütun olur. */
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Modal kartın içi kiçilir. */
+  .modal-card {
+    padding: 18px;
   }
 }
