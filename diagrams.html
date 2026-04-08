@@ -1,39 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!--  HTML sənədinin kodlaşdırmasını UTF-8 edirik ki, mətnlər düzgün görünsün. -->
+  <!--  HTML sənədinin simvol kodlamasını UTF-8 edirik ki, bütün mətnlər düzgün oxunsun. -->
   <meta charset="UTF-8">
-  <!--  Mobil və fərqli ekranlarda responsive görünüş üçün viewport əlavə olunur. -->
+
+  <!--  Bu meta teqi mobil və fərqli ölçülü ekranlarda səhifənin responsive işləməsi üçündür. -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!--  Brauzer başlığında görünəcək səhifə adı. -->
+
+  <!--  Brauzerin yuxarı hissəsində görünəcək səhifə başlığıdır. -->
   <title>ERD Diagram | BlueShelf</title>
-  <!--  Font Awesome ikon kitabxanasını qoşuruq. -->
+
+  <!--  Font Awesome ikon kitabxanasını qoşuruq ki, lazım olsa ikonlardan istifadə edə bilək. -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <!--  Əsas stil faylı qoşulur. -->
+
+  <!--  Layihənin əsas CSS faylı burada qoşulur. -->
   <link rel="stylesheet" href="style.css">
+
+  <!--  Bu daxili stillər yalnız diagrams.html səhifəsinin ERD görünüşünü daha səliqəli etmək üçündür. -->
+  <style>
+    /*  ERD bölməsinin ümumi arxa fon və boşluq görünüşünü yaxşılaşdırır. */
+    .erd-stage {
+      position: relative;
+      overflow: hidden;
+      border-radius: 28px;
+      padding: 24px;
+      background:
+        radial-gradient(circle at top left, rgba(94, 168, 255, 0.20), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(173, 216, 255, 0.18), transparent 28%),
+        linear-gradient(180deg, rgba(255,255,255,0.98), rgba(242,248,255,0.98));
+      border: 1px solid rgba(108, 169, 255, 0.22);
+      box-shadow: 0 18px 45px rgba(21, 74, 145, 0.10);
+    }
+
+    /*  Mermaid tərəfindən çəkilən ERD blokunun sürüşmədən rahat görünməsi üçün minimum ölçü və padding veririk. */
+    .erd-canvas {
+      overflow: auto;
+      padding: 10px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.75);
+      border: 1px solid rgba(120, 170, 235, 0.20);
+    }
+
+    /*  Mermaid elementinin minimum eni verilir ki, diaqram sıxılmasın. */
+    .erd-canvas .mermaid {
+      min-width: 980px;
+    }
+
+    /*  Sxem qeydlərinin grid halında düzülməsi üçün istifadə olunur. */
+    .schema-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    /*  Hər bir schema note kartının görünüşünü formalaşdırır. */
+    .schema-note {
+      padding: 18px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, #ffffff, #f4f9ff);
+      border: 1px solid rgba(111, 168, 255, 0.18);
+      box-shadow: 0 10px 28px rgba(22, 84, 163, 0.08);
+    }
+
+    /*  Note kartlarının başlıq yazısı üçün stil. */
+    .schema-note h4 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+      color: #133c74;
+    }
+
+    /*  Note kartlarında alt mətnlər üçün stil. */
+    .schema-note p {
+      margin: 0;
+      color: #4b6285;
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+
+    /*  Səhifənin üst başlığında kiçik etiket görünüşü üçün stil. */
+    .mini-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(84, 155, 255, 0.10);
+      color: #1753a2;
+      border: 1px solid rgba(84, 155, 255, 0.18);
+      font-size: 0.9rem;
+      margin-bottom: 12px;
+    }
+
+    /*  Kiçik ekranlarda daxili boşluqları optimallaşdırırıq. */
+    @media (max-width: 768px) {
+      .erd-stage {
+        padding: 16px;
+      }
+
+      .erd-canvas .mermaid {
+        min-width: 860px;
+      }
+    }
+  </style>
 </head>
+
 <body class="diagram-page" data-page="diagram">
-  <!--  Saytın yuxarı sabit başlıq hissəsi burada başlayır. -->
+  <!--  Saytın yuxarı hissəsində görünən əsas header bölməsi başlayır. -->
   <header class="site-header">
-    <!--  container sinifi məzmunu ortalayır və maksimum en verir. -->
+    <!--  container sinifi kontenti ortalayır və maksimum en saxlayır. -->
     <div class="container header-row">
-      <!--  Loqo və sayt adı kliklə ana səhifəyə aparır. -->
+
+      <!--  Loqo və sayt adı hissəsi. Üstünə klik ediləndə ana səhifəyə qayıdır. -->
       <a class="brand" href="index.html">
-        <!--  Loqo şəkli üçün qabıq. -->
+        <!--  Loqonun dairəvi və ya ikon görünən hissəsi üçün wrapper. -->
         <div class="brand-badge">
-          <!--  GitHub layihəsində /img/logo-book.png faylı istifadə olunur. -->
+          <!--  GitHub layihəsində img qovluğundakı logo-book.png faylı burada göstərilir. -->
           <img src="img/logo-book.png" alt="BlueShelf logo">
         </div>
-        <!--  Sayt adının mətn hissəsi. -->
+
+        <!--  Saytın ad və slogan hissəsi. -->
         <div class="brand-text">
           <h1>BlueShelf Bookstore</h1>
           <span>Curated reads, smooth discovery, elegant design.</span>
         </div>
       </a>
 
-      <!--  Header-in sağ hissəsində nav, axtarış və auth düymələri yerləşir. -->
+      <!--  Header-in sağ hissəsində menyu, axtarış və auth düymələri olacaq. -->
       <div class="header-tools">
-        <!--  Ümumi naviqasiya keçidləri. -->
+
+        <!--  Ümumi səhifə keçidləri burada yerləşir. -->
         <nav class="nav-links">
           <a class="nav-link" href="index.html">Home</a>
           <a class="nav-link" href="favorites.html">Favorites</a>
@@ -41,35 +137,54 @@
           <a class="nav-link" href="diagrams.html">ERD</a>
         </nav>
 
-        <!--  Axtarış forması title, author, description üzrə işləyir. -->
+        <!--  Axtarış forması title, author, category və text üzrə axtarış üçün nəzərdə tutulub. -->
         <form class="search-shell" id="searchForm">
+          <!--  Axtarış ikonunu göstərir. -->
           <i class="fa-solid fa-magnifying-glass"></i>
+
+          <!--  İstifadəçi bu input-a axtardığı sözləri yazır. -->
           <input id="searchInput" type="text" placeholder="Search by title, author, category, or text">
+
+          <!--  Form submit ediləndə axtarış işə düşür. -->
           <button class="btn btn-primary" type="submit">Search</button>
         </form>
 
-        <!--  Auth düymələri bu boş konteynerə JS ilə yazılır. -->
+        <!--  Login, logout, register kimi auth düymələri JS ilə bu konteynerə yazılır. -->
         <div id="authActions" class="nav-links"></div>
       </div>
     </div>
   </header>
 
-  <!--  Səhifənin əsas məzmunu burada yerləşir. -->
+  <!--  Səhifənin əsas məzmun sahəsi burada başlayır. -->
   <main>
-    
-    <!--  ERD diaqram bölməsi. -->
+    <!--  ERD diaqramını saxlayan əsas bölmədir. -->
     <section class="section">
       <div class="container">
+        <!--  Bölmənin yuxarı başlıq hissəsi. -->
         <div class="section-heading">
           <div>
+            <!--  Kiçik vizual etiket, daha premium görünüş üçün əlavə olunub. -->
+            <span class="mini-badge">
+              <i class="fa-solid fa-diagram-project"></i>
+              Relational Structure
+            </span>
+
+            <!--  Bölmənin əsas başlığı. -->
             <h3>Database ERD</h3>
-            <p>The database structure is shown visually in an ERD style similar to a formal relational schema presentation.</p>
+
+            <!--  Bölməni qısa izah edən alt mətn. -->
+            <p>The current relational structure of the bookstore platform is shown below in a clean entity relationship diagram.</p>
           </div>
         </div>
-        <div class="panel">
-          <pre class="mermaid">
+
+        <!--  Bu panel içində ERD diaqramını daha estetik formada saxlayırıq. -->
+        <div class="panel erd-stage">
+          <!--  Mermaid diaqramı eni böyük olanda burada scroll edilə bilər. -->
+          <div class="erd-canvas">
+            <!--  Mermaid diaqram mətninin özü bu pre elementində yerləşir. -->
+            <pre class="mermaid" id="erdDiagram">
 erDiagram
-    profiles {{
+    profiles {
         uuid id PK
         text full_name
         text email
@@ -79,25 +194,25 @@ erDiagram
         text role
         timestamp created_at
         timestamp updated_at
-    }}
+    }
 
-    categories {{
+    categories {
         bigint id PK
         text name
         text slug
         timestamp created_at
-    }}
+    }
 
-    authors {{
+    authors {
         bigint id PK
         text name
         text nationality
         int birth_year
         text biography
         timestamp created_at
-    }}
+    }
 
-    books {{
+    books {
         bigint id PK
         bigint author_id FK
         bigint category_id FK
@@ -113,51 +228,98 @@ erDiagram
         boolean is_published
         timestamp created_at
         timestamp updated_at
-    }}
+    }
 
-    favorites {{
+    favorites {
         bigint id PK
         uuid user_id FK
         bigint book_id FK
         timestamp created_at
-    }}
+    }
 
-    profiles ||--o{{ favorites : saves
-    books ||--o{{ favorites : appears_in
-    authors ||--o{{ books : writes
-    categories ||--o{{ books : groups
-          </pre>
+    profiles ||--o{ favorites : saves
+    books ||--o{ favorites : appears_in
+    authors ||--o{ books : writes
+    categories ||--o{ books : groups
+            </pre>
+          </div>
         </div>
+
+        <!--  Burada ERD cədvəllərinin mənasını müdafiədə istifadə etmək üçün qısa qeydlərlə göstəririk. -->
         <div class="panel" style="margin-top:22px;">
+          <!--  Panel başlığı. -->
           <h3>Schema Notes for Presentation</h3>
-          <div class="contact-list">
-            <div><strong>profiles</strong> keeps authenticated user data and admin role control.</div>
-            <div><strong>authors</strong> stores biography and identity details for each writer.</div>
-            <div><strong>categories</strong> separates books into searchable genres.</div>
-            <div><strong>books</strong> is the main catalog table linked to authors and categories.</div>
-            <div><strong>favorites</strong> creates a many-to-one user save system for selected books.</div>
+
+          <!--  Cədvəl izahlarını responsive grid ilə düzürük. -->
+          <div class="schema-grid">
+            <!--  profiles cədvəli haqqında izah kartı. -->
+            <div class="schema-note">
+              <h4>profiles</h4>
+              <p>Stores the public user profile fields such as full name, email, address, avatar, biography, and role.</p>
+            </div>
+
+            <!--  authors cədvəli haqqında izah kartı. -->
+            <div class="schema-note">
+              <h4>authors</h4>
+              <p>Contains writer information such as name, nationality, birth year, and biography.</p>
+            </div>
+
+            <!--  categories cədvəli haqqında izah kartı. -->
+            <div class="schema-note">
+              <h4>categories</h4>
+              <p>Separates books into searchable genres or topic groups for easier catalog browsing.</p>
+            </div>
+
+            <!--  books cədvəli haqqında izah kartı. -->
+            <div class="schema-note">
+              <h4>books</h4>
+              <p>The main catalog table that links each book to one author and one category.</p>
+            </div>
+
+            <!--  favorites cədvəli haqqında izah kartı. -->
+            <div class="schema-note">
+              <h4>favorites</h4>
+              <p>Keeps the relation between a user profile and the books the user has saved as favorites.</p>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!--  Mermaid kitabxanası bu səhifədə ERD yaratmaq üçün ayrıca qoşulur. -->
+    <!--  Mermaid kitabxanasını ayrıca modul kimi qoşuruq ki, ERD mətni diaqrama çevrilsin. -->
     <script type="module">
-      //  Mermaid modulu CDN üzərindən yüklənir.
+      //  Mermaid modulunu CDN vasitəsilə import edirik.
       import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-      //  Mermaid əsas sazlaması.
-      mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#ecd2a1', primaryTextColor: '#3a2b1d', primaryBorderColor: '#8b6a34', lineColor: '#473a28', tertiaryColor: '#f7f1df' } });
-    </script>
 
+      //  Bu obyekt ERD diaqramının görünüş rənglərini və ümumi davranışını idarə edir.
+      const mermaidConfig = {
+        startOnLoad: true,
+        theme: 'base',
+        securityLevel: 'loose',
+        themeVariables: {
+          primaryColor: '#dcedff',
+          primaryTextColor: '#123c74',
+          primaryBorderColor: '#5aa3ff',
+          lineColor: '#2b69b9',
+          tertiaryColor: '#f7fbff',
+          fontFamily: 'Segoe UI, Arial, sans-serif'
+        }
+      };
+
+      //  Mermaid konfiqurasiyasını aktivləşdiririk.
+      mermaid.initialize(mermaidConfig);
+    </script>
   </main>
 
-  <!--  Saytın alt hissəsi əlaqə və ünvan məlumatını göstərir. -->
+  <!--  Saytın footer hissəsi burada başlayır. -->
   <footer class="site-footer">
     <div class="container">
       <div class="footer-card">
+        <!--  Sol tərəfdə ünvan və əlaqə məlumatları göstərilir. -->
         <div>
           <h3>Visit or Contact</h3>
           <p class="muted">A refined online bookstore interface designed for an academic project presentation and user experience showcase.</p>
+
           <div class="contact-list">
             <div><strong>Address:</strong> Pasaż Stokłosy 3, 02-787 Warsaw, Poland</div>
             <div><strong>Institution:</strong> Akademia Finansów i Biznesu Vistula</div>
@@ -165,28 +327,33 @@ erDiagram
             <div><strong>Email:</strong> <a href="mailto:m.lisiecki@vistula.edu.pl">njafaro1@stu.vistula.edu.pl</a></div>
           </div>
         </div>
+
+        <!--  Sağ hissədə sürətli keçid düymələri yerləşir. -->
         <div>
           <h3>Quick Links</h3>
+
           <div class="contact-list">
             <a class="btn btn-secondary" href="https://maps.apple.com/place?address=Pasa%C5%BC%20Stok%C5%82osy%203,%2002-787%20Warsaw,%20Poland&coordinate=52.158803,21.034130&name=Akademia%20Finans%C3%B3w%20i%20Biznesu%20Vistula&place-id=I8366BBF6C455E7BC&map=explore" target="_blank" rel="noreferrer">Open Map</a>
             <a class="btn btn-secondary" href="login.html">Member Access</a>
             <a class="btn btn-primary" href="admin.html">Admin Panel</a>
           </div>
+
           <p class="muted" style="margin-top:16px;">© <span id="currentYear"></span> BlueShelf Bookstore. All rights reserved.</p>
         </div>
       </div>
     </div>
   </footer>
 
-  <!--  Özümüzə məxsus toast bildiriş elementi. -->
+  <!--  Öz toast bildiriş elementimiz. Lazım olduqda JS ilə mesaj göstərilə bilər. -->
   <div class="toast" id="toast"></div>
 
-  <!--  Supabase JavaScript kitabxanasını qoşuruq. -->
+  <!--  Supabase JS kitabxanasını qoşuruq. -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!--  Supabase bağlantı parametrlərini saxlayan fayl. -->
+
+  <!--  Supabase URL və anon key bu faylda saxlanılır. -->
   <script src="js/supabase-config.js"></script>
-  <!--  Əsas funksionallıq faylı. -->
+
+  <!--  Layihənin əsas JS funksiyaları bu fayldadır. -->
   <script src="app.js"></script>
-  <!--  diagrams səhifəsi üçün əlavə modul skript yuxarıdakı main içindədir. -->
 </body>
 </html>
