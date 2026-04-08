@@ -1,785 +1,785 @@
 
 /* ========================================================= */
-/* AZ QEYD: Bu fayl saytın bütün görünüşünü idarə edir.      */
-/* AZ QEYD: Buradakı hər sinif və seçimçi HTML elementlərinə  */
-/* AZ QEYD: rəng, ölçü, boşluq, animasiya və düzülüş verir.   */
+/*  Bu fayl saytın bütün görünüşünü idarə edir.      */
+/*  Buradakı hər sinif və seçimçi HTML elementlərinə  */
+/*  rəng, ölçü, boşluq, animasiya və düzülüş verir.   */
 /* ========================================================= */
 
-/* AZ QEYD: :root ümumi dəyişənlər üçündür. */
-/* AZ QEYD: Burada əsas rəngləri bir dəfə yazırıq, sonra hər yerdə çağırırıq. */
+/*  :root ümumi dəyişənlər üçündür. */
+/*  Burada əsas rəngləri bir dəfə yazırıq, sonra hər yerdə çağırırıq. */
 :root {
-  --primary: #0a6fe8; /* AZ QEYD: Əsas mavi rəng. */
-  --primary-dark: #084db0; /* AZ QEYD: Tünd mavi ton. */
-  --primary-soft: #dff0ff; /* AZ QEYD: Açıq mavi fon tonlarından biri. */
-  --sky: #f4faff; /* AZ QEYD: Çox açıq mavi-ağ arxa fon. */
-  --white: #ffffff; /* AZ QEYD: Ağ rəng. */
-  --text: #15304f; /* AZ QEYD: Oxunaqlı əsas mətn rəngi. */
-  --muted: #6d7f95; /* AZ QEYD: Köməkçi açıq mətn rəngi. */
-  --line: rgba(10, 111, 232, 0.12); /* AZ QEYD: Xətt və çərçivə üçün şəffaf mavi. */
-  --shadow: 0 20px 60px rgba(9, 77, 176, 0.12); /* AZ QEYD: Kart kölgəsi. */
-  --radius-xl: 28px; /* AZ QEYD: Böyük radius. */
-  --radius-lg: 22px; /* AZ QEYD: Orta radius. */
-  --radius-md: 16px; /* AZ QEYD: Kiçik radius. */
-  --container: 1240px; /* AZ QEYD: Məzmunun maksimum eni. */
+  --primary: #0a6fe8; /*  Əsas mavi rəng. */
+  --primary-dark: #084db0; /*  Tünd mavi ton. */
+  --primary-soft: #dff0ff; /*  Açıq mavi fon tonlarından biri. */
+  --sky: #f4faff; /*  Çox açıq mavi-ağ arxa fon. */
+  --white: #ffffff; /*  Ağ rəng. */
+  --text: #15304f; /*  Oxunaqlı əsas mətn rəngi. */
+  --muted: #6d7f95; /*  Köməkçi açıq mətn rəngi. */
+  --line: rgba(10, 111, 232, 0.12); /*  Xətt və çərçivə üçün şəffaf mavi. */
+  --shadow: 0 20px 60px rgba(9, 77, 176, 0.12); /*  Kart kölgəsi. */
+  --radius-xl: 28px; /*  Böyük radius. */
+  --radius-lg: 22px; /*  Orta radius. */
+  --radius-md: 16px; /*  Kiçik radius. */
+  --container: 1240px; /*  Məzmunun maksimum eni. */
 }
 
-/* AZ QEYD: Bütün elementlərdə qutu hesablamasını sabitləşdirir. */
+/*  Bütün elementlərdə qutu hesablamasını sabitləşdirir. */
 * {
-  box-sizing: border-box; /* AZ QEYD: Padding və border eni ümumi enə daxil edilir. */
+  box-sizing: border-box; /*  Padding və border eni ümumi enə daxil edilir. */
 }
 
-/* AZ QEYD: html hissəsi yumşaq sürüşmə üçün istifadə olunur. */
+/*  html hissəsi yumşaq sürüşmə üçün istifadə olunur. */
 html {
-  scroll-behavior: smooth; /* AZ QEYD: Anchor keçidləri yumşaq hərəkət edir. */
+  scroll-behavior: smooth; /*  Anchor keçidləri yumşaq hərəkət edir. */
 }
 
-/* AZ QEYD: body səhifənin əsas görünüşünü qurur. */
+/*  body səhifənin əsas görünüşünü qurur. */
 body {
-  margin: 0; /* AZ QEYD: Brauzerin standart kənar boşluğunu silir. */
-  font-family: "Segoe UI", Arial, sans-serif; /* AZ QEYD: Oxunaqlı şrift ailəsi. */
+  margin: 0; /*  Brauzerin standart kənar boşluğunu silir. */
+  font-family: "Segoe UI", Arial, sans-serif; /*  Oxunaqlı şrift ailəsi. */
   background:
     radial-gradient(circle at top left, rgba(10, 111, 232, 0.14), transparent 30%),
     radial-gradient(circle at top right, rgba(84, 183, 255, 0.16), transparent 26%),
-    linear-gradient(180deg, #fafdff 0%, #edf6ff 100%); /* AZ QEYD: Canlı mavi-ağ arxa fon. */
-  color: var(--text); /* AZ QEYD: Mətn rəngi. */
-  min-height: 100vh; /* AZ QEYD: Səhifə ən azı ekran boyu olsun. */
+    linear-gradient(180deg, #fafdff 0%, #edf6ff 100%); /*  Canlı mavi-ağ arxa fon. */
+  color: var(--text); /*  Mətn rəngi. */
+  min-height: 100vh; /*  Səhifə ən azı ekran boyu olsun. */
 }
 
-/* AZ QEYD: Keçidli UI üçün ümumi görünüş. */
+/*  Keçidli UI üçün ümumi görünüş. */
 a,
 button,
 input,
 select,
 textarea {
-  transition: 0.25s ease; /* AZ QEYD: Hover və fokuslar daha yumşaq görünsün. */
+  transition: 0.25s ease; /*  Hover və fokuslar daha yumşaq görünsün. */
 }
 
-/* AZ QEYD: Linklərin standart alt xətlərini silirik. */
+/*  Linklərin standart alt xətlərini silirik. */
 a {
-  color: inherit; /* AZ QEYD: Link mətni valideyn rəngini götürür. */
-  text-decoration: none; /* AZ QEYD: Alt xətt silinir. */
+  color: inherit; /*  Link mətni valideyn rəngini götürür. */
+  text-decoration: none; /*  Alt xətt silinir. */
 }
 
-/* AZ QEYD: Şəkillər daşmasın. */
+/*  Şəkillər daşmasın. */
 img {
-  max-width: 100%; /* AZ QEYD: Konteynerdən böyük olmasın. */
-  display: block; /* AZ QEYD: Alt boşluqları sabitləşdirir. */
+  max-width: 100%; /*  Konteynerdən böyük olmasın. */
+  display: block; /*  Alt boşluqları sabitləşdirir. */
 }
 
-/* AZ QEYD: Ümumi konteyner sinifi. */
+/*  Ümumi konteyner sinifi. */
 .container {
-  width: min(100% - 32px, var(--container)); /* AZ QEYD: Kiçik ekranlarda yan boşluq saxlayır. */
-  margin: 0 auto; /* AZ QEYD: Ortalayır. */
+  width: min(100% - 32px, var(--container)); /*  Kiçik ekranlarda yan boşluq saxlayır. */
+  margin: 0 auto; /*  Ortalayır. */
 }
 
-/* AZ QEYD: Saytın üst başlıq hissəsi. */
+/*  Saytın üst başlıq hissəsi. */
 .site-header {
-  position: sticky; /* AZ QEYD: Yuxarıda yapışqan qalsın. */
-  top: 0; /* AZ QEYD: Tam yuxarıda dayansın. */
-  z-index: 50; /* AZ QEYD: Digər elementlərin üstündə görünsün. */
-  backdrop-filter: blur(14px); /* AZ QEYD: Arxa fonu şüşə effekti ilə yumşaldır. */
-  background: rgba(255, 255, 255, 0.8); /* AZ QEYD: Şəffaf ağ başlıq fonu. */
-  border-bottom: 1px solid var(--line); /* AZ QEYD: Nazik alt xətt. */
+  position: sticky; /*  Yuxarıda yapışqan qalsın. */
+  top: 0; /*  Tam yuxarıda dayansın. */
+  z-index: 50; /*  Digər elementlərin üstündə görünsün. */
+  backdrop-filter: blur(14px); /*  Arxa fonu şüşə effekti ilə yumşaldır. */
+  background: rgba(255, 255, 255, 0.8); /*  Şəffaf ağ başlıq fonu. */
+  border-bottom: 1px solid var(--line); /*  Nazik alt xətt. */
 }
 
-/* AZ QEYD: Header iç düzülüşü. */
+/*  Header iç düzülüşü. */
 .header-row {
-  display: flex; /* AZ QEYD: Elementləri üfüqi düzür. */
-  align-items: center; /* AZ QEYD: Şaquli ortalayır. */
-  justify-content: space-between; /* AZ QEYD: Sol və sağ tərəfi ayırır. */
-  gap: 18px; /* AZ QEYD: Aralıq verir. */
-  min-height: 82px; /* AZ QEYD: Header hündürlüyü. */
+  display: flex; /*  Elementləri üfüqi düzür. */
+  align-items: center; /*  Şaquli ortalayır. */
+  justify-content: space-between; /*  Sol və sağ tərəfi ayırır. */
+  gap: 18px; /*  Aralıq verir. */
+  min-height: 82px; /*  Header hündürlüyü. */
 }
 
-/* AZ QEYD: Logo və sayt adı hissəsi. */
+/*  Logo və sayt adı hissəsi. */
 .brand {
-  display: flex; /* AZ QEYD: Logo ilə adı yanaşı göstərir. */
-  align-items: center; /* AZ QEYD: Şaquli mərkəz. */
-  gap: 14px; /* AZ QEYD: Aradakı boşluq. */
-  flex-shrink: 0; /* AZ QEYD: Kiçilməsin. */
+  display: flex; /*  Logo ilə adı yanaşı göstərir. */
+  align-items: center; /*  Şaquli mərkəz. */
+  gap: 14px; /*  Aradakı boşluq. */
+  flex-shrink: 0; /*  Kiçilməsin. */
 }
 
-/* AZ QEYD: Logo üçün qabıq. */
+/*  Logo üçün qabıq. */
 .brand-badge {
-  width: 56px; /* AZ QEYD: Logo blok eni. */
-  height: 56px; /* AZ QEYD: Logo blok hündürlüyü. */
-  padding: 10px; /* AZ QEYD: İç boşluq. */
-  border-radius: 18px; /* AZ QEYD: Yumru künc. */
-  background: linear-gradient(180deg, #ffffff 0%, #dff0ff 100%); /* AZ QEYD: Yumşaq mavi-ağ keçid. */
-  box-shadow: var(--shadow); /* AZ QEYD: Dərinlik effekti. */
-  border: 1px solid var(--line); /* AZ QEYD: Nazik çərçivə. */
+  width: 56px; /*  Logo blok eni. */
+  height: 56px; /*  Logo blok hündürlüyü. */
+  padding: 10px; /*  İç boşluq. */
+  border-radius: 18px; /*  Yumru künc. */
+  background: linear-gradient(180deg, #ffffff 0%, #dff0ff 100%); /*  Yumşaq mavi-ağ keçid. */
+  box-shadow: var(--shadow); /*  Dərinlik effekti. */
+  border: 1px solid var(--line); /*  Nazik çərçivə. */
 }
 
-/* AZ QEYD: Sayt adı hissəsi. */
+/*  Sayt adı hissəsi. */
 .brand-text h1 {
-  margin: 0; /* AZ QEYD: Default margin silinir. */
-  font-size: 1.15rem; /* AZ QEYD: Başlıq ölçüsü. */
-  line-height: 1.2; /* AZ QEYD: Sətir hündürlüyü. */
+  margin: 0; /*  Default margin silinir. */
+  font-size: 1.15rem; /*  Başlıq ölçüsü. */
+  line-height: 1.2; /*  Sətir hündürlüyü. */
 }
 
-/* AZ QEYD: Kiçik köməkçi mətn. */
+/*  Kiçik köməkçi mətn. */
 .brand-text span {
-  display: block; /* AZ QEYD: Yeni sətrə keçir. */
-  color: var(--muted); /* AZ QEYD: Solğun mətn. */
-  font-size: 0.9rem; /* AZ QEYD: Köməkçi ölçü. */
+  display: block; /*  Yeni sətrə keçir. */
+  color: var(--muted); /*  Solğun mətn. */
+  font-size: 0.9rem; /*  Köməkçi ölçü. */
 }
 
-/* AZ QEYD: Header sağ hissəsi. */
+/*  Header sağ hissəsi. */
 .header-tools {
-  display: flex; /* AZ QEYD: Üfüqi düzülüş. */
-  align-items: center; /* AZ QEYD: Mərkəzlənmə. */
-  gap: 12px; /* AZ QEYD: Boşluq. */
-  flex: 1; /* AZ QEYD: Qalan eni tutsun. */
-  justify-content: flex-end; /* AZ QEYD: Sağa yığ. */
+  display: flex; /*  Üfüqi düzülüş. */
+  align-items: center; /*  Mərkəzlənmə. */
+  gap: 12px; /*  Boşluq. */
+  flex: 1; /*  Qalan eni tutsun. */
+  justify-content: flex-end; /*  Sağa yığ. */
 }
 
-/* AZ QEYD: Axtarış forması. */
+/*  Axtarış forması. */
 .search-shell {
-  display: flex; /* AZ QEYD: İkon, input və düyməni yan-yana düzür. */
-  align-items: center; /* AZ QEYD: Şaquli mərkəz. */
-  gap: 10px; /* AZ QEYD: Aralıq. */
-  min-width: 320px; /* AZ QEYD: Çox kiçilməsin. */
-  width: min(100%, 600px); /* AZ QEYD: Böyük ekranlarda maksimum eni saxlayır. */
-  background: var(--white); /* AZ QEYD: Ağ fon. */
-  border: 1px solid var(--line); /* AZ QEYD: Nazik kontur. */
-  border-radius: 999px; /* AZ QEYD: Tam yumru kapsul forma. */
-  padding: 10px 12px 10px 16px; /* AZ QEYD: İç boşluqlar. */
-  box-shadow: var(--shadow); /* AZ QEYD: Kölgə. */
+  display: flex; /*  İkon, input və düyməni yan-yana düzür. */
+  align-items: center; /*  Şaquli mərkəz. */
+  gap: 10px; /*  Aralıq. */
+  min-width: 320px; /*  Çox kiçilməsin. */
+  width: min(100%, 600px); /*  Böyük ekranlarda maksimum eni saxlayır. */
+  background: var(--white); /*  Ağ fon. */
+  border: 1px solid var(--line); /*  Nazik kontur. */
+  border-radius: 999px; /*  Tam yumru kapsul forma. */
+  padding: 10px 12px 10px 16px; /*  İç boşluqlar. */
+  box-shadow: var(--shadow); /*  Kölgə. */
 }
 
-/* AZ QEYD: Axtarış ikon sahəsi. */
+/*  Axtarış ikon sahəsi. */
 .search-shell i {
-  color: var(--primary); /* AZ QEYD: Mavi ikon rəngi. */
+  color: var(--primary); /*  Mavi ikon rəngi. */
 }
 
-/* AZ QEYD: Axtarış input-u. */
+/*  Axtarış input-u. */
 .search-shell input {
-  border: none; /* AZ QEYD: Standart çərçivə silinir. */
-  outline: none; /* AZ QEYD: Klik zamanı sərt çərçivə silinir. */
-  font-size: 0.98rem; /* AZ QEYD: Mətn ölçüsü. */
-  width: 100%; /* AZ QEYD: Boş qalan sahəni doldurur. */
-  background: transparent; /* AZ QEYD: Şəffaf fon. */
-  color: var(--text); /* AZ QEYD: Mətn rəngi. */
+  border: none; /*  Standart çərçivə silinir. */
+  outline: none; /*  Klik zamanı sərt çərçivə silinir. */
+  font-size: 0.98rem; /*  Mətn ölçüsü. */
+  width: 100%; /*  Boş qalan sahəni doldurur. */
+  background: transparent; /*  Şəffaf fon. */
+  color: var(--text); /*  Mətn rəngi. */
 }
 
-/* AZ QEYD: Ümumi düymə görünüşü. */
+/*  Ümumi düymə görünüşü. */
 .btn {
-  border: none; /* AZ QEYD: Standart border silinir. */
-  cursor: pointer; /* AZ QEYD: Klik edilə bildiyini göstərir. */
-  border-radius: 999px; /* AZ QEYD: Yumru forma. */
-  padding: 12px 18px; /* AZ QEYD: İç boşluq. */
-  font-weight: 700; /* AZ QEYD: Qalın mətn. */
-  display: inline-flex; /* AZ QEYD: İkon və mətn yanaşı olsun. */
-  align-items: center; /* AZ QEYD: Mərkəzlənmə. */
-  justify-content: center; /* AZ QEYD: Ortala. */
-  gap: 8px; /* AZ QEYD: İkon və mətn arası. */
+  border: none; /*  Standart border silinir. */
+  cursor: pointer; /*  Klik edilə bildiyini göstərir. */
+  border-radius: 999px; /*  Yumru forma. */
+  padding: 12px 18px; /*  İç boşluq. */
+  font-weight: 700; /*  Qalın mətn. */
+  display: inline-flex; /*  İkon və mətn yanaşı olsun. */
+  align-items: center; /*  Mərkəzlənmə. */
+  justify-content: center; /*  Ortala. */
+  gap: 8px; /*  İkon və mətn arası. */
 }
 
-/* AZ QEYD: Əsas düymə. */
+/*  Əsas düymə. */
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary) 0%, #40a4ff 100%); /* AZ QEYD: Mavi keçidli fon. */
-  color: var(--white); /* AZ QEYD: Ağ mətn. */
-  box-shadow: 0 14px 30px rgba(10, 111, 232, 0.26); /* AZ QEYD: Güclü parlaq kölgə. */
+  background: linear-gradient(135deg, var(--primary) 0%, #40a4ff 100%); /*  Mavi keçidli fon. */
+  color: var(--white); /*  Ağ mətn. */
+  box-shadow: 0 14px 30px rgba(10, 111, 232, 0.26); /*  Güclü parlaq kölgə. */
 }
 
-/* AZ QEYD: Hover effekti. */
+/*  Hover effekti. */
 .btn-primary:hover,
 .btn-secondary:hover,
 .btn-ghost:hover,
 .book-card:hover,
 .author-card:hover,
 .panel:hover {
-  transform: translateY(-2px); /* AZ QEYD: Yüngül yuxarı qalxma. */
+  transform: translateY(-2px); /*  Yüngül yuxarı qalxma. */
 }
 
-/* AZ QEYD: İkinci düymə. */
+/*  İkinci düymə. */
 .btn-secondary {
-  background: var(--white); /* AZ QEYD: Ağ fon. */
-  color: var(--primary-dark); /* AZ QEYD: Tünd mavi mətn. */
-  border: 1px solid var(--line); /* AZ QEYD: Çərçivə. */
-  box-shadow: var(--shadow); /* AZ QEYD: Kölgə. */
+  background: var(--white); /*  Ağ fon. */
+  color: var(--primary-dark); /*  Tünd mavi mətn. */
+  border: 1px solid var(--line); /*  Çərçivə. */
+  box-shadow: var(--shadow); /*  Kölgə. */
 }
 
-/* AZ QEYD: Xəyal düymə. */
+/*  Xəyal düymə. */
 .btn-ghost {
-  background: rgba(255, 255, 255, 0.65); /* AZ QEYD: Şəffaf-ağ fon. */
-  color: var(--text); /* AZ QEYD: Mətn rəngi. */
-  border: 1px solid var(--line); /* AZ QEYD: Nazik xətt. */
+  background: rgba(255, 255, 255, 0.65); /*  Şəffaf-ağ fon. */
+  color: var(--text); /*  Mətn rəngi. */
+  border: 1px solid var(--line); /*  Nazik xətt. */
 }
 
-/* AZ QEYD: Yuxarı naviqasiya linkləri. */
+/*  Yuxarı naviqasiya linkləri. */
 .nav-links {
-  display: flex; /* AZ QEYD: Yanaşı düzülüş. */
-  align-items: center; /* AZ QEYD: Mərkəzlənmə. */
-  gap: 10px; /* AZ QEYD: Boşluq. */
-  flex-wrap: wrap; /* AZ QEYD: Kiçik ekranlarda aşağı düşə bilər. */
+  display: flex; /*  Yanaşı düzülüş. */
+  align-items: center; /*  Mərkəzlənmə. */
+  gap: 10px; /*  Boşluq. */
+  flex-wrap: wrap; /*  Kiçik ekranlarda aşağı düşə bilər. */
 }
 
-/* AZ QEYD: Naviqasiya link kapsulu. */
+/*  Naviqasiya link kapsulu. */
 .nav-link {
-  padding: 10px 14px; /* AZ QEYD: İç boşluq. */
-  border-radius: 999px; /* AZ QEYD: Yumru forma. */
-  color: var(--muted); /* AZ QEYD: Solğun mətn. */
-  font-weight: 600; /* AZ QEYD: Oxunaqlı qalınlıq. */
+  padding: 10px 14px; /*  İç boşluq. */
+  border-radius: 999px; /*  Yumru forma. */
+  color: var(--muted); /*  Solğun mətn. */
+  font-weight: 600; /*  Oxunaqlı qalınlıq. */
 }
 
-/* AZ QEYD: Aktiv və hover link görünüşü. */
+/*  Aktiv və hover link görünüşü. */
 .nav-link:hover,
 .nav-link.active {
-  background: rgba(10, 111, 232, 0.09); /* AZ QEYD: Açıq mavi fon. */
-  color: var(--primary-dark); /* AZ QEYD: Mətn daha qabarıq olur. */
+  background: rgba(10, 111, 232, 0.09); /*  Açıq mavi fon. */
+  color: var(--primary-dark); /*  Mətn daha qabarıq olur. */
 }
 
-/* AZ QEYD: Hero hissəsi. */
+/*  Hero hissəsi. */
 .hero {
-  padding: 42px 0 22px; /* AZ QEYD: Yuxarı və aşağı boşluq. */
+  padding: 42px 0 22px; /*  Yuxarı və aşağı boşluq. */
 }
 
-/* AZ QEYD: Hero iç kartı. */
+/*  Hero iç kartı. */
 .hero-shell {
-  display: grid; /* AZ QEYD: İki sütunlu quruluş. */
-  grid-template-columns: 1.15fr 0.85fr; /* AZ QEYD: Sol hissə daha genişdir. */
-  gap: 26px; /* AZ QEYD: Sütunlar arası boşluq. */
-  align-items: center; /* AZ QEYD: Mərkəzlənmə. */
-  background: linear-gradient(135deg, rgba(255,255,255,0.97), rgba(223,240,255,0.92)); /* AZ QEYD: Parlaq fon. */
-  border: 1px solid var(--line); /* AZ QEYD: Kontur. */
-  border-radius: var(--radius-xl); /* AZ QEYD: Yumru künc. */
-  box-shadow: var(--shadow); /* AZ QEYD: Kölgə. */
-  overflow: hidden; /* AZ QEYD: Daxili elementlər kənara daşmasın. */
+  display: grid; /*  İki sütunlu quruluş. */
+  grid-template-columns: 1.15fr 0.85fr; /*  Sol hissə daha genişdir. */
+  gap: 26px; /*  Sütunlar arası boşluq. */
+  align-items: center; /*  Mərkəzlənmə. */
+  background: linear-gradient(135deg, rgba(255,255,255,0.97), rgba(223,240,255,0.92)); /*  Parlaq fon. */
+  border: 1px solid var(--line); /*  Kontur. */
+  border-radius: var(--radius-xl); /*  Yumru künc. */
+  box-shadow: var(--shadow); /*  Kölgə. */
+  overflow: hidden; /*  Daxili elementlər kənara daşmasın. */
 }
 
-/* AZ QEYD: Sol hero mətn hissəsi. */
+/*  Sol hero mətn hissəsi. */
 .hero-copy {
-  padding: 42px; /* AZ QEYD: İç boşluq. */
+  padding: 42px; /*  İç boşluq. */
 }
 
-/* AZ QEYD: Hero balaca etiket. */
+/*  Hero balaca etiket. */
 .hero-chip {
-  display: inline-flex; /* AZ QEYD: İç məzmun qədər yer tutur. */
-  align-items: center; /* AZ QEYD: Şaquli ortalayır. */
-  gap: 8px; /* AZ QEYD: Aralıq. */
-  padding: 10px 14px; /* AZ QEYD: İç boşluq. */
-  border-radius: 999px; /* AZ QEYD: Kapsul forma. */
-  background: rgba(10, 111, 232, 0.08); /* AZ QEYD: Açıq mavi fon. */
-  color: var(--primary-dark); /* AZ QEYD: Tünd mavi mətn. */
-  font-weight: 700; /* AZ QEYD: Etiket vurğusu. */
+  display: inline-flex; /*  İç məzmun qədər yer tutur. */
+  align-items: center; /*  Şaquli ortalayır. */
+  gap: 8px; /*  Aralıq. */
+  padding: 10px 14px; /*  İç boşluq. */
+  border-radius: 999px; /*  Kapsul forma. */
+  background: rgba(10, 111, 232, 0.08); /*  Açıq mavi fon. */
+  color: var(--primary-dark); /*  Tünd mavi mətn. */
+  font-weight: 700; /*  Etiket vurğusu. */
 }
 
-/* AZ QEYD: Hero başlıq. */
+/*  Hero başlıq. */
 .hero-copy h2 {
-  font-size: clamp(2rem, 3vw, 3.3rem); /* AZ QEYD: Ekrana uyğun böyüyən başlıq. */
-  line-height: 1.08; /* AZ QEYD: Yığcam sətir hündürlüyü. */
-  margin: 18px 0 14px; /* AZ QEYD: Boşluqlar. */
+  font-size: clamp(2rem, 3vw, 3.3rem); /*  Ekrana uyğun böyüyən başlıq. */
+  line-height: 1.08; /*  Yığcam sətir hündürlüyü. */
+  margin: 18px 0 14px; /*  Boşluqlar. */
 }
 
-/* AZ QEYD: Hero mətn. */
+/*  Hero mətn. */
 .hero-copy p {
-  color: var(--muted); /* AZ QEYD: Oxunaqlı köməkçi ton. */
-  line-height: 1.8; /* AZ QEYD: Rahat oxunuş. */
-  font-size: 1rem; /* AZ QEYD: Bədən mətn ölçüsü. */
+  color: var(--muted); /*  Oxunaqlı köməkçi ton. */
+  line-height: 1.8; /*  Rahat oxunuş. */
+  font-size: 1rem; /*  Bədən mətn ölçüsü. */
 }
 
-/* AZ QEYD: Hero alt düymə və statistika qrupu. */
+/*  Hero alt düymə və statistika qrupu. */
 .hero-actions,
 .stats-row {
-  display: flex; /* AZ QEYD: Üfüqi düzülüş. */
-  align-items: center; /* AZ QEYD: Mərkəzlənmə. */
-  gap: 14px; /* AZ QEYD: Boşluq. */
-  flex-wrap: wrap; /* AZ QEYD: Kiçik ekranda sətir dəyişə bilər. */
+  display: flex; /*  Üfüqi düzülüş. */
+  align-items: center; /*  Mərkəzlənmə. */
+  gap: 14px; /*  Boşluq. */
+  flex-wrap: wrap; /*  Kiçik ekranda sətir dəyişə bilər. */
 }
 
-/* AZ QEYD: Statistika kartları. */
+/*  Statistika kartları. */
 .stat-pill {
-  min-width: 120px; /* AZ QEYD: Minimum en. */
-  padding: 16px 18px; /* AZ QEYD: İç boşluq. */
-  background: rgba(255,255,255,0.7); /* AZ QEYD: Yumşaq ağ fon. */
-  border-radius: 18px; /* AZ QEYD: Yumru künc. */
-  border: 1px solid var(--line); /* AZ QEYD: Kontur. */
+  min-width: 120px; /*  Minimum en. */
+  padding: 16px 18px; /*  İç boşluq. */
+  background: rgba(255,255,255,0.7); /*  Yumşaq ağ fon. */
+  border-radius: 18px; /*  Yumru künc. */
+  border: 1px solid var(--line); /*  Kontur. */
 }
 
-/* AZ QEYD: Hero sağ vizual hissə. */
+/*  Hero sağ vizual hissə. */
 .hero-visual {
-  position: relative; /* AZ QEYD: Daxili dekorlar üçün əsas koordinat sistemi. */
-  min-height: 460px; /* AZ QEYD: Hündürlük. */
-  padding: 30px; /* AZ QEYD: İç boşluq. */
-  display: flex; /* AZ QEYD: Daxildə ortalamaq üçün. */
-  align-items: center; /* AZ QEYD: Şaquli ortala. */
-  justify-content: center; /* AZ QEYD: Üfüqi ortala. */
+  position: relative; /*  Daxili dekorlar üçün əsas koordinat sistemi. */
+  min-height: 460px; /*  Hündürlük. */
+  padding: 30px; /*  İç boşluq. */
+  display: flex; /*  Daxildə ortalamaq üçün. */
+  align-items: center; /*  Şaquli ortala. */
+  justify-content: center; /*  Üfüqi ortala. */
 }
 
-/* AZ QEYD: Üst-üstə duran kitab kartları. */
+/*  Üst-üstə duran kitab kartları. */
 .hero-stack {
-  position: relative; /* AZ QEYD: Daxili kartların yerləşməsi üçün. */
-  width: min(100%, 400px); /* AZ QEYD: Maksimum vizual eni. */
-  height: 380px; /* AZ QEYD: Sabit görünüş hündürlüyü. */
+  position: relative; /*  Daxili kartların yerləşməsi üçün. */
+  width: min(100%, 400px); /*  Maksimum vizual eni. */
+  height: 380px; /*  Sabit görünüş hündürlüyü. */
 }
 
-/* AZ QEYD: Hero dekor kartı. */
+/*  Hero dekor kartı. */
 .floating-book {
-  position: absolute; /* AZ QEYD: Üst-üstə sərbəst yerləşir. */
-  width: 240px; /* AZ QEYD: Kart eni. */
-  height: 320px; /* AZ QEYD: Kart boyu. */
-  border-radius: 24px; /* AZ QEYD: Yumru künc. */
-  overflow: hidden; /* AZ QEYD: İç şəkil kənara çıxmasın. */
-  box-shadow: 0 28px 40px rgba(8, 77, 176, 0.22); /* AZ QEYD: Güclü kölgə. */
-  border: 1px solid rgba(255,255,255,0.7); /* AZ QEYD: Parlaq kontur. */
-  animation: floatCard 5s ease-in-out infinite; /* AZ QEYD: Yüngül yırğalanma. */
+  position: absolute; /*  Üst-üstə sərbəst yerləşir. */
+  width: 240px; /*  Kart eni. */
+  height: 320px; /*  Kart boyu. */
+  border-radius: 24px; /*  Yumru künc. */
+  overflow: hidden; /*  İç şəkil kənara çıxmasın. */
+  box-shadow: 0 28px 40px rgba(8, 77, 176, 0.22); /*  Güclü kölgə. */
+  border: 1px solid rgba(255,255,255,0.7); /*  Parlaq kontur. */
+  animation: floatCard 5s ease-in-out infinite; /*  Yüngül yırğalanma. */
 }
 
-/* AZ QEYD: Birinci kartın mövqeyi. */
+/*  Birinci kartın mövqeyi. */
 .floating-book.book-a {
-  left: 0; /* AZ QEYD: Sol tərəf. */
-  top: 20px; /* AZ QEYD: Yuxarı məsafə. */
-  transform: rotate(-9deg); /* AZ QEYD: Azca sola əyim. */
+  left: 0; /*  Sol tərəf. */
+  top: 20px; /*  Yuxarı məsafə. */
+  transform: rotate(-9deg); /*  Azca sola əyim. */
 }
 
-/* AZ QEYD: İkinci kartın mövqeyi. */
+/*  İkinci kartın mövqeyi. */
 .floating-book.book-b {
-  right: 0; /* AZ QEYD: Sağ tərəf. */
-  bottom: 10px; /* AZ QEYD: Aşağı məsafə. */
-  transform: rotate(8deg); /* AZ QEYD: Azca sağa əyim. */
-  animation-delay: 0.6s; /* AZ QEYD: Animasiya fərqli zamanda başlasın. */
+  right: 0; /*  Sağ tərəf. */
+  bottom: 10px; /*  Aşağı məsafə. */
+  transform: rotate(8deg); /*  Azca sağa əyim. */
+  animation-delay: 0.6s; /*  Animasiya fərqli zamanda başlasın. */
 }
 
-/* AZ QEYD: Ümumi bölmə stilı. */
+/*  Ümumi bölmə stilı. */
 .section {
-  padding: 24px 0 8px; /* AZ QEYD: Bölmələr arası boşluq. */
+  padding: 24px 0 8px; /*  Bölmələr arası boşluq. */
 }
 
-/* AZ QEYD: Bölmə başlığı. */
+/*  Bölmə başlığı. */
 .section-heading {
-  display: flex; /* AZ QEYD: Başlıq və sağ düyməni yanaşı saxlayır. */
-  align-items: end; /* AZ QEYD: Alt xəttə yaxınlaşdırır. */
-  justify-content: space-between; /* AZ QEYD: Sol və sağı ayırır. */
-  gap: 18px; /* AZ QEYD: Aralıq. */
-  margin-bottom: 18px; /* AZ QEYD: Aşağı boşluq. */
+  display: flex; /*  Başlıq və sağ düyməni yanaşı saxlayır. */
+  align-items: end; /*  Alt xəttə yaxınlaşdırır. */
+  justify-content: space-between; /*  Sol və sağı ayırır. */
+  gap: 18px; /*  Aralıq. */
+  margin-bottom: 18px; /*  Aşağı boşluq. */
 }
 
-/* AZ QEYD: Başlıq mətni. */
+/*  Başlıq mətni. */
 .section-heading h3 {
-  margin: 0; /* AZ QEYD: Default margin silinir. */
-  font-size: clamp(1.55rem, 2vw, 2.2rem); /* AZ QEYD: Adaptiv ölçü. */
+  margin: 0; /*  Default margin silinir. */
+  font-size: clamp(1.55rem, 2vw, 2.2rem); /*  Adaptiv ölçü. */
 }
 
-/* AZ QEYD: Kiçik izah mətnləri. */
+/*  Kiçik izah mətnləri. */
 .section-heading p,
 .muted {
-  margin: 6px 0 0; /* AZ QEYD: Yuxarıda az boşluq. */
-  color: var(--muted); /* AZ QEYD: Solğun mətn. */
-  line-height: 1.7; /* AZ QEYD: Rahat oxunuş. */
+  margin: 6px 0 0; /*  Yuxarıda az boşluq. */
+  color: var(--muted); /*  Solğun mətn. */
+  line-height: 1.7; /*  Rahat oxunuş. */
 }
 
-/* AZ QEYD: Müəllif marqı hissəsinin çərçivəsi. */
+/*  Müəllif marqı hissəsinin çərçivəsi. */
 .marquee-shell {
-  position: relative; /* AZ QEYD: Daxili kölgə overlay üçün. */
-  overflow: hidden; /* AZ QEYD: Hərəkət edən kartları çərçivədə saxlayır. */
-  border-radius: var(--radius-lg); /* AZ QEYD: Yumru künc. */
-  border: 1px solid var(--line); /* AZ QEYD: Kontur. */
-  background: rgba(255,255,255,0.7); /* AZ QEYD: Şəffaf ağ fon. */
-  box-shadow: var(--shadow); /* AZ QEYD: Kölgə. */
+  position: relative; /*  Daxili kölgə overlay üçün. */
+  overflow: hidden; /*  Hərəkət edən kartları çərçivədə saxlayır. */
+  border-radius: var(--radius-lg); /*  Yumru künc. */
+  border: 1px solid var(--line); /*  Kontur. */
+  background: rgba(255,255,255,0.7); /*  Şəffaf ağ fon. */
+  box-shadow: var(--shadow); /*  Kölgə. */
 }
 
-/* AZ QEYD: Müəllif lentinin özü. */
+/*  Müəllif lentinin özü. */
 .marquee-track {
-  display: flex; /* AZ QEYD: Kartları üfüqi düzür. */
-  gap: 18px; /* AZ QEYD: Aralıq verir. */
-  padding: 18px; /* AZ QEYD: İç boşluq. */
-  width: max-content; /* AZ QEYD: Daxili məzmun qədər genişlənir. */
-  animation: scrollAuthors 32s linear infinite; /* AZ QEYD: Davamlı hərəkət. */
-  will-change: transform; /* AZ QEYD: Performansı artırır. */
+  display: flex; /*  Kartları üfüqi düzür. */
+  gap: 18px; /*  Aralıq verir. */
+  padding: 18px; /*  İç boşluq. */
+  width: max-content; /*  Daxili məzmun qədər genişlənir. */
+  animation: scrollAuthors 32s linear infinite; /*  Davamlı hərəkət. */
+  will-change: transform; /*  Performansı artırır. */
 }
 
-/* AZ QEYD: Üzərinə gəldikdə hərəkət dayansın. */
+/*  Üzərinə gəldikdə hərəkət dayansın. */
 .marquee-shell:hover .marquee-track {
-  animation-play-state: paused; /* AZ QEYD: Hover zamanı dayandırır. */
+  animation-play-state: paused; /*  Hover zamanı dayandırır. */
 }
 
-/* AZ QEYD: Müəllif kartı. */
+/*  Müəllif kartı. */
 .author-card {
-  width: 220px; /* AZ QEYD: Kart eni. */
-  min-height: 132px; /* AZ QEYD: Kart minimum hündürlüyü. */
-  padding: 18px; /* AZ QEYD: İç boşluq. */
-  border-radius: 24px; /* AZ QEYD: Yumru forma. */
-  background: linear-gradient(180deg, #ffffff 0%, #e8f4ff 100%); /* AZ QEYD: Yüngül mavi kart fonu. */
-  border: 1px solid var(--line); /* AZ QEYD: Kontur. */
-  box-shadow: var(--shadow); /* AZ QEYD: Kölgə. */
-  flex: 0 0 auto; /* AZ QEYD: Kart eni sabit qalsın. */
+  width: 220px; /*  Kart eni. */
+  min-height: 132px; /*  Kart minimum hündürlüyü. */
+  padding: 18px; /*  İç boşluq. */
+  border-radius: 24px; /*  Yumru forma. */
+  background: linear-gradient(180deg, #ffffff 0%, #e8f4ff 100%); /*  Yüngül mavi kart fonu. */
+  border: 1px solid var(--line); /*  Kontur. */
+  box-shadow: var(--shadow); /*  Kölgə. */
+  flex: 0 0 auto; /*  Kart eni sabit qalsın. */
 }
 
-/* AZ QEYD: Kitablar şəbəkəsi. */
+/*  Kitablar şəbəkəsi. */
 .book-grid {
-  display: grid; /* AZ QEYD: Grid sistemi. */
-  grid-template-columns: repeat(4, minmax(0, 1fr)); /* AZ QEYD: Ekranda 4 kart. */
-  gap: 22px; /* AZ QEYD: Kartlar arası boşluq. */
+  display: grid; /*  Grid sistemi. */
+  grid-template-columns: repeat(4, minmax(0, 1fr)); /*  Ekranda 4 kart. */
+  gap: 22px; /*  Kartlar arası boşluq. */
 }
 
-/* AZ QEYD: Kitab kartı. */
+/*  Kitab kartı. */
 .book-card {
-  display: flex; /* AZ QEYD: Daxildə şaquli düzülüş. */
-  flex-direction: column; /* AZ QEYD: Yuxarıdan aşağı düz. */
-  background: rgba(255,255,255,0.9); /* AZ QEYD: Şüşəvari ağ fon. */
-  border-radius: 26px; /* AZ QEYD: Yumru künc. */
-  border: 1px solid var(--line); /* AZ QEYD: Kontur. */
-  overflow: hidden; /* AZ QEYD: Şəkil daşmasın. */
-  box-shadow: var(--shadow); /* AZ QEYD: Kölgə. */
-  min-height: 100%; /* AZ QEYD: Sütunlarda bərabər görünüş. */
+  display: flex; /*  Daxildə şaquli düzülüş. */
+  flex-direction: column; /*  Yuxarıdan aşağı düz. */
+  background: rgba(255,255,255,0.9); /*  Şüşəvari ağ fon. */
+  border-radius: 26px; /*  Yumru künc. */
+  border: 1px solid var(--line); /*  Kontur. */
+  overflow: hidden; /*  Şəkil daşmasın. */
+  box-shadow: var(--shadow); /*  Kölgə. */
+  min-height: 100%; /*  Sütunlarda bərabər görünüş. */
 }
 
-/* AZ QEYD: Kitab qabığı hissəsi. */
+/*  Kitab qabığı hissəsi. */
 .book-cover {
-  aspect-ratio: 4 / 5; /* AZ QEYD: Qabıq nisbəti. */
-  position: relative; /* AZ QEYD: Üzərinə badge yerləşdirmək üçün. */
-  overflow: hidden; /* AZ QEYD: Şəkil daşmasın. */
-  background: linear-gradient(135deg, #6fc5ff, #0a6fe8); /* AZ QEYD: Şəkil yoxdursa fon göstərir. */
+  aspect-ratio: 4 / 5; /*  Qabıq nisbəti. */
+  position: relative; /*  Üzərinə badge yerləşdirmək üçün. */
+  overflow: hidden; /*  Şəkil daşmasın. */
+  background: linear-gradient(135deg, #6fc5ff, #0a6fe8); /*  Şəkil yoxdursa fon göstərir. */
 }
 
-/* AZ QEYD: Qabıq şəkli. */
+/*  Qabıq şəkli. */
 .book-cover img {
-  width: 100%; /* AZ QEYD: Tam eni doldurur. */
-  height: 100%; /* AZ QEYD: Tam hündürlüyü doldurur. */
-  object-fit: cover; /* AZ QEYD: Şəkil gözəl kəsilsin. */
+  width: 100%; /*  Tam eni doldurur. */
+  height: 100%; /*  Tam hündürlüyü doldurur. */
+  object-fit: cover; /*  Şəkil gözəl kəsilsin. */
 }
 
-/* AZ QEYD: Janr etiketi. */
+/*  Janr etiketi. */
 .badge {
-  position: absolute; /* AZ QEYD: Şəklin üstündə sərbəst yerləşsin. */
-  top: 16px; /* AZ QEYD: Yuxarı məsafə. */
-  left: 16px; /* AZ QEYD: Sol məsafə. */
-  padding: 8px 12px; /* AZ QEYD: İç boşluq. */
-  border-radius: 999px; /* AZ QEYD: Kapsul forma. */
-  background: rgba(255,255,255,0.92); /* AZ QEYD: Parlaq etiket fonu. */
-  color: var(--primary-dark); /* AZ QEYD: Mətn rəngi. */
-  font-size: 0.8rem; /* AZ QEYD: Kiçik etiket ölçüsü. */
-  font-weight: 700; /* AZ QEYD: Qalın görünüş. */
+  position: absolute; /*  Şəklin üstündə sərbəst yerləşsin. */
+  top: 16px; /*  Yuxarı məsafə. */
+  left: 16px; /*  Sol məsafə. */
+  padding: 8px 12px; /*  İç boşluq. */
+  border-radius: 999px; /*  Kapsul forma. */
+  background: rgba(255,255,255,0.92); /*  Parlaq etiket fonu. */
+  color: var(--primary-dark); /*  Mətn rəngi. */
+  font-size: 0.8rem; /*  Kiçik etiket ölçüsü. */
+  font-weight: 700; /*  Qalın görünüş. */
 }
 
-/* AZ QEYD: Kartın mətn hissəsi. */
+/*  Kartın mətn hissəsi. */
 .book-body {
-  display: flex; /* AZ QEYD: Şaquli düzülüş. */
-  flex-direction: column; /* AZ QEYD: Yuxarıdan aşağı. */
-  gap: 10px; /* AZ QEYD: Aralıq. */
-  padding: 18px; /* AZ QEYD: İç boşluq. */
-  height: 100%; /* AZ QEYD: Kart boyunu doldursun. */
+  display: flex; /*  Şaquli düzülüş. */
+  flex-direction: column; /*  Yuxarıdan aşağı. */
+  gap: 10px; /*  Aralıq. */
+  padding: 18px; /*  İç boşluq. */
+  height: 100%; /*  Kart boyunu doldursun. */
 }
 
-/* AZ QEYD: Kiçik meta məlumat. */
+/*  Kiçik meta məlumat. */
 .meta-row {
-  display: flex; /* AZ QEYD: Üfüqi. */
-  align-items: center; /* AZ QEYD: Mərkəz. */
-  justify-content: space-between; /* AZ QEYD: Sol və sağ aralanır. */
-  gap: 12px; /* AZ QEYD: Aralıq. */
-  color: var(--muted); /* AZ QEYD: Solğun mətn. */
-  font-size: 0.92rem; /* AZ QEYD: Kiçik ölçü. */
+  display: flex; /*  Üfüqi. */
+  align-items: center; /*  Mərkəz. */
+  justify-content: space-between; /*  Sol və sağ aralanır. */
+  gap: 12px; /*  Aralıq. */
+  color: var(--muted); /*  Solğun mətn. */
+  font-size: 0.92rem; /*  Kiçik ölçü. */
 }
 
-/* AZ QEYD: Kart başlığı. */
+/*  Kart başlığı. */
 .book-title {
-  margin: 0; /* AZ QEYD: Default margin silinir. */
-  font-size: 1.15rem; /* AZ QEYD: Başlıq ölçüsü. */
-  line-height: 1.35; /* AZ QEYD: Oxunaqlı hündürlük. */
+  margin: 0; /*  Default margin silinir. */
+  font-size: 1.15rem; /*  Başlıq ölçüsü. */
+  line-height: 1.35; /*  Oxunaqlı hündürlük. */
 }
 
-/* AZ QEYD: Kart izahı. */
+/*  Kart izahı. */
 .book-desc {
-  color: var(--muted); /* AZ QEYD: Solğun mətn. */
-  line-height: 1.75; /* AZ QEYD: Rahat oxunuş. */
-  flex: 1; /* AZ QEYD: Boşluq qalsa uzansın. */
+  color: var(--muted); /*  Solğun mətn. */
+  line-height: 1.75; /*  Rahat oxunuş. */
+  flex: 1; /*  Boşluq qalsa uzansın. */
 }
 
-/* AZ QEYD: Panel tipləri. */
+/*  Panel tipləri. */
 .panel {
-  background: rgba(255,255,255,0.92); /* AZ QEYD: Ağ panel fonu. */
-  border-radius: var(--radius-lg); /* AZ QEYD: Yumru künc. */
-  border: 1px solid var(--line); /* AZ QEYD: Kontur. */
-  box-shadow: var(--shadow); /* AZ QEYD: Kölgə. */
-  padding: 24px; /* AZ QEYD: İç boşluq. */
+  background: rgba(255,255,255,0.92); /*  Ağ panel fonu. */
+  border-radius: var(--radius-lg); /*  Yumru künc. */
+  border: 1px solid var(--line); /*  Kontur. */
+  box-shadow: var(--shadow); /*  Kölgə. */
+  padding: 24px; /*  İç boşluq. */
 }
 
-/* AZ QEYD: Form şəbəkəsi. */
+/*  Form şəbəkəsi. */
 .form-grid {
-  display: grid; /* AZ QEYD: Grid düzülüşü. */
-  grid-template-columns: repeat(2, minmax(0, 1fr)); /* AZ QEYD: İki sütun. */
-  gap: 18px; /* AZ QEYD: Boşluq. */
+  display: grid; /*  Grid düzülüşü. */
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /*  İki sütun. */
+  gap: 18px; /*  Boşluq. */
 }
 
-/* AZ QEYD: Form tam sütun sahəsi. */
+/*  Form tam sütun sahəsi. */
 .full-span {
-  grid-column: 1 / -1; /* AZ QEYD: Bütün sütunları əhatə edir. */
+  grid-column: 1 / -1; /*  Bütün sütunları əhatə edir. */
 }
 
-/* AZ QEYD: Form qrupları. */
+/*  Form qrupları. */
 .field {
-  display: flex; /* AZ QEYD: Şaquli düzülüş. */
-  flex-direction: column; /* AZ QEYD: Yuxarıdan aşağı. */
-  gap: 8px; /* AZ QEYD: Boşluq. */
+  display: flex; /*  Şaquli düzülüş. */
+  flex-direction: column; /*  Yuxarıdan aşağı. */
+  gap: 8px; /*  Boşluq. */
 }
 
-/* AZ QEYD: Etiket. */
+/*  Etiket. */
 .field label {
-  font-weight: 700; /* AZ QEYD: Başlıq vurğusu. */
-  font-size: 0.95rem; /* AZ QEYD: Etiket ölçüsü. */
+  font-weight: 700; /*  Başlıq vurğusu. */
+  font-size: 0.95rem; /*  Etiket ölçüsü. */
 }
 
-/* AZ QEYD: Input, select, textarea görünüşü. */
+/*  Input, select, textarea görünüşü. */
 .field input,
 .field select,
 .field textarea {
-  width: 100%; /* AZ QEYD: Tam eni tut. */
-  border: 1px solid rgba(10, 111, 232, 0.16); /* AZ QEYD: Yumşaq sərhəd. */
-  border-radius: 16px; /* AZ QEYD: Yumru künc. */
-  background: rgba(250, 252, 255, 0.98); /* AZ QEYD: Açıq fon. */
-  padding: 14px 16px; /* AZ QEYD: İç boşluq. */
-  font: inherit; /* AZ QEYD: Valideyn şriftini götürür. */
-  color: var(--text); /* AZ QEYD: Mətn rəngi. */
-  outline: none; /* AZ QEYD: Default outline silinir. */
+  width: 100%; /*  Tam eni tut. */
+  border: 1px solid rgba(10, 111, 232, 0.16); /*  Yumşaq sərhəd. */
+  border-radius: 16px; /*  Yumru künc. */
+  background: rgba(250, 252, 255, 0.98); /*  Açıq fon. */
+  padding: 14px 16px; /*  İç boşluq. */
+  font: inherit; /*  Valideyn şriftini götürür. */
+  color: var(--text); /*  Mətn rəngi. */
+  outline: none; /*  Default outline silinir. */
 }
 
-/* AZ QEYD: Fokus görünüşü. */
+/*  Fokus görünüşü. */
 .field input:focus,
 .field select:focus,
 .field textarea:focus {
-  border-color: rgba(10, 111, 232, 0.46); /* AZ QEYD: Fokusda daha tünd xətt. */
-  box-shadow: 0 0 0 5px rgba(10, 111, 232, 0.08); /* AZ QEYD: Parlaq fokus halqası. */
+  border-color: rgba(10, 111, 232, 0.46); /*  Fokusda daha tünd xətt. */
+  box-shadow: 0 0 0 5px rgba(10, 111, 232, 0.08); /*  Parlaq fokus halqası. */
 }
 
-/* AZ QEYD: Textarea minimum hündürlüyü. */
+/*  Textarea minimum hündürlüyü. */
 .field textarea {
-  min-height: 140px; /* AZ QEYD: Daha rahat mətn yazmaq üçün. */
-  resize: vertical; /* AZ QEYD: Yalnız şaquli böyüsün. */
+  min-height: 140px; /*  Daha rahat mətn yazmaq üçün. */
+  resize: vertical; /*  Yalnız şaquli böyüsün. */
 }
 
-/* AZ QEYD: Detal səhifə quruluşu. */
+/*  Detal səhifə quruluşu. */
 .detail-layout {
-  display: grid; /* AZ QEYD: İki sütunlu görünüş. */
-  grid-template-columns: 0.85fr 1.15fr; /* AZ QEYD: Sol qabıq, sağ məlumat. */
-  gap: 26px; /* AZ QEYD: Aralıq. */
+  display: grid; /*  İki sütunlu görünüş. */
+  grid-template-columns: 0.85fr 1.15fr; /*  Sol qabıq, sağ məlumat. */
+  gap: 26px; /*  Aralıq. */
 }
 
-/* AZ QEYD: Böyük qabıq kartı. */
+/*  Böyük qabıq kartı. */
 .detail-cover {
-  border-radius: 28px; /* AZ QEYD: Yumru künc. */
-  overflow: hidden; /* AZ QEYD: Şəkil çölə çıxmasın. */
-  border: 1px solid var(--line); /* AZ QEYD: Kontur. */
-  box-shadow: var(--shadow); /* AZ QEYD: Kölgə. */
-  background: linear-gradient(180deg, #e8f4ff 0%, #ffffff 100%); /* AZ QEYD: Fon. */
+  border-radius: 28px; /*  Yumru künc. */
+  overflow: hidden; /*  Şəkil çölə çıxmasın. */
+  border: 1px solid var(--line); /*  Kontur. */
+  box-shadow: var(--shadow); /*  Kölgə. */
+  background: linear-gradient(180deg, #e8f4ff 0%, #ffffff 100%); /*  Fon. */
 }
 
-/* AZ QEYD: Detal məlumat kartı. */
+/*  Detal məlumat kartı. */
 .detail-info {
-  display: flex; /* AZ QEYD: Şaquli düzülüş. */
-  flex-direction: column; /* AZ QEYD: Yuxarıdan aşağı. */
-  gap: 16px; /* AZ QEYD: Aralıq. */
+  display: flex; /*  Şaquli düzülüş. */
+  flex-direction: column; /*  Yuxarıdan aşağı. */
+  gap: 16px; /*  Aralıq. */
 }
 
-/* AZ QEYD: Məlumat cədvəli kimi görünən sətirlər. */
+/*  Məlumat cədvəli kimi görünən sətirlər. */
 .info-list {
-  display: grid; /* AZ QEYD: Kiçik kart grid. */
-  grid-template-columns: repeat(2, minmax(0, 1fr)); /* AZ QEYD: İki sütun. */
-  gap: 12px; /* AZ QEYD: Aralıq. */
+  display: grid; /*  Kiçik kart grid. */
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /*  İki sütun. */
+  gap: 12px; /*  Aralıq. */
 }
 
-/* AZ QEYD: Kiçik info blokları. */
+/*  Kiçik info blokları. */
 .info-item {
-  padding: 16px; /* AZ QEYD: İç boşluq. */
-  border-radius: 18px; /* AZ QEYD: Yumru künc. */
-  background: rgba(10, 111, 232, 0.05); /* AZ QEYD: Açıq mavi fon. */
-  border: 1px solid rgba(10, 111, 232, 0.08); /* AZ QEYD: Yumşaq kontur. */
+  padding: 16px; /*  İç boşluq. */
+  border-radius: 18px; /*  Yumru künc. */
+  background: rgba(10, 111, 232, 0.05); /*  Açıq mavi fon. */
+  border: 1px solid rgba(10, 111, 232, 0.08); /*  Yumşaq kontur. */
 }
 
-/* AZ QEYD: Statistik siyahı. */
+/*  Statistik siyahı. */
 .inline-list {
-  display: flex; /* AZ QEYD: Üfüqi düzülüş. */
-  gap: 10px; /* AZ QEYD: Aralıq. */
-  flex-wrap: wrap; /* AZ QEYD: Kiçik ekranda qırılsın. */
+  display: flex; /*  Üfüqi düzülüş. */
+  gap: 10px; /*  Aralıq. */
+  flex-wrap: wrap; /*  Kiçik ekranda qırılsın. */
 }
 
-/* AZ QEYD: Kiçik kapsullar. */
+/*  Kiçik kapsullar. */
 .tag {
-  padding: 8px 12px; /* AZ QEYD: İç boşluq. */
-  border-radius: 999px; /* AZ QEYD: Kapsul forma. */
-  background: rgba(10, 111, 232, 0.08); /* AZ QEYD: Açıq mavi fon. */
-  color: var(--primary-dark); /* AZ QEYD: Tünd mavi mətn. */
-  font-size: 0.88rem; /* AZ QEYD: Kiçik ölçü. */
-  font-weight: 700; /* AZ QEYD: Qalın mətn. */
+  padding: 8px 12px; /*  İç boşluq. */
+  border-radius: 999px; /*  Kapsul forma. */
+  background: rgba(10, 111, 232, 0.08); /*  Açıq mavi fon. */
+  color: var(--primary-dark); /*  Tünd mavi mətn. */
+  font-size: 0.88rem; /*  Kiçik ölçü. */
+  font-weight: 700; /*  Qalın mətn. */
 }
 
-/* AZ QEYD: Cədvəl üçün wrapper. */
+/*  Cədvəl üçün wrapper. */
 .table-wrap {
-  overflow-x: auto; /* AZ QEYD: Dar ekranda üfüqi sürüşmə olsun. */
+  overflow-x: auto; /*  Dar ekranda üfüqi sürüşmə olsun. */
 }
 
-/* AZ QEYD: Ümumi cədvəl görünüşü. */
+/*  Ümumi cədvəl görünüşü. */
 table {
-  width: 100%; /* AZ QEYD: Tam eni tut. */
-  border-collapse: collapse; /* AZ QEYD: Xətlər birləşsin. */
+  width: 100%; /*  Tam eni tut. */
+  border-collapse: collapse; /*  Xətlər birləşsin. */
 }
 
-/* AZ QEYD: Cədvəl xanalari. */
+/*  Cədvəl xanalari. */
 th,
 td {
-  text-align: left; /* AZ QEYD: Mətni sola düzür. */
-  padding: 14px 12px; /* AZ QEYD: İç boşluq. */
-  border-bottom: 1px solid rgba(10, 111, 232, 0.08); /* AZ QEYD: Sətiraltı xətt. */
-  vertical-align: top; /* AZ QEYD: Məzmun yuxarıdan başlasın. */
+  text-align: left; /*  Mətni sola düzür. */
+  padding: 14px 12px; /*  İç boşluq. */
+  border-bottom: 1px solid rgba(10, 111, 232, 0.08); /*  Sətiraltı xətt. */
+  vertical-align: top; /*  Məzmun yuxarıdan başlasın. */
 }
 
-/* AZ QEYD: Cədvəl başlığı. */
+/*  Cədvəl başlığı. */
 th {
-  color: var(--primary-dark); /* AZ QEYD: Tünd mavi. */
-  font-size: 0.92rem; /* AZ QEYD: Kiçik başlıq ölçüsü. */
+  color: var(--primary-dark); /*  Tünd mavi. */
+  font-size: 0.92rem; /*  Kiçik başlıq ölçüsü. */
 }
 
-/* AZ QEYD: Footer görünüşü. */
+/*  Footer görünüşü. */
 .site-footer {
-  margin-top: 40px; /* AZ QEYD: Yuxarı boşluq. */
-  padding: 28px 0 50px; /* AZ QEYD: İç boşluq. */
+  margin-top: 40px; /*  Yuxarı boşluq. */
+  padding: 28px 0 50px; /*  İç boşluq. */
 }
 
-/* AZ QEYD: Footer kartı. */
+/*  Footer kartı. */
 .footer-card {
-  display: grid; /* AZ QEYD: Grid quruluş. */
-  grid-template-columns: 1.1fr 0.9fr; /* AZ QEYD: İki sütun. */
-  gap: 24px; /* AZ QEYD: Aralıq. */
-  background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(223,240,255,0.95)); /* AZ QEYD: Ağ-mavi fon. */
-  border: 1px solid var(--line); /* AZ QEYD: Kontur. */
-  border-radius: var(--radius-xl); /* AZ QEYD: Yumru künc. */
-  box-shadow: var(--shadow); /* AZ QEYD: Kölgə. */
-  padding: 28px; /* AZ QEYD: İç boşluq. */
+  display: grid; /*  Grid quruluş. */
+  grid-template-columns: 1.1fr 0.9fr; /*  İki sütun. */
+  gap: 24px; /*  Aralıq. */
+  background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(223,240,255,0.95)); /*  Ağ-mavi fon. */
+  border: 1px solid var(--line); /*  Kontur. */
+  border-radius: var(--radius-xl); /*  Yumru künc. */
+  box-shadow: var(--shadow); /*  Kölgə. */
+  padding: 28px; /*  İç boşluq. */
 }
 
-/* AZ QEYD: Xəritə düyməsi və əlaqə hissələri. */
+/*  Xəritə düyməsi və əlaqə hissələri. */
 .contact-list {
-  display: grid; /* AZ QEYD: Grid düzülüş. */
-  gap: 12px; /* AZ QEYD: Aralıq. */
+  display: grid; /*  Grid düzülüş. */
+  gap: 12px; /*  Aralıq. */
 }
 
-/* AZ QEYD: Toast bildiriş. */
+/*  Toast bildiriş. */
 .toast {
-  position: fixed; /* AZ QEYD: Ekrana sabit yapışır. */
-  right: 20px; /* AZ QEYD: Sağ məsafə. */
-  bottom: 20px; /* AZ QEYD: Alt məsafə. */
-  z-index: 90; /* AZ QEYD: Üstdə görünsün. */
-  min-width: 260px; /* AZ QEYD: Minimum eni. */
-  max-width: 360px; /* AZ QEYD: Maksimum eni. */
-  padding: 14px 16px; /* AZ QEYD: İç boşluq. */
-  border-radius: 18px; /* AZ QEYD: Yumru künc. */
-  color: var(--white); /* AZ QEYD: Ağ mətn. */
-  background: linear-gradient(135deg, #0a6fe8, #084db0); /* AZ QEYD: Mavi bildiriş fonu. */
-  box-shadow: 0 20px 40px rgba(8, 77, 176, 0.28); /* AZ QEYD: Kölgə. */
-  opacity: 0; /* AZ QEYD: Başda görünməsin. */
-  pointer-events: none; /* AZ QEYD: Klik tutmasın. */
-  transform: translateY(14px); /* AZ QEYD: Aşağıdan çıxış effekti. */
+  position: fixed; /*  Ekrana sabit yapışır. */
+  right: 20px; /*  Sağ məsafə. */
+  bottom: 20px; /*  Alt məsafə. */
+  z-index: 90; /*  Üstdə görünsün. */
+  min-width: 260px; /*  Minimum eni. */
+  max-width: 360px; /*  Maksimum eni. */
+  padding: 14px 16px; /*  İç boşluq. */
+  border-radius: 18px; /*  Yumru künc. */
+  color: var(--white); /*  Ağ mətn. */
+  background: linear-gradient(135deg, #0a6fe8, #084db0); /*  Mavi bildiriş fonu. */
+  box-shadow: 0 20px 40px rgba(8, 77, 176, 0.28); /*  Kölgə. */
+  opacity: 0; /*  Başda görünməsin. */
+  pointer-events: none; /*  Klik tutmasın. */
+  transform: translateY(14px); /*  Aşağıdan çıxış effekti. */
 }
 
-/* AZ QEYD: Aktiv toast görünüşü. */
+/*  Aktiv toast görünüşü. */
 .toast.show {
-  opacity: 1; /* AZ QEYD: Görünür olur. */
-  transform: translateY(0); /* AZ QEYD: Yerinə gəlir. */
+  opacity: 1; /*  Görünür olur. */
+  transform: translateY(0); /*  Yerinə gəlir. */
 }
 
-/* AZ QEYD: Yükləmə spineri. */
+/*  Yükləmə spineri. */
 .spinner {
-  width: 48px; /* AZ QEYD: En. */
-  height: 48px; /* AZ QEYD: Hündürlük. */
-  border: 4px solid rgba(10, 111, 232, 0.15); /* AZ QEYD: Xarici açıq halqa. */
-  border-top-color: var(--primary); /* AZ QEYD: Hərəkət edən tünd hissə. */
-  border-radius: 50%; /* AZ QEYD: Dairə forma. */
-  animation: spin 0.9s linear infinite; /* AZ QEYD: Fırlanma animasiyası. */
-  margin: 24px auto; /* AZ QEYD: Ortalanma. */
+  width: 48px; /*  En. */
+  height: 48px; /*  Hündürlük. */
+  border: 4px solid rgba(10, 111, 232, 0.15); /*  Xarici açıq halqa. */
+  border-top-color: var(--primary); /*  Hərəkət edən tünd hissə. */
+  border-radius: 50%; /*  Dairə forma. */
+  animation: spin 0.9s linear infinite; /*  Fırlanma animasiyası. */
+  margin: 24px auto; /*  Ortalanma. */
 }
 
-/* AZ QEYD: Kiçik boş vəziyyət qutusu. */
+/*  Kiçik boş vəziyyət qutusu. */
 .empty-state {
-  text-align: center; /* AZ QEYD: Mətni ortala. */
-  padding: 34px 18px; /* AZ QEYD: İç boşluq. */
-  color: var(--muted); /* AZ QEYD: Solğun rəng. */
-  background: rgba(255,255,255,0.75); /* AZ QEYD: Açıq panel fonu. */
-  border: 1px dashed rgba(10, 111, 232, 0.18); /* AZ QEYD: Kəsik xəttli kontur. */
-  border-radius: 22px; /* AZ QEYD: Yumru künc. */
+  text-align: center; /*  Mətni ortala. */
+  padding: 34px 18px; /*  İç boşluq. */
+  color: var(--muted); /*  Solğun rəng. */
+  background: rgba(255,255,255,0.75); /*  Açıq panel fonu. */
+  border: 1px dashed rgba(10, 111, 232, 0.18); /*  Kəsik xəttli kontur. */
+  border-radius: 22px; /*  Yumru künc. */
 }
 
-/* AZ QEYD: Mətnin limitlə qısaldılması. */
+/*  Mətnin limitlə qısaldılması. */
 .clamp-2 {
-  display: -webkit-box; /* AZ QEYD: WebKit əsaslı sətir məhdudiyyəti. */
-  -webkit-line-clamp: 2; /* AZ QEYD: 2 sətrə qədər göstər. */
-  -webkit-box-orient: vertical; /* AZ QEYD: Şaquli istiqamət. */
-  overflow: hidden; /* AZ QEYD: Artıq mətn gizlənsin. */
+  display: -webkit-box; /*  WebKit əsaslı sətir məhdudiyyəti. */
+  -webkit-line-clamp: 2; /*  2 sətrə qədər göstər. */
+  -webkit-box-orient: vertical; /*  Şaquli istiqamət. */
+  overflow: hidden; /*  Artıq mətn gizlənsin. */
 }
 
-/* AZ QEYD: Hərəkət animasiyası. */
+/*  Hərəkət animasiyası. */
 @keyframes scrollAuthors {
-  from { transform: translateX(0); } /* AZ QEYD: Başlanğıc nöqtəsi. */
-  to { transform: translateX(-50%); } /* AZ QEYD: Track yarısı qədər sola gedir. */
+  from { transform: translateX(0); } /*  Başlanğıc nöqtəsi. */
+  to { transform: translateX(-50%); } /*  Track yarısı qədər sola gedir. */
 }
 
-/* AZ QEYD: Hero kartlarının yırğalanması. */
+/*  Hero kartlarının yırğalanması. */
 @keyframes floatCard {
-  0%, 100% { transform: translateY(0) rotate(var(--tilt, 0deg)); } /* AZ QEYD: Baş və son hal. */
-  50% { transform: translateY(-10px) rotate(var(--tilt, 0deg)); } /* AZ QEYD: Ortada yuxarı qalxır. */
+  0%, 100% { transform: translateY(0) rotate(var(--tilt, 0deg)); } /*  Baş və son hal. */
+  50% { transform: translateY(-10px) rotate(var(--tilt, 0deg)); } /*  Ortada yuxarı qalxır. */
 }
 
-/* AZ QEYD: Yükləmə spinerinin dönməsi. */
+/*  Yükləmə spinerinin dönməsi. */
 @keyframes spin {
-  to { transform: rotate(360deg); } /* AZ QEYD: Bir tam dövr edir. */
+  to { transform: rotate(360deg); } /*  Bir tam dövr edir. */
 }
 
-/* AZ QEYD: Planşet üçün uyğunlaşma. */
+/*  Planşet üçün uyğunlaşma. */
 @media (max-width: 1080px) {
   .hero-shell,
   .detail-layout,
   .footer-card {
-    grid-template-columns: 1fr; /* AZ QEYD: Tək sütuna düşür. */
+    grid-template-columns: 1fr; /*  Tək sütuna düşür. */
   }
 
   .book-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)); /* AZ QEYD: 2 kart görünür. */
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /*  2 kart görünür. */
   }
 
   .header-row {
-    flex-wrap: wrap; /* AZ QEYD: Elementlər sətir dəyişə bilər. */
-    padding: 14px 0; /* AZ QEYD: İç boşluq. */
+    flex-wrap: wrap; /*  Elementlər sətir dəyişə bilər. */
+    padding: 14px 0; /*  İç boşluq. */
   }
 
   .header-tools {
-    width: 100%; /* AZ QEYD: Tam genişlik alsın. */
-    justify-content: space-between; /* AZ QEYD: Aralı görünsün. */
-    flex-wrap: wrap; /* AZ QEYD: Sətir qırıla bilər. */
+    width: 100%; /*  Tam genişlik alsın. */
+    justify-content: space-between; /*  Aralı görünsün. */
+    flex-wrap: wrap; /*  Sətir qırıla bilər. */
   }
 
   .search-shell {
-    min-width: 100%; /* AZ QEYD: Tam en tutsun. */
+    min-width: 100%; /*  Tam en tutsun. */
   }
 }
 
-/* AZ QEYD: Telefon üçün uyğunlaşma. */
+/*  Telefon üçün uyğunlaşma. */
 @media (max-width: 700px) {
   .book-grid,
   .form-grid,
   .info-list {
-    grid-template-columns: 1fr; /* AZ QEYD: Tək sütun olur. */
+    grid-template-columns: 1fr; /*  Tək sütun olur. */
   }
 
   .hero-copy,
   .panel,
   .footer-card {
-    padding: 18px; /* AZ QEYD: Boşluqlar azalır. */
+    padding: 18px; /*  Boşluqlar azalır. */
   }
 
   .hero-visual {
-    min-height: 320px; /* AZ QEYD: Daha kompakt görünüş. */
+    min-height: 320px; /*  Daha kompakt görünüş. */
   }
 
   .floating-book {
-    width: 180px; /* AZ QEYD: Kart eni kiçilir. */
-    height: 250px; /* AZ QEYD: Kart boyu kiçilir. */
+    width: 180px; /*  Kart eni kiçilir. */
+    height: 250px; /*  Kart boyu kiçilir. */
   }
 
   .nav-links {
-    width: 100%; /* AZ QEYD: Tam enə yayılsın. */
+    width: 100%; /*  Tam enə yayılsın. */
   }
 
   .nav-link {
-    flex: 1 1 auto; /* AZ QEYD: Linklər balanslı böyüsün. */
-    text-align: center; /* AZ QEYD: Mərkəzlə. */
+    flex: 1 1 auto; /*  Linklər balanslı böyüsün. */
+    text-align: center; /*  Mərkəzlə. */
   }
 }
