@@ -1124,3 +1124,26 @@ th {
     overflow: hidden;
   }
 }
+
+/* =======================================================
+   LOAD MORE BOOKS BUTTON
+   1) KİTABLARIN ALTINDA DÜYMƏ ORTADA GÖRÜNSÜN
+   2) GÖRÜNÜŞÜ SƏLİQƏLİ OLSUN
+   ======================================================= */
+
+/*  Bu wrapper düyməni ortalamaq üçündür. */
+.load-more-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 24px;
+}
+
+/*  Show More Books düyməsinin görünüşü. */
+#loadMoreBooksBtn {
+  min-width: 190px;
+  height: 46px;
+  border-radius: 14px;
+  font-weight: 700;
+}
+
