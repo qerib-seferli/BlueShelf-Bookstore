@@ -1344,7 +1344,55 @@ async function boot() { //  Səhifə ilk açıldıqda çağırılır.
   if (page === "admin") { //  Admin səhifəsi.
     await bindAdminPage(); //  Admin loader.
   }
+  if (page === "update-password") {
+  bindUpdatePasswordForm();
+  }
 }
+
+// ===============================================================
+//  Bu funksiya emaildəki reset linkindən qayıtdıqdan sonra
+//  yeni şifrəni yazdırır.
+// ===============================================================
+function bindUpdatePasswordForm() {
+  const form = document.getElementById("updatePasswordForm");
+  if (!form) return;
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const newPassword = document.getElementById("newPassword").value.trim();
+    const confirmPassword = document.getElementById("confirmPassword").value.trim();
+
+    if (!newPassword || !confirmPassword) {
+      showToast("Please fill in both password fields.", true);
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      showToast("Passwords do not match.", true);
+      return;
+    }
+
+    if (newPassword.length < 6) {
+      showToast("Password must be at least 6 characters long.", true);
+      return;
+    }
+
+    const { error } = await sb.auth.updateUser({
+      password: newPassword
+    });
+
+    if (error) {
+      showToast(error.message, true);
+      return;
+    }
+
+    showToast("Password updated successfully.");
+    window.location.href = "login.html";
+  });
+}
+
+
 
 //  DOM tam yüklənəndə əsas boot funksiyasını başladırıq.
 document.addEventListener("DOMContentLoaded", boot); //  Səhifə hazır olanda işə düşür.
