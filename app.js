@@ -24,6 +24,9 @@ const $$ = (selector) => Array.from(document.querySelectorAll(selector)); //  No
 //  Şəkil yoxdursa istifadə ediləcək placeholder ünvanı.
 const PLACEHOLDER_COVER = "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=900&q=80"; //  Ehtiyat kitab qabığı.
 
+              //  Ana səhifədə ilkin görünəcək kitab sayını saxlayırıq.
+              let booksLimit = 8; //  İlk açılışda 8 kitab göstəriləcək.
+
 //  Toast göstərmək üçün taymer ID-sini saxlayırıq.
 let toastTimer = null; //  Sonrakı bildirişləri idarə etmək üçün.
 
@@ -1318,12 +1321,41 @@ async function boot() { //  Səhifə ilk açıldıqda çağırılır.
   await renderAuthorMarquee(); //  Müəllif marqısı.
   await renderHomeStats(); //  Sayğaclar.
 
-  if (page === "home") { //  Ana səhifədə kitabları göstər.
-    const initialQuery = getParam("search") || ""; //  URL-də search parametri varsa oxuyuruq.
-    const searchInput = $("#searchInput"); //  Header input-u.
-    if (searchInput) searchInput.value = initialQuery; //  Sorğunu input-da göstəririk.
-    await renderBooksGrid("#booksGrid", { limit: 8, query: initialQuery }); //  İlk açılışda və ya URL sorğusunda kitabları göstər.
+                 // if (page === "home") { //  Ana səhifədə kitabları göstər.
+                 //  const initialQuery = getParam("search") || ""; //  URL-də search parametri varsa oxuyuruq.
+                 //  const searchInput = $("#searchInput"); //  Header input-u.
+                 //  if (searchInput) searchInput.value = initialQuery; //  Sorğunu input-da göstəririk.
+                //  await renderBooksGrid("#booksGrid", { limit: 8, query: initialQuery }); //  İlk açılışda və ya URL sorğusunda kitabları göstər.
+                // }
+  if (page === "home") { //  Əgər cari səhifə ana səhifədirsə.
+  const initialQuery = getParam("search") || ""; //  URL-də search parametri varsa oxuyuruq.
+  const searchInput = $("#searchInput"); //  Header search input elementini götürürük.
+  if (searchInput) searchInput.value = initialQuery; //  Axtarış sözü input daxilində görünsün deyə yazırıq.
+
+  //  İlk açılışda yalnız müəyyən sayda kitab göstəririk.
+  await renderBooksGrid("#booksGrid", { limit: booksLimit, query: initialQuery });
+
+  //  Daha çox kitab göstər düyməsini götürürük.
+  const loadMoreBtn = $("#loadMoreBooksBtn");
+
+  //  Əgər düymə varsa və daha əvvəl klik hadisəsi bağlanmayıbsa.
+  if (loadMoreBtn && loadMoreBtn.dataset.bound !== "true") {
+    loadMoreBtn.dataset.bound = "true"; //  Təkrar event bağlanmasın deyə işarə qoyuruq.
+
+    //  Düyməyə klik ediləndə daha çox kitab göstəririk.
+    loadMoreBtn.addEventListener("click", async () => {
+      booksLimit += 8; //  Hər klikdə 8 kitab da əlavə edirik.
+
+      //  Yeni limit ilə kitabları yenidən render edirik.
+      await renderBooksGrid("#booksGrid", {
+        limit: booksLimit,
+        query: $("#searchInput")?.value || ""
+      });
+    });
   }
+}
+
+  
 
   if (page === "book-detail") { //  Detail səhifəsi.
     await renderBookDetailPage(); //  Seçilən kitabı göstər.
