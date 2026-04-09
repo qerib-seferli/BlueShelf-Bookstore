@@ -359,83 +359,102 @@
                 <circle class="marker-dot" cx="900" cy="760" r="3.5"></circle>
               </svg>
 
-              <!--  AUTHORS cədvəli sol yuxarı hissədə yerləşir. -->
-              <div class="erd-table" style="left: 170px; top: 90px;">
-                <div class="table-title">AUTHORS</div>
-                <div class="table-body">
-                  <div class="row"><span class="field-name">id PK</span><span class="field-type">BIGINT</span></div>
-                  <div class="row"><span class="field-name">name</span><span class="field-type">TEXT</span></div>
-                  <div class="row"><span class="field-name">nationality</span><span class="field-type">TEXT</span></div>
-                  <div class="row"><span class="field-name">birth_year</span><span class="field-type">INT</span></div>
-                  <div class="row"><span class="field-name">biography</span><span class="field-type">TEXT</span></div>
-                  <div class="row"><span class="field-name">created_at</span><span class="field-type">TIMESTAMP</span></div>
+                
+              <!-- =======================================================
+                 ERD CƏDVƏLLƏRİNİN YERLƏŞMƏ HİSSƏSİ
+                 left  = sola / sağa hərəkət
+                 top   = yuxarı / aşağı hərəkət
+            
+                 left az olsa  -> sola gedər
+                 left çox olsa -> sağa gedər
+            
+                 top az olsa   -> yuxarı qalxar
+                 top çox olsa  -> aşağı düşər
+                 ======================================================= -->
+
+                <!--  AUTHORS cədvəli sol yuxarı hissədə yerləşir. -->
+                <!--  left: 170px  -> soldan məsafədir. Azaltsan sola gedər, artırsan sağa gedər. -->
+                <!--  top: 90px    -> yuxarıdan məsafədir. Azaltsan yuxarı qalxar, artırsan aşağı düşər. -->
+                <div class="erd-table" style="left: 170px; top: 90px;">
+                  <div class="table-title">AUTHORS</div>
+                  <div class="table-body">
+                    <div class="row"><span class="field-name">id PK</span><span class="field-type">BIGINT</span></div>
+                    <div class="row"><span class="field-name">name</span><span class="field-type">TEXT</span></div>
+                    <div class="row"><span class="field-name">nationality</span><span class="field-type">TEXT</span></div>
+                    <div class="row"><span class="field-name">birth_year</span><span class="field-type">INT</span></div>
+                    <div class="row"><span class="field-name">biography</span><span class="field-type">TEXT</span></div>
+                    <div class="row"><span class="field-name">created_at</span><span class="field-type">TIMESTAMP</span></div>
+                  </div>
                 </div>
-              </div>
-
-              <!--  CATEGORIES cədvəli sağ yuxarı hissədə yerləşir. -->
-              <div class="erd-table" style="left: 780px; top: 90px;">
-                <div class="table-title">CATEGORIES</div>
-                <div class="table-body">
-                  <div class="row"><span class="field-name">id PK</span><span class="field-type">BIGINT</span></div>
-                  <div class="row"><span class="field-name">name</span><span class="field-type">TEXT</span></div>
-                  <div class="row"><span class="field-name">slug</span><span class="field-type">TEXT</span></div>
-                  <div class="row"><span class="field-name">created_at</span><span class="field-type">TIMESTAMP</span></div>
+                
+                <!--  CATEGORIES cədvəli sağ yuxarı hissədə yerləşir. -->
+                <!--  Bunu sola çəkmək üçün left rəqəmini azaldırsan. -->
+                <!--  Məsələn 780 yox, 760 etsən bir az sola keçər. -->
+                <div class="erd-table" style="left: 780px; top: 90px;">
+                  <div class="table-title">CATEGORIES</div>
+                  <div class="table-body">
+                    <div class="row"><span class="field-name">id PK</span><span class="field-type">BIGINT</span></div>
+                    <div class="row"><span class="field-name">name</span><span class="field-type">TEXT</span></div>
+                    <div class="row"><span class="field-name">slug</span><span class="field-type">TEXT</span></div>
+                    <div class="row"><span class="field-name">created_at</span><span class="field-type">TIMESTAMP</span></div>
+                  </div>
                 </div>
-              </div>
-
-              <!--  BOOKS əsas cədvəl olduğu üçün tam mərkəzdə yerləşdirilir. -->
-              <div class="erd-table" style="left: 530px; top: 320px; width: 260px;">
-                <div class="table-title">BOOKS</div>
-                <div class="table-body">
-                  <div class="row"><span class="field-name">id PK</span><span class="field-type">BIGINT</span></div>
-                  <div class="row"><span class="field-name">author_id FK</span><span class="field-type">BIGINT</span></div>
-                  <div class="row"><span class="field-name">category_id FK</span><span class="field-type">BIGINT</span></div>
-                  <div class="row"><span class="field-name">title</span><span class="field-type">TEXT</span></div>
-                  <div class="row"><span class="field-name">isbn</span><span class="field-type">TEXT</span></div>
-                  <div class="row"><span class="field-name">publish_year</span><span class="field-type">INT</span></div>
-                  <div class="row"><span class="field-name">pages</span><span class="field-type">INT</span></div>
-                  <div class="row"><span class="field-name">language</span><span class="field-type">TEXT</span></div>
-                  <div class="row"><span class="field-name">format_type</span><span class="field-type">TEXT</span></div>
-                  <div class="row"><span class="field-name">short_description</span><span class="field-type">TEXT</span></div>
-                  <div class="row"><span class="field-name">description</span><span class="field-type">TEXT</span></div>
-                  <div class="row"><span class="field-name">cover_url</span><span class="field-type">TEXT</span></div>
-                  <div class="row"><span class="field-name">is_published</span><span class="field-type">BOOLEAN</span></div>
-                  <div class="row"><span class="field-name">created_at</span><span class="field-type">TIMESTAMP</span></div>
-                  <div class="row"><span class="field-name">updated_at</span><span class="field-type">TIMESTAMP</span></div>
+                
+                <!--  BOOKS əsas cədvəl olduğu üçün mərkəzdə yerləşdirilir. -->
+                <!--  left: 530px ilə bir az sol tərəfə çəkilib. -->
+                <!--  width: 260px cədvəlin enidir. Artırsan enlənər, azaltsan daralar. -->
+                <div class="erd-table" style="left: 530px; top: 320px; width: 260px;">
+                  <div class="table-title">BOOKS</div>
+                  <div class="table-body">
+                    <div class="row"><span class="field-name">id PK</span><span class="field-type">BIGINT</span></div>
+                    <div class="row"><span class="field-name">author_id FK</span><span class="field-type">BIGINT</span></div>
+                    <div class="row"><span class="field-name">category_id FK</span><span class="field-type">BIGINT</span></div>
+                    <div class="row"><span class="field-name">title</span><span class="field-type">TEXT</span></div>
+                    <div class="row"><span class="field-name">isbn</span><span class="field-type">TEXT</span></div>
+                    <div class="row"><span class="field-name">publish_year</span><span class="field-type">INT</span></div>
+                    <div class="row"><span class="field-name">pages</span><span class="field-type">INT</span></div>
+                    <div class="row"><span class="field-name">language</span><span class="field-type">TEXT</span></div>
+                    <div class="row"><span class="field-name">format_type</span><span class="field-type">TEXT</span></div>
+                    <div class="row"><span class="field-name">short_description</span><span class="field-type">TEXT</span></div>
+                    <div class="row"><span class="field-name">description</span><span class="field-type">TEXT</span></div>
+                    <div class="row"><span class="field-name">cover_url</span><span class="field-type">TEXT</span></div>
+                    <div class="row"><span class="field-name">is_published</span><span class="field-type">BOOLEAN</span></div>
+                    <div class="row"><span class="field-name">created_at</span><span class="field-type">TIMESTAMP</span></div>
+                    <div class="row"><span class="field-name">updated_at</span><span class="field-type">TIMESTAMP</span></div>
+                  </div>
                 </div>
-              </div>
-
-              <!--  PROFILES cədvəli sol aşağı hissədə yerləşir. -->
-              <div class="erd-table" style="left: 90px; top: 500px; width: 250px;">
-                <div class="table-title">PROFILES</div>
-                <div class="table-body">
-                  <div class="row"><span class="field-name">id PK</span><span class="field-type">UUID</span></div>
-                  <div class="row"><span class="field-name">full_name</span><span class="field-type">TEXT</span></div>
-                  <div class="row"><span class="field-name">email</span><span class="field-type">TEXT</span></div>
-                  <div class="row"><span class="field-name">address</span><span class="field-type">TEXT</span></div>
-                  <div class="row"><span class="field-name">avatar_url</span><span class="field-type">TEXT</span></div>
-                  <div class="row"><span class="field-name">bio</span><span class="field-type">TEXT</span></div>
-                  <div class="row"><span class="field-name">role</span><span class="field-type">TEXT</span></div>
-                  <div class="row"><span class="field-name">created_at</span><span class="field-type">TIMESTAMP</span></div>
-                  <div class="row"><span class="field-name">updated_at</span><span class="field-type">TIMESTAMP</span></div>
+                
+                <!--  PROFILES cədvəli sol aşağı hissədə yerləşir. -->
+                <!--  width: 250px olduğu üçün BOOKS-dan bir az enlidir. -->
+                <div class="erd-table" style="left: 90px; top: 500px; width: 250px;">
+                  <div class="table-title">PROFILES</div>
+                  <div class="table-body">
+                    <div class="row"><span class="field-name">id PK</span><span class="field-type">UUID</span></div>
+                    <div class="row"><span class="field-name">full_name</span><span class="field-type">TEXT</span></div>
+                    <div class="row"><span class="field-name">email</span><span class="field-type">TEXT</span></div>
+                    <div class="row"><span class="field-name">address</span><span class="field-type">TEXT</span></div>
+                    <div class="row"><span class="field-name">avatar_url</span><span class="field-type">TEXT</span></div>
+                    <div class="row"><span class="field-name">bio</span><span class="field-type">TEXT</span></div>
+                    <div class="row"><span class="field-name">role</span><span class="field-type">TEXT</span></div>
+                    <div class="row"><span class="field-name">created_at</span><span class="field-type">TIMESTAMP</span></div>
+                    <div class="row"><span class="field-name">updated_at</span><span class="field-type">TIMESTAMP</span></div>
+                  </div>
                 </div>
-              </div>
-
-              <!--  FAVORITES cədvəli sağ aşağı hissədə yerləşir. -->
-              <div class="erd-table" style="left: 830px; top: 680px;">
-                <div class="table-title">FAVORITES</div>
-                <div class="table-body">
-                  <div class="row"><span class="field-name">id PK</span><span class="field-type">BIGINT</span></div>
-                  <div class="row"><span class="field-name">user_id FK</span><span class="field-type">UUID</span></div>
-                  <div class="row"><span class="field-name">book_id FK</span><span class="field-type">BIGINT</span></div>
-                  <div class="row"><span class="field-name">created_at</span><span class="field-type">TIMESTAMP</span></div>
+                
+                <!--  FAVORITES cədvəli sağ aşağı hissədə yerləşir. -->
+                <!--  Bunu sola çəkmək üçün left rəqəmini azaldırsan. -->
+                <!--  Məsələn 830 yox, 790 etsən bir az sola gələcək. -->
+                <div class="erd-table" style="left: 830px; top: 680px;">
+                  <div class="table-title">FAVORITES</div>
+                  <div class="table-body">
+                    <div class="row"><span class="field-name">id PK</span><span class="field-type">BIGINT</span></div>
+                    <div class="row"><span class="field-name">user_id FK</span><span class="field-type">UUID</span></div>
+                    <div class="row"><span class="field-name">book_id FK</span><span class="field-type">BIGINT</span></div>
+                    <div class="row"><span class="field-name">created_at</span><span class="field-type">TIMESTAMP</span></div>
+                  </div>
                 </div>
-              </div>
 
-            </div>
-          </div>
-        </div>
-
+                
         <!--  Müdafiə üçün qısa schema qeydləri. -->
         <div class="panel" style="margin-top:22px;">
           <h3>Schema Notes for Presentation</h3>
