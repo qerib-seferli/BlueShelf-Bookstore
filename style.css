@@ -787,82 +787,82 @@ th {
 
 
 /* =======================================================
-   HEADER PC DÜZƏLİŞİ
-   1) LOGO DAHA SƏLİQƏLİ GÖRÜNSÜN
-   2) NAV LINKLƏR DAHA PREMIUM DÜZÜLSÜN
-   3) HEADER İÇİNDƏ HİSSƏLƏR DAHA BALANSLI OLSUN
+   HEADER DESKTOP YENİ DÜZÜLÜŞ
+   1) LOGO + SAYT ADI YUXARI SOLDA
+   2) SEARCH YUXARI SAĞDA
+   3) HOME + ERD AŞAĞI SOLDA
+   4) AUTH DÜYMƏLƏRİ AŞAĞI SAĞDA
+   5) FAVORITES / PROFILE TƏKRAR GÖRÜNMƏSİN
    ======================================================= */
 
 @media (min-width: 981px) {
 
-  /* Header ümumi görünüşü */
+  /*  Header ümumi görünüşünü daha təmiz və premium edirik. */
   .site-header {
     position: sticky;
     top: 0;
     z-index: 999;
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(14px);
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(16px);
     border-bottom: 1px solid rgba(90, 145, 220, 0.14);
-    box-shadow: 0 10px 28px rgba(31, 78, 146, 0.08);
+    box-shadow: 0 12px 30px rgba(31, 78, 146, 0.08);
   }
 
-  /* Header içində solda və sağda hissələr daha səliqəli dayansın */
+  /*  Header-i iki sətirli grid quruluşuna keçiririk. */
   .header-row {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(300px, 1fr) minmax(360px, 460px);
+    grid-template-rows: auto auto;
     align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    min-height: 92px;
-    padding: 14px 0;
+    column-gap: 22px;
+    row-gap: 12px;
+    min-height: auto;
+    padding: 14px 0 16px;
   }
 
-  /* Logo + sayt adı hissəsi */
+  /*  Logo və sayt adı yuxarı solda dayanır. */
   .brand {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
     display: flex;
     align-items: center;
     gap: 14px;
+    min-width: 0;
     text-decoration: none;
-    flex: 0 0 auto;
-    min-width: 320px;
   }
 
-  /* Logo qabığı daha təmiz və premium olsun */
+  /*  Logo qabığını daha səliqəli və yumşaq çərçivəli edirik. */
   .brand-badge {
-    width: 62px;
-    height: 62px;
-    border-radius: 18px;
+    width: 64px;
+    height: 64px;
+    flex: 0 0 64px;
+    border-radius: 20px;
     overflow: hidden;
+    padding: 7px;
     background: linear-gradient(180deg, #ffffff, #eef6ff);
     border: 1px solid rgba(88, 144, 226, 0.18);
     box-shadow:
-      0 10px 24px rgba(35, 83, 155, 0.10),
-      inset 0 1px 0 rgba(255,255,255,0.85);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px;
+      0 12px 24px rgba(35, 83, 155, 0.10),
+      inset 0 1px 0 rgba(255,255,255,0.90);
   }
 
-  /* Logo şəkli qabığa yaxşı otursun */
+  /*  Logo şəkli qabığın içində kəsilmədən və səliqəli otursun. */
   .brand-badge img {
     width: 100%;
     height: 100%;
     object-fit: contain;
     display: block;
-    border-radius: 12px;
+    border-radius: 14px;
   }
 
-  /* Sayt adı hissəsi */
+  /*  Sayt adı hissəsini daha balanslı edirik. */
   .brand-text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     min-width: 0;
   }
 
   .brand-text h1 {
     margin: 0;
-    font-size: 1.22rem;
+    font-size: 1.24rem;
     line-height: 1.15;
     color: #153f79;
     font-weight: 800;
@@ -870,90 +870,48 @@ th {
   }
 
   .brand-text span {
+    display: block;
     margin-top: 4px;
-    font-size: 0.82rem;
+    font-size: 0.83rem;
     color: #6882a7;
     line-height: 1.35;
     white-space: nowrap;
   }
 
-  /* Header sağ hissə */
+  /*  Header sağ hissəni artıq ümumi flex kimi yox, contents kimi işlədirik ki, elementləri grid-ə paylaya bilək. */
   .header-tools {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 18px;
-    flex: 1 1 auto;
-    min-width: 0;
+    display: contents;
   }
 
-  /* NAV hissəsi daha səliqəli blok kimi görünsün */
-  .nav-links {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px;
-    border-radius: 18px;
-    background: linear-gradient(180deg, #ffffff, #f3f9ff);
-    border: 1px solid rgba(91, 146, 228, 0.14);
-    box-shadow: 0 8px 18px rgba(31, 72, 131, 0.05);
-    flex-wrap: nowrap;
-  }
-
-  /* Home Favorites Profile ERD linkləri */
-  .nav-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 42px;
-    padding: 0 16px;
-    border-radius: 12px;
-    text-decoration: none;
-    color: #1a4f97;
-    font-size: 0.95rem;
-    font-weight: 700;
-    white-space: nowrap;
-    transition: all 0.22s ease;
-  }
-
-  .nav-link:hover {
-    background: linear-gradient(180deg, #eaf3ff, #dcecff);
-    color: #0e3f82;
-    transform: translateY(-1px);
-  }
-
-  /* Aktiv səhifə bir az seçilsin */
-  body[data-page="home"] .nav-link[href*="index.html"],
-  body[data-page="favorites"] .nav-link[href*="favorites.html"],
-  body[data-page="profile"] .nav-link[href*="profile.html"],
-  body[data-page="diagram"] .nav-link[href*="diagrams.html"],
-  body[data-page="admin"] .nav-link[href*="admin.html"] {
-    background: linear-gradient(180deg, #0b73ea, #0a5fca);
-    color: #ffffff;
-    box-shadow: 0 10px 18px rgba(11, 105, 220, 0.18);
-  }
-
-  /* Axtarış hissəsi */
+  /*  Axtarış hissəsi yuxarı sağda dayanır. */
   .search-shell {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    justify-self: end;
+    align-self: center;
+
     display: flex;
     align-items: center;
     gap: 10px;
-    min-width: 340px;
-    max-width: 420px;
+    width: 100%;
+    max-width: 460px;
+    min-width: 360px;
     height: 54px;
-    padding: 0 12px 0 14px;
+    padding: 0 12px 0 16px;
     border-radius: 18px;
     background: linear-gradient(180deg, #ffffff, #f4f9ff);
     border: 1px solid rgba(94, 147, 226, 0.16);
     box-shadow: 0 10px 22px rgba(31, 72, 131, 0.06);
   }
 
+  /*  Search ikon rəngi. */
   .search-shell i {
     color: #5d7faa;
     font-size: 0.95rem;
     flex: 0 0 auto;
   }
 
+  /*  Search input görünüşü. */
   .search-shell input {
     flex: 1 1 auto;
     min-width: 0;
@@ -969,6 +927,7 @@ th {
     color: #7d97b8;
   }
 
+  /*  Search düyməsini daha yığcam saxlayırıq. */
   .search-shell .btn {
     height: 40px;
     padding: 0 16px;
@@ -976,8 +935,31 @@ th {
     flex: 0 0 auto;
   }
 
-  /* Auth düymələri də nav kimi səliqəli dayansın */
+  /*  Əsas menyu aşağı solda yerləşir. */
+  .nav-links {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    justify-self: start;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px;
+    border-radius: 18px;
+    background: linear-gradient(180deg, #ffffff, #f3f9ff);
+    border: 1px solid rgba(91, 146, 228, 0.14);
+    box-shadow: 0 8px 18px rgba(31, 72, 131, 0.05);
+    flex-wrap: nowrap;
+    width: max-content;
+    max-width: 100%;
+  }
+
+  /*  Auth düymələri aşağı sağda ayrıca blok kimi dayansın. */
   #authActions.nav-links {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    justify-self: end;
+
     background: transparent;
     border: none;
     box-shadow: none;
@@ -985,6 +967,46 @@ th {
     gap: 10px;
   }
 
+  /*  Home / ERD kimi linklərin görünüşünü səliqəli edirik. */
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 42px;
+    padding: 0 16px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: #1a4f97;
+    font-size: 0.95rem;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: all 0.22s ease;
+    background: transparent;
+  }
+
+  .nav-link:hover {
+    background: linear-gradient(180deg, #eaf3ff, #dcecff);
+    color: #0e3f82;
+    transform: translateY(-1px);
+  }
+
+  /*  Aktiv səhifəni seçirik. */
+  body[data-page="home"] .nav-link[href*="index.html"],
+  body[data-page="diagram"] .nav-link[href*="diagrams.html"] {
+    background: linear-gradient(180deg, #0b73ea, #0a5fca);
+    color: #ffffff;
+    box-shadow: 0 10px 18px rgba(11, 105, 220, 0.18);
+  }
+
+  /*  Desktop-da təkrar görünən nav linklərini gizlədirik.
+     Favorites, Profile, Admin onsuz da authActions hissəsində görünəcək. */
+  .nav-links .nav-link[href*="favorites.html"],
+  .nav-links .nav-link[href*="profile.html"],
+  .nav-links .nav-link[href*="admin.html"] {
+    display: none !important;
+  }
+
+  /*  Auth hissəsindəki düymələri eyni hündürlükdə saxlayırıq. */
   #authActions .btn {
     height: 42px;
     padding: 0 16px;
