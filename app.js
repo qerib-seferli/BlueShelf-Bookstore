@@ -1342,16 +1342,26 @@ async function boot() { //  Səhifə ilk açıldıqda çağırılır.
   if (loadMoreBtn && loadMoreBtn.dataset.bound !== "true") {
     loadMoreBtn.dataset.bound = "true"; //  Təkrar event bağlanmasın deyə işarə qoyuruq.
 
-    //  Düyməyə klik ediləndə daha çox kitab göstəririk.
-    loadMoreBtn.addEventListener("click", async () => {
-      booksLimit += 8; //  Hər klikdə 8 kitab da əlavə edirik.
+  //  Daha çox kitab göstər düyməsinə klik ediləndə işləyən hissə.
+  loadMoreBtn.addEventListener("click", async () => {
+  //  Klikdən əvvəl cari scroll mövqeyini yadda saxlayırıq.
+  const currentScrollY = window.scrollY;
 
-      //  Yeni limit ilə kitabları yenidən render edirik.
-      await renderBooksGrid("#booksGrid", {
-        limit: booksLimit,
-        query: $("#searchInput")?.value || ""
-      });
+  //  Mövcud limitin üzərinə 8 kitab da əlavə edirik.
+  booksLimit += 8;
+
+  //  Yeni limit ilə kitabları yenidən ekranda göstəririk.
+  await renderBooksGrid("#booksGrid", {
+    limit: booksLimit,
+    query: $("#searchInput")?.value || ""
     });
+
+  //  Render bitəndən sonra istifadəçini əvvəlki yerində saxlayırıq.
+  window.scrollTo({
+    top: currentScrollY,
+    behavior: "instant"
+    });
+  });
   }
 }
 
