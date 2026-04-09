@@ -1093,10 +1093,10 @@ th {
     display: none !important;
   }
 
-  /*  Sağdakı auth hissəsində Admin də ortada qalırsa bunu da gizlət. */
+  /*  Sağdakı auth hissəsində Admin də ortada qalırsa bunu da gizlət. 
   #authActions a[href*="admin.html"] {
     display: none !important;
-  }
+  }*/
 }
 
 /* =======================================================
