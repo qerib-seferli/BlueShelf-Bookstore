@@ -332,33 +332,71 @@
         </div>
 
         <!--  ERD qrafik hissəsinin ümumi paneli. -->
-        <div class="panel erd-wrapper">
-          <!--  ERD lövhəsi. Scroll gizlidir və içində sabit quruluş var. -->
-          <div class="erd-board">
-            <!--  Cədvəllər və xətlər bu iş sahəsində yerləşir. -->
-            <div class="erd-canvas">
+              <div class="panel erd-wrapper">
+        <!--  ERD lövhəsi. Scroll gizlidir və içində sabit quruluş var. -->
+              <div class="erd-board">
+        <!--  Cədvəllər və xətlər bu iş sahəsində yerləşir. -->
+              <div class="erd-canvas">
 
-              <!--  Xətləri çəkən SVG qatı. -->
-              <svg class="erd-lines" viewBox="0 0 1180 860" preserveAspectRatio="none" aria-hidden="true">
-                <!--  AUTHORS cədvəlindən BOOKS cədvəlinin sol tərəfinə gələn xətt. -->
-                <polyline points="390,210 500,210 500,462 565,462"></polyline>
+        <!--  Xətləri çəkən SVG qatı. -->
+      <svg class="erd-lines" viewBox="0 0 1180 860" preserveAspectRatio="none" aria-hidden="true">
 
-                <!--  CATEGORIES cədvəlindən BOOKS cədvəlinin sağ tərəfinə gələn xətt. -->
-                <polyline points="780,170 900,170 900,430 825,430"></polyline>
-                      <!--  <polyline points="840,170 930,170 930,430 825,430"></polyline>  -->
+        <!-- =======================================================
+             XƏT KODLARININ İZAHI
+             points içində hər cüt rəqəm bir nöqtədir:
+             x,y
 
-                <!--  BOOKS cədvəlindən FAVORITES cədvəlinin yuxarı hissəsinə gedən xətt. -->
-                <polyline points="825,610 885,610 885,680 900,680"></polyline>
+             x  -> sola / sağa
+             y  -> yuxarı / aşağı
 
-                <!--  PROFILES cədvəlindən FAVORITES cədvəlinin sol tərəfinə gedən xətt. -->
-                <polyline points="340,610 500,610 500,760 900,760"></polyline>
+             x azalsa  -> sola gedər
+             x artsa   -> sağa gedər
 
-                <!--  Xətt uclarında marker nöqtələri. */
-                <circle class="marker-dot" cx="565" cy="462" r="3.5"></circle>
-                <circle class="marker-dot" cx="825" cy="430" r="3.5"></circle>
-                <circle class="marker-dot" cx="900" cy="680" r="3.5"></circle>
-                <circle class="marker-dot" cx="900" cy="760" r="3.5"></circle>
-              </svg>
+             y azalsa  -> yuxarı qalxar
+             y artsa   -> aşağı düşər
+             ======================================================= -->
+
+        <!--  AUTHORS cədvəlindən BOOKS cədvəlinin sol tərəfinə gələn xətt. -->
+        <!--  390,210  -> AUTHORS cədvəlinin sağ tərəfə yaxın nöqtəsi -->
+        <!--  470,210  -> xətt bir az sağa düz gedir -->
+        <!--  470,462  -> sonra aşağı düşür -->
+        <!--  530,462  -> BOOKS cədvəlinin sol tərəfinə birləşir -->
+        <polyline points="390,210 470,210 470,462 530,462"></polyline>
+
+        <!--  CATEGORIES cədvəlindən BOOKS cədvəlinin sağ tərəfinə gələn xətt. -->
+        <!--  780,170  -> CATEGORIES cədvəlinin sol tərəfə yaxın nöqtəsi -->
+        <!--  860,170  -> xətt sağa gedir -->
+        <!--  860,430  -> sonra aşağı düşür -->
+        <!--  790,430  -> BOOKS cədvəlinin sağ tərəfinə birləşir -->
+        <polyline points="780,170 860,170 860,430 790,430"></polyline>
+
+        <!--  BOOKS cədvəlindən FAVORITES cədvəlinin yuxarı hissəsinə gedən xətt. -->
+        <!--  790,610  -> BOOKS cədvəlinin sağ-alt hissəyə yaxın nöqtəsi -->
+        <!--  860,610  -> xətt sağa gedir -->
+        <!--  860,680  -> sonra aşağı düşür -->
+        <!--  940,680  -> FAVORITES cədvəlinin yuxarı hissəsinə birləşir -->
+        <polyline points="790,610 860,610 860,680 940,680"></polyline>
+
+        <!--  PROFILES cədvəlindən FAVORITES cədvəlinin sol tərəfinə gedən xətt. -->
+        <!--  340,610  -> PROFILES cədvəlinin sağ tərəfə yaxın nöqtəsi -->
+        <!--  500,610  -> xətt sağa gedir -->
+        <!--  500,760  -> sonra aşağı düşür -->
+        <!--  830,760  -> FAVORITES cədvəlinin sol tərəfinə birləşir -->
+        <polyline points="340,610 500,610 500,760 830,760"></polyline>
+
+        <!--  Xətt uclarında marker nöqtələri. -->
+        <!--  AUTHORS -> BOOKS birləşmə nöqtəsi -->
+        <circle class="marker-dot" cx="530" cy="462" r="3.5"></circle>
+
+        <!--  CATEGORIES -> BOOKS birləşmə nöqtəsi -->
+        <circle class="marker-dot" cx="790" cy="430" r="3.5"></circle>
+
+        <!--  BOOKS -> FAVORITES birləşmə nöqtəsi -->
+        <circle class="marker-dot" cx="940" cy="680" r="3.5"></circle>
+
+        <!--  PROFILES -> FAVORITES birləşmə nöqtəsi -->
+        <circle class="marker-dot" cx="830" cy="760" r="3.5"></circle>
+      </svg>
 
                 
               <!--  AUTHORS cədvəli sol yuxarı hissədə yerləşir. -->
