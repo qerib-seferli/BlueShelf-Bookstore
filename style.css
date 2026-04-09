@@ -1075,3 +1075,26 @@ th {
     font-size: 0.86rem;
   }
 }
+
+/* =======================================================
+   HEADER TƏKRAR DÜYMƏLƏRİN GİZLƏDİLMƏSİ
+   Ortadakı Favorites və Profile qalsın,
+   sağdakı auth hissəsində təkrar görünməsin
+   ======================================================= */
+
+@media (min-width: 981px) {
+  /*  Sağdakı auth hissəsində Favorites düyməsini gizlədirik. */
+  #authActions a[href*="favorites.html"] {
+    display: none !important;
+  }
+
+  /*  Sağdakı auth hissəsində Profile düyməsini gizlədirik. */
+  #authActions a[href*="profile.html"] {
+    display: none !important;
+  }
+
+  /*  Sağdakı auth hissəsində Admin də ortada qalırsa bunu da gizlət. */
+  #authActions a[href*="admin.html"] {
+    display: none !important;
+  }
+}
