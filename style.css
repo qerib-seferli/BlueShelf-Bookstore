@@ -1098,3 +1098,29 @@ th {
     display: none !important;
   }
 }
+
+/* =======================================================
+   BOOK CARD HÜNDÜRLÜK DÜZƏLİŞİ
+   Kartın arxa fonu çox uzanmasın
+   ======================================================= */
+
+@media (min-width: 981px) {
+  .book-card {
+    height: auto;
+    min-height: unset;
+  }
+
+  .book-body {
+    height: auto;
+  }
+
+  .book-desc {
+    flex: unset;
+    min-height: auto;
+    max-height: calc(1.6em * 5);
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
