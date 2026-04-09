@@ -787,83 +787,79 @@ th {
 
 
 /* =======================================================
-   HEADER DESKTOP YENİ DÜZÜLÜŞ
-   1) LOGO + SAYT ADI YUXARI SOLDA
-   2) SEARCH YUXARI SAĞDA
-   3) HOME + ERD AŞAĞI SOLDA
-   4) AUTH DÜYMƏLƏRİ AŞAĞI SAĞDA
-   5) FAVORITES / PROFILE TƏKRAR GÖRÜNMƏSİN
+   HEADER DESKTOP YENİ KOMPAKT QURULUŞ
+   1) LOGO + SAYT ADI SOLDA
+   2) MENU ORTADA
+   3) SEARCH + AUTH SAĞDA
+   4) HEADER HÜNDÜRLÜYÜ AZALDILIR
+   5) BOOK CARD HÜNDÜRLÜYÜ SƏLİQƏLİLƏŞDİRİLİR
    ======================================================= */
 
 @media (min-width: 981px) {
 
-  /*  Header ümumi görünüşünü daha təmiz və premium edirik. */
+  /*  Header ümumi görünüşü daha kompakt və səliqəli olsun. */
   .site-header {
     position: sticky;
     top: 0;
     z-index: 999;
-    background: rgba(255, 255, 255, 0.94);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(90, 145, 220, 0.14);
-    box-shadow: 0 12px 30px rgba(31, 78, 146, 0.08);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(90, 145, 220, 0.12);
+    box-shadow: 0 8px 22px rgba(31, 78, 146, 0.07);
   }
 
-  /*  Header-i iki sətirli grid quruluşuna keçiririk. */
+  /*  Header artıq tək sətirli quruluşa keçir. */
   .header-row {
     display: grid;
-    grid-template-columns: minmax(300px, 1fr) minmax(360px, 460px);
-    grid-template-rows: auto auto;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
-    column-gap: 22px;
-    row-gap: 12px;
-    min-height: auto;
-    padding: 14px 0 16px;
+    column-gap: 18px;
+    min-height: 74px;
+    padding: 10px 0;
   }
 
-  /*  Logo və sayt adı yuxarı solda dayanır. */
+  /*  Logo və sayt adı solda dayanır. */
   .brand {
-    grid-column: 1 / 2;
-    grid-row: 1 / 2;
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
     min-width: 0;
-    text-decoration: none;
+    flex: 0 0 auto;
   }
 
-  /*  Logo qabığını daha səliqəli və yumşaq çərçivəli edirik. */
+  /*  Logo qabığını daha təmiz və kiçik edirik. */
   .brand-badge {
-    width: 64px;
-    height: 64px;
-    flex: 0 0 64px;
-    border-radius: 20px;
+    width: 54px;
+    height: 54px;
+    flex: 0 0 54px;
+    padding: 6px;
+    border-radius: 16px;
     overflow: hidden;
-    padding: 7px;
     background: linear-gradient(180deg, #ffffff, #eef6ff);
-    border: 1px solid rgba(88, 144, 226, 0.18);
+    border: 1px solid rgba(88, 144, 226, 0.16);
     box-shadow:
-      0 12px 24px rgba(35, 83, 155, 0.10),
+      0 8px 18px rgba(35, 83, 155, 0.08),
       inset 0 1px 0 rgba(255,255,255,0.90);
   }
 
-  /*  Logo şəkli qabığın içində kəsilmədən və səliqəli otursun. */
+  /*  Logo şəkli qabığın içində səliqəli otursun. */
   .brand-badge img {
     width: 100%;
     height: 100%;
     object-fit: contain;
     display: block;
-    border-radius: 14px;
+    border-radius: 10px;
   }
 
-  /*  Sayt adı hissəsini daha balanslı edirik. */
+  /*  Sayt adı hissəsini yığcam saxlayırıq. */
   .brand-text {
     min-width: 0;
   }
 
   .brand-text h1 {
     margin: 0;
-    font-size: 1.24rem;
-    line-height: 1.15;
+    font-size: 1.12rem;
+    line-height: 1.1;
     color: #153f79;
     font-weight: 800;
     letter-spacing: 0.01em;
@@ -871,113 +867,46 @@ th {
 
   .brand-text span {
     display: block;
-    margin-top: 4px;
-    font-size: 0.83rem;
+    margin-top: 3px;
+    font-size: 0.77rem;
     color: #6882a7;
-    line-height: 1.35;
+    line-height: 1.25;
     white-space: nowrap;
   }
 
-  /*  Header sağ hissəni artıq ümumi flex kimi yox, contents kimi işlədirik ki, elementləri grid-ə paylaya bilək. */
+  /*  Header sağ hissədə olan elementləri bir sırada saxlayırıq. */
   .header-tools {
     display: contents;
   }
 
-  /*  Axtarış hissəsi yuxarı sağda dayanır. */
-  .search-shell {
-    grid-column: 2 / 3;
-    grid-row: 1 / 2;
-    justify-self: end;
-    align-self: center;
-
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    max-width: 460px;
-    min-width: 360px;
-    height: 54px;
-    padding: 0 12px 0 16px;
-    border-radius: 18px;
-    background: linear-gradient(180deg, #ffffff, #f4f9ff);
-    border: 1px solid rgba(94, 147, 226, 0.16);
-    box-shadow: 0 10px 22px rgba(31, 72, 131, 0.06);
-  }
-
-  /*  Search ikon rəngi. */
-  .search-shell i {
-    color: #5d7faa;
-    font-size: 0.95rem;
-    flex: 0 0 auto;
-  }
-
-  /*  Search input görünüşü. */
-  .search-shell input {
-    flex: 1 1 auto;
-    min-width: 0;
-    height: 100%;
-    border: none;
-    outline: none;
-    background: transparent;
-    color: #173f7a;
-    font-size: 0.94rem;
-  }
-
-  .search-shell input::placeholder {
-    color: #7d97b8;
-  }
-
-  /*  Search düyməsini daha yığcam saxlayırıq. */
-  .search-shell .btn {
-    height: 40px;
-    padding: 0 16px;
-    border-radius: 12px;
-    flex: 0 0 auto;
-  }
-
-  /*  Əsas menyu aşağı solda yerləşir. */
+  /*  Əsas menu ortada dayansın. */
   .nav-links {
-    grid-column: 1 / 2;
-    grid-row: 2 / 3;
-    justify-self: start;
-
+    grid-column: 2 / 3;
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 6px;
-    border-radius: 18px;
-    background: linear-gradient(180deg, #ffffff, #f3f9ff);
-    border: 1px solid rgba(91, 146, 228, 0.14);
-    box-shadow: 0 8px 18px rgba(31, 72, 131, 0.05);
+    justify-content: center;
+    gap: 6px;
+    padding: 4px;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #ffffff, #f4f9ff);
+    border: 1px solid rgba(91, 146, 228, 0.12);
+    box-shadow: 0 6px 14px rgba(31, 72, 131, 0.04);
     flex-wrap: nowrap;
     width: max-content;
-    max-width: 100%;
+    justify-self: center;
   }
 
-  /*  Auth düymələri aşağı sağda ayrıca blok kimi dayansın. */
-  #authActions.nav-links {
-    grid-column: 2 / 3;
-    grid-row: 2 / 3;
-    justify-self: end;
-
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    padding: 0;
-    gap: 10px;
-  }
-
-  /*  Home / ERD kimi linklərin görünüşünü səliqəli edirik. */
+  /*  Home və ERD kimi linklərin görünüşü. */
   .nav-link {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 42px;
-    padding: 0 16px;
-    border-radius: 12px;
+    height: 38px;
+    padding: 0 14px;
+    border-radius: 10px;
     text-decoration: none;
     color: #1a4f97;
-    font-size: 0.95rem;
+    font-size: 0.90rem;
     font-weight: 700;
     white-space: nowrap;
     transition: all 0.22s ease;
@@ -990,27 +919,159 @@ th {
     transform: translateY(-1px);
   }
 
-  /*  Aktiv səhifəni seçirik. */
+  /*  Aktiv səhifə seçili görünsün. */
   body[data-page="home"] .nav-link[href*="index.html"],
-  body[data-page="diagram"] .nav-link[href*="diagrams.html"] {
+  body[data-page="favorites"] .nav-link[href*="favorites.html"],
+  body[data-page="profile"] .nav-link[href*="profile.html"],
+  body[data-page="diagram"] .nav-link[href*="diagrams.html"],
+  body[data-page="admin"] .nav-link[href*="admin.html"] {
     background: linear-gradient(180deg, #0b73ea, #0a5fca);
     color: #ffffff;
-    box-shadow: 0 10px 18px rgba(11, 105, 220, 0.18);
+    box-shadow: 0 8px 14px rgba(11, 105, 220, 0.16);
   }
 
-  /*  Desktop-da təkrar görünən nav linklərini gizlədirik.
-     Favorites, Profile, Admin onsuz da authActions hissəsində görünəcək. */
-  .nav-links .nav-link[href*="favorites.html"],
-  .nav-links .nav-link[href*="profile.html"],
-  .nav-links .nav-link[href*="admin.html"] {
+  /*  Search və auth hissəsi birlikdə sağda dayansın. */
+  .search-shell {
+    grid-column: 3 / 4;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 300px;
+    min-width: 300px;
+    max-width: 300px;
+    height: 46px;
+    padding: 0 10px 0 14px;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #ffffff, #f4f9ff);
+    border: 1px solid rgba(94, 147, 226, 0.14);
+    box-shadow: 0 8px 18px rgba(31, 72, 131, 0.05);
+    justify-self: end;
+    margin-right: 182px;
+  }
+
+  /*  Search ikon görünüşü. */
+  .search-shell i {
+    color: #5d7faa;
+    font-size: 0.92rem;
+    flex: 0 0 auto;
+  }
+
+  /*  Search input görünüşü. */
+  .search-shell input {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #173f7a;
+    font-size: 0.90rem;
+  }
+
+  .search-shell input::placeholder {
+    color: #7d97b8;
+  }
+
+  /*  Search düyməsini kiçik və yığcam saxlayırıq. */
+  .search-shell .btn {
+    height: 34px;
+    padding: 0 12px;
+    border-radius: 10px;
+    font-size: 0.84rem;
+    flex: 0 0 auto;
+  }
+
+  /*  Auth düymələri sağın ən kənarında ayrıca dayansın. */
+  #authActions.nav-links {
+    grid-column: 3 / 4;
+    justify-self: end;
+    margin-left: 12px;
+
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    gap: 8px;
+
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  /*  Auth düymələrinin görünüşü. */
+  #authActions .btn {
+    height: 38px;
+    padding: 0 14px;
+    border-radius: 10px;
+    white-space: nowrap;
+    font-size: 0.87rem;
+  }
+
+  /*  Desktop-da təkrar görünməsin deyə bu nav linkləri gizlədirik.
+     Bunlar auth hissəsində ayrıca görünəcək. */
+  .header-row > .nav-links .nav-link[href*="favorites.html"],
+  .header-row > .nav-links .nav-link[href*="profile.html"],
+  .header-row > .nav-links .nav-link[href*="admin.html"] {
     display: none !important;
   }
 
-  /*  Auth hissəsindəki düymələri eyni hündürlükdə saxlayırıq. */
-  #authActions .btn {
-    height: 42px;
-    padding: 0 16px;
-    border-radius: 12px;
-    white-space: nowrap;
+  /*  Header konteynerinə relative veririk ki, auth düymələrini sağa sabitləyə bilək. */
+  .site-header .container.header-row {
+    position: relative;
+  }
+
+  /* =======================================================
+     BOOK CARD DESKTOP DÜZƏLİŞİ
+     1) KARTLAR ÇOX UZUN GÖRÜNMƏSİN
+     2) AÇIQLAMA MAKSİMUM 5 SƏTR OLSUN
+     ======================================================= */
+
+  /*  Kitab gridində kartlar daha kompakt qalsın. */
+  .book-grid {
+    gap: 20px;
+  }
+
+  /*  Kart ümumi görünüşünü yüngülcə yığcamlaşdırırıq. */
+  .book-card {
+    border-radius: 22px;
+  }
+
+  /*  Şəkil hissəsinin hündürlüyünü bir az azaldırıq. */
+  .book-cover {
+    aspect-ratio: 4 / 4.6;
+  }
+
+  /*  Kart içi boşluqları azaldırıq. */
+  .book-body {
+    gap: 8px;
+    padding: 16px;
+  }
+
+  /*  Kart başlığı bir az yığcam olsun. */
+  .book-title {
+    font-size: 1.05rem;
+    line-height: 1.32;
+  }
+
+  /*  Açıqlama maksimum 5 sətir görünsün. */
+  .book-desc {
+    color: var(--muted);
+    line-height: 1.6;
+    font-size: 0.93rem;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: calc(1.6em * 5);
+    max-height: calc(1.6em * 5);
+  }
+
+  /*  Kartdakı alt düymələr də daha səliqəli olsun. */
+  .book-body .btn {
+    min-height: 38px;
+    padding: 10px 14px;
+    font-size: 0.86rem;
   }
 }
