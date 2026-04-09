@@ -507,7 +507,7 @@ function bindResetPasswordForm() { //  reset-password.html üçün.
   form.addEventListener("submit", async (event) => { //  Submit.
     event.preventDefault(); //  Default submit dayanır.
     const email = new FormData(form).get("email"); //  Email dəyərini götürürük.
-    const redirectTo = `${window.location.origin}${window.location.pathname.replace("reset-password.html", "profile.html")}`; //  Reset linkdən sonra yönləndiriləcək ünvan.
+    const redirectTo = "https://qerib-seferli.github.io/BlueShelf-Bookstore/update-password.html"; //  Reset linkdən sonra yönləndiriləcək ünvan.
     const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo }); //  Şifrə yeniləmə email-i göndəririk.
     if (error) { //  Səhv halı.
       showToast(error.message, true); //  Xəta göstər.
