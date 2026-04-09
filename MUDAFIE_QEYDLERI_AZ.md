@@ -28,19 +28,19 @@ SQL (PostgreSQL)
 
 3. Layihənin fayl strukturu
 Layihənin əsas faylları:
-index.html → ana səhifə
-login.html → giriş səhifəsi
-register.html → qeydiyyat
-reset-password.html → reset email göndərmə
-update-password.html → yeni şifrə təyin etmə
-profile.html → istifadəçi profili
-favorites.html → favorit kitablar
-book-details.html → kitab detail
-author-details.html → müəllif detail
-admin.html → admin panel
-diagrams.html → ERD diaqram
-style.css → bütün dizayn
-app.js → bütün JS funksionallıq
+-index.html → ana səhifə
+-login.html → giriş səhifəsi
+-register.html → qeydiyyat
+-reset-password.html → reset email göndərmə
+-update-password.html → yeni şifrə təyin etmə
+-profile.html → istifadəçi profili
+-favorites.html → favorit kitablar
+-book-details.html → kitab detail
+-author-details.html → müəllif detail
+-admin.html → admin panel
+-diagrams.html → ERD diaqram
+-style.css → bütün dizayn
+-app.js → bütün JS funksionallıq
 js/supabase-config.js → Supabase bağlantısı
 
 4. Layihənin qurulması prosesi
