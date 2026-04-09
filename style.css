@@ -1,785 +1,935 @@
+/* ============================================================ */
+/*  SAYTIN YENİDƏN QURULMUŞ PC-FOCUS CSS DİZAYNI               */
+/*  Rəng xətti: mavi + ağ + açıq mavi                          */
+/*  Məqsəd: təmiz UI, yaxşı UX, yumşaq animasiyalar            */
+/*  Qeyd: bu fayl mövcud sinif adlarını qorumağa çalışır       */
+/*  və əlavə olaraq menyu, dropdown və favorit ürək dəstəyi    */
+/*  verir.                                                     */
+/* ============================================================ */
 
-/* ========================================================= */
-/*  Bu fayl saytın bütün görünüşünü idarə edir.      */
-/*  Buradakı hər sinif və seçimçi HTML elementlərinə  */
-/*  rəng, ölçü, boşluq, animasiya və düzülüş verir.   */
-/* ========================================================= */
-
-/*  :root ümumi dəyişənlər üçündür. */
-/*  Burada əsas rəngləri bir dəfə yazırıq, sonra hər yerdə çağırırıq. */
 :root {
-  --primary: #0a6fe8; /*  Əsas mavi rəng. */
-  --primary-dark: #084db0; /*  Tünd mavi ton. */
-  --primary-soft: #dff0ff; /*  Açıq mavi fon tonlarından biri. */
-  --sky: #f4faff; /*  Çox açıq mavi-ağ arxa fon. */
-  --white: #ffffff; /*  Ağ rəng. */
-  --text: #15304f; /*  Oxunaqlı əsas mətn rəngi. */
-  --muted: #6d7f95; /*  Köməkçi açıq mətn rəngi. */
-  --line: rgba(10, 111, 232, 0.12); /*  Xətt və çərçivə üçün şəffaf mavi. */
-  --shadow: 0 20px 60px rgba(9, 77, 176, 0.12); /*  Kart kölgəsi. */
-  --radius-xl: 28px; /*  Böyük radius. */
-  --radius-lg: 22px; /*  Orta radius. */
-  --radius-md: 16px; /*  Kiçik radius. */
-  --container: 1240px; /*  Məzmunun maksimum eni. */
+  --bg-main: #eef7ff; /*  Səhifənin əsas açıq mavi fon rəngi. */
+  --bg-soft: #f8fbff; /*  Ağ-a yaxın yumşaq əlavə fon rəngi. */
+  --bg-card: #ffffff; /*  Kartlar və panellər üçün təmiz ağ fon. */
+  --bg-elevated: rgba(255, 255, 255, 0.82); /*  Şüşə effekti üçün yarı şəffaf ağ fon. */
+  --primary: #1677ff; /*  Brendin əsas mavi rəngi. */
+  --primary-strong: #0f5fd4; /*  Hover və aktiv hallar üçün daha güclü mavi. */
+  --primary-deep: #0b2f63; /*  Başlıqlar üçün tünd mavi rəng. */
+  --primary-soft: #dcecff; /*  Seçilmiş elementlər üçün açıq mavi dolğu. */
+  --accent: #7cc4ff; /*  Vizual yumşaqlıq üçün ikinci açıq mavi vurğu. */
+  --text-main: #17324d; /*  Əsas oxunaqlı mətn rəngi. */
+  --text-soft: #65809b; /*  Köməkçi və ikinci dərəcəli mətn rəngi. */
+  --text-light: #8ea5bc; /*  Daha solğun izah və meta məlumat rəngi. */
+  --line: rgba(22, 119, 255, 0.12); /*  Kart sərhədi və incə xətlər üçün rəng. */
+  --line-strong: rgba(22, 119, 255, 0.22); /*  Fokus və aktiv sərhədlər üçün daha güclü xətt rəngi. */
+  --shadow-sm: 0 10px 24px rgba(14, 74, 156, 0.08); /*  Kiçik kölgə effekti. */
+  --shadow-md: 0 18px 40px rgba(14, 74, 156, 0.12); /*  Orta dərinlik verən kölgə. */
+  --shadow-lg: 0 28px 70px rgba(14, 74, 156, 0.16); /*  Böyük panellər üçün yumşaq dərinlik. */
+  --radius-xs: 10px; /*  Kiçik element radiusu. */
+  --radius-sm: 14px; /*  Input və kiçik kart radiusu. */
+  --radius-md: 18px; /*  Standart blok radiusu. */
+  --radius-lg: 24px; /*  Böyük kart və panel radiusu. */
+  --radius-xl: 32px; /*  Hero və əsas böyük blok radiusu. */
+  --container: 1280px; /*  PC görünüşü üçün maksimum konteyner eni. */
+  --header-height: 88px; /*  Header üçün sabit hündürlük. */
+  --transition-fast: 0.2s ease; /*  Tez hover dəyişiklikləri üçün animasiya. */
+  --transition-main: 0.3s ease; /*  Standart UI keçidləri üçün animasiya. */
+  --transition-slow: 0.45s ease; /*  Daha yumşaq açılıb-bağlanma keçidi. */
+  --favorite: #ff4d6d; /*  Favorit ürək üçün əsas qırmızı rəng. */
+  --favorite-dark: #e5385d; /*  Favorit aktiv halı üçün tünd qırmızı rəng. */
+  --success: #18b26a; /*  Uğurlu statuslar üçün yaşıl rəng. */
+  --warning: #ffb020; /*  Xəbərdarlıq statusları üçün narıncı rəng. */
 }
 
-/*  Bütün elementlərdə qutu hesablamasını sabitləşdirir. */
 * {
-  box-sizing: border-box; /*  Padding və border eni ümumi enə daxil edilir. */
+  box-sizing: border-box; /*  Padding və border eni ümumi ölçüyə daxil olsun deyə istifadə olunur. */
 }
 
-/*  html hissəsi yumşaq sürüşmə üçün istifadə olunur. */
+*::before,
+*::after {
+  box-sizing: border-box; /*  Psevdo elementlərdə də ölçü hesablamasını sabit saxlayır. */
+}
+
 html {
-  scroll-behavior: smooth; /*  Anchor keçidləri yumşaq hərəkət edir. */
+  scroll-behavior: smooth; /*  Səhifədaxili keçidlərdə yumşaq sürüşmə yaradır. */
 }
 
-/*  body səhifənin əsas görünüşünü qurur. */
 body {
-  margin: 0; /*  Brauzerin standart kənar boşluğunu silir. */
-  font-family: "Segoe UI", Arial, sans-serif; /*  Oxunaqlı şrift ailəsi. */
+  margin: 0; /*  Brauzerin standart boşluğunu silir. */
+  min-width: 1200px; /*  Dizaynı PC üçün sabit və səliqəli saxlayır. */
+  min-height: 100vh; /*  Səhifənin ən azı ekran boyu olmasını təmin edir. */
+  font-family: "Segoe UI", "Inter", Arial, sans-serif; /*  Müasir və oxunaqlı şrift ailəsini təyin edir. */
+  font-size: 16px; /*  Əsas baz font ölçüsünü müəyyən edir. */
+  line-height: 1.6; /*  Mətn oxunaqlığını artırmaq üçün sətir arası məsafə verir. */
+  color: var(--text-main); /*  Əsas mətn rəngini verir. */
   background:
-    radial-gradient(circle at top left, rgba(10, 111, 232, 0.14), transparent 30%),
-    radial-gradient(circle at top right, rgba(84, 183, 255, 0.16), transparent 26%),
-    linear-gradient(180deg, #fafdff 0%, #edf6ff 100%); /*  Canlı mavi-ağ arxa fon. */
-  color: var(--text); /*  Mətn rəngi. */
-  min-height: 100vh; /*  Səhifə ən azı ekran boyu olsun. */
+    radial-gradient(circle at top left, rgba(22, 119, 255, 0.14), transparent 28%), /*  Sol yuxarı hissədə yumşaq mavi işıq effekti yaradır. */
+    radial-gradient(circle at top right, rgba(124, 196, 255, 0.18), transparent 24%), /*  Sağ yuxarı hissədə əlavə açıq mavi işıq effekti verir. */
+    linear-gradient(180deg, #fafdff 0%, #eef7ff 45%, #f8fbff 100%); /*  Bütün səhifə üzrə açıq mavi-ağ əsas fon yaradır. */
+  -webkit-font-smoothing: antialiased; /*  WebKit brauzerlərdə mətn kənarlarını yumşaldır. */
+  text-rendering: optimizeLegibility; /*  Başlıqlar və mətn üçün daha keyfiyyətli render verir. */
 }
 
-/*  Keçidli UI üçün ümumi görünüş. */
-a,
+a {
+  color: inherit; /*  Linkin rəngini valideyn elementdən götürür. */
+  text-decoration: none; /*  Standart alt xətti silir. */
+  transition: color var(--transition-main), background var(--transition-main), transform var(--transition-main), box-shadow var(--transition-main); /*  Link keçidlərini yumşaldır. */
+}
+
 button,
 input,
 select,
 textarea {
-  transition: 0.25s ease; /*  Hover və fokuslar daha yumşaq görünsün. */
+  font: inherit; /*  Form elementlərinin şriftini saytla eyni saxlayır. */
+  transition: border-color var(--transition-main), box-shadow var(--transition-main), background var(--transition-main), color var(--transition-main), transform var(--transition-main); /*  Form və düymələrdə zərif keçid yaradır. */
 }
 
-/*  Linklərin standart alt xətlərini silirik. */
-a {
-  color: inherit; /*  Link mətni valideyn rəngini götürür. */
-  text-decoration: none; /*  Alt xətt silinir. */
-}
-
-/*  Şəkillər daşmasın. */
 img {
-  max-width: 100%; /*  Konteynerdən böyük olmasın. */
-  display: block; /*  Alt boşluqları sabitləşdirir. */
+  display: block; /*  Şəkil altındakı artıq inline boşluğunu aradan qaldırır. */
+  max-width: 100%; /*  Şəkilin konteynerdən daşmasının qarşısını alır. */
 }
 
-/*  Ümumi konteyner sinifi. */
+ul,
+ol {
+  margin: 0; /*  Siyahılardakı standart üst-alt boşluğu silir. */
+  padding: 0; /*  Siyahı iç boşluğunu sıfırlayır. */
+  list-style: none; /*  Default nöqtə və rəqəmləri silir. */
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-top: 0; /*  Başlıq və paraqrafların yuxarı boşluğunu sıfırlayır. */
+}
+
+::selection {
+  background: rgba(22, 119, 255, 0.18); /*  Seçilmiş mətn üçün açıq mavi vurğu yaradır. */
+  color: var(--primary-deep); /*  Seçilmiş mətnin oxunaqlı qalması üçün tünd rəng verir. */
+}
+
+::-webkit-scrollbar {
+  width: 12px; /*  Şaquli scrollbar enini müəyyən edir. */
+  height: 12px; /*  Üfüqi scrollbar hündürlüyünü müəyyən edir. */
+}
+
+::-webkit-scrollbar-track {
+  background: #eaf3ff; /*  Scrollbar arxa yolunu açıq mavi rəngdə göstərir. */
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #7ebeff 0%, #1677ff 100%); /*  Scrollbar tutacağına mavi keçid verir. */
+  border-radius: 999px; /*  Tutacağı tam yumru göstərir. */
+  border: 2px solid #eaf3ff; /*  Tutacağın ətrafına yumşaq sərhəd verir. */
+}
+
 .container {
-  width: min(100% - 32px, var(--container)); /*  Kiçik ekranlarda yan boşluq saxlayır. */
-  margin: 0 auto; /*  Ortalayır. */
+  width: min(calc(100% - 48px), var(--container)); /*  Səhifə kənarlarında boşluq saxlayaraq əsas eni idarə edir. */
+  margin-left: auto; /*  Konteyneri soldan ortalayır. */
+  margin-right: auto; /*  Konteyneri sağdan ortalayır. */
 }
 
-/*  Saytın üst başlıq hissəsi. */
 .site-header {
-  position: sticky; /*  Yuxarıda yapışqan qalsın. */
-  top: 0; /*  Tam yuxarıda dayansın. */
-  z-index: 50; /*  Digər elementlərin üstündə görünsün. */
-  backdrop-filter: blur(14px); /*  Arxa fonu şüşə effekti ilə yumşaldır. */
-  background: rgba(255, 255, 255, 0.8); /*  Şəffaf ağ başlıq fonu. */
-  border-bottom: 1px solid var(--line); /*  Nazik alt xətt. */
+  position: sticky; /*  Header skrollda yuxarıda sabit qalsın deyə istifadə edilir. */
+  top: 0; /*  Header-i tam yuxarıya yapışdırır. */
+  z-index: 120; /*  Header-in digər elementlərin üstündə qalmasını təmin edir. */
+  min-height: var(--header-height); /*  Header üçün standart hündürlük verir. */
+  backdrop-filter: blur(16px); /*  Arxadakı fonu yumşaldaraq premium şüşə effekti yaradır. */
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.78)); /*  Yüngül şəffaf ağ header fonu yaradır. */
+  border-bottom: 1px solid var(--line); /*  Header altına incə ayırıcı xətt çəkir. */
+  box-shadow: 0 8px 24px rgba(12, 53, 108, 0.05); /*  Header-ə yüngül dərinlik verir. */
 }
 
-/*  Header iç düzülüşü. */
 .header-row {
-  display: flex; /*  Elementləri üfüqi düzür. */
-  align-items: center; /*  Şaquli ortalayır. */
-  justify-content: space-between; /*  Sol və sağ tərəfi ayırır. */
-  gap: 18px; /*  Aralıq verir. */
-  min-height: 82px; /*  Header hündürlüyü. */
+  display: grid; /*  Header daxilində sahələri səliqəli bölmək üçün grid istifadə olunur. */
+  grid-template-columns: auto 1fr auto; /*  Logo, ortadakı hissə və sağ alətlər üçün üç sütun yaradır. */
+  align-items: center; /*  Bütün header elementlərini şaquli mərkəzləyir. */
+  gap: 22px; /*  Sütunlar arasında nizamlı boşluq yaradır. */
+  min-height: var(--header-height); /*  Sətirin header boyuna uyğun qalmasını təmin edir. */
 }
 
-/*  Logo və sayt adı hissəsi. */
 .brand {
-  display: flex; /*  Logo ilə adı yanaşı göstərir. */
-  align-items: center; /*  Şaquli mərkəz. */
-  gap: 14px; /*  Aradakı boşluq. */
-  flex-shrink: 0; /*  Kiçilməsin. */
+  display: inline-flex; /*  Logo və mətn hissəsini yan-yana göstərir. */
+  align-items: center; /*  Logo ilə mətnin hündürlüyünü bir xəttə gətirir. */
+  gap: 14px; /*  Logo ilə mətn arasında boşluq saxlayır. */
+  min-width: max-content; /*  Brend hissəsinin sıxılıb dağılmasının qarşısını alır. */
 }
 
-/*  Logo üçün qabıq. */
 .brand-badge {
-  width: 56px; /*  Logo blok eni. */
-  height: 56px; /*  Logo blok hündürlüyü. */
-  padding: 10px; /*  İç boşluq. */
-  border-radius: 18px; /*  Yumru künc. */
-  background: linear-gradient(180deg, #ffffff 0%, #dff0ff 100%); /*  Yumşaq mavi-ağ keçid. */
-  box-shadow: var(--shadow); /*  Dərinlik effekti. */
-  border: 1px solid var(--line); /*  Nazik çərçivə. */
+  width: 58px; /*  Logo konteynerinin enini təyin edir. */
+  height: 58px; /*  Logo konteynerinin hündürlüyünü təyin edir. */
+  display: grid; /*  İç məzmunu tək hüceyrədə mərkəzləmək üçün grid istifadə olunur. */
+  place-items: center; /*  Logo ikonunu həm üfüqi, həm şaquli ortalayır. */
+  border-radius: 18px; /*  Küncləri yumşaldır. */
+  background: linear-gradient(180deg, #ffffff 0%, #dbedff 100%); /*  Logo qabığına açıq mavi-ağ keçid verir. */
+  border: 1px solid rgba(22, 119, 255, 0.16); /*  Logo qabığına zərif sərhəd verir. */
+  box-shadow: var(--shadow-md); /*  Loqonu bir az qaldırılmış göstərir. */
 }
 
-/*  Sayt adı hissəsi. */
 .brand-text h1 {
-  margin: 0; /*  Default margin silinir. */
-  font-size: 1.15rem; /*  Başlıq ölçüsü. */
-  line-height: 1.2; /*  Sətir hündürlüyü. */
+  margin-bottom: 2px; /*  Alt hissədə az boşluq saxlayaraq subtitle ilə nizam yaradır. */
+  font-size: 1.18rem; /*  Sayt adı üçün balanslı başlıq ölçüsü verir. */
+  line-height: 1.2; /*  Başlıq sətirini yığcam saxlayır. */
+  color: var(--primary-deep); /*  Brend başlığını tünd mavi ilə vurğulayır. */
 }
 
-/*  Kiçik köməkçi mətn. */
 .brand-text span {
-  display: block; /*  Yeni sətrə keçir. */
-  color: var(--muted); /*  Solğun mətn. */
-  font-size: 0.9rem; /*  Köməkçi ölçü. */
+  display: block; /*  Subtitle-ı yeni sətirdə göstərir. */
+  color: var(--text-soft); /*  Yardımçı mətn üçün daha yumşaq rəng verir. */
+  font-size: 0.92rem; /*  Subtitle-ı əsas başlıqdan kiçik saxlayır. */
 }
 
-/*  Header sağ hissəsi. */
-.header-tools {
-  display: flex; /*  Üfüqi düzülüş. */
-  align-items: center; /*  Mərkəzlənmə. */
-  gap: 12px; /*  Boşluq. */
-  flex: 1; /*  Qalan eni tutsun. */
-  justify-content: flex-end; /*  Sağa yığ. */
+.main-nav {
+  display: flex; /*  Naviqasiyanı üfüqi düzür. */
+  align-items: center; /*  Naviqasiya elementlərini şaquli ortalayır. */
+  justify-content: center; /*  Menyunu ortada toplayır. */
 }
 
-/*  Axtarış forması. */
-.search-shell {
-  display: flex; /*  İkon, input və düyməni yan-yana düzür. */
-  align-items: center; /*  Şaquli mərkəz. */
-  gap: 10px; /*  Aralıq. */
-  min-width: 320px; /*  Çox kiçilməsin. */
-  width: min(100%, 600px); /*  Böyük ekranlarda maksimum eni saxlayır. */
-  background: var(--white); /*  Ağ fon. */
-  border: 1px solid var(--line); /*  Nazik kontur. */
-  border-radius: 999px; /*  Tam yumru kapsul forma. */
-  padding: 10px 12px 10px 16px; /*  İç boşluqlar. */
-  box-shadow: var(--shadow); /*  Kölgə. */
-}
-
-/*  Axtarış ikon sahəsi. */
-.search-shell i {
-  color: var(--primary); /*  Mavi ikon rəngi. */
-}
-
-/*  Axtarış input-u. */
-.search-shell input {
-  border: none; /*  Standart çərçivə silinir. */
-  outline: none; /*  Klik zamanı sərt çərçivə silinir. */
-  font-size: 0.98rem; /*  Mətn ölçüsü. */
-  width: 100%; /*  Boş qalan sahəni doldurur. */
-  background: transparent; /*  Şəffaf fon. */
-  color: var(--text); /*  Mətn rəngi. */
-}
-
-/*  Ümumi düymə görünüşü. */
-.btn {
-  border: none; /*  Standart border silinir. */
-  cursor: pointer; /*  Klik edilə bildiyini göstərir. */
-  border-radius: 999px; /*  Yumru forma. */
-  padding: 12px 18px; /*  İç boşluq. */
-  font-weight: 700; /*  Qalın mətn. */
-  display: inline-flex; /*  İkon və mətn yanaşı olsun. */
-  align-items: center; /*  Mərkəzlənmə. */
-  justify-content: center; /*  Ortala. */
-  gap: 8px; /*  İkon və mətn arası. */
-}
-
-/*  Əsas düymə. */
-.btn-primary {
-  background: linear-gradient(135deg, var(--primary) 0%, #40a4ff 100%); /*  Mavi keçidli fon. */
-  color: var(--white); /*  Ağ mətn. */
-  box-shadow: 0 14px 30px rgba(10, 111, 232, 0.26); /*  Güclü parlaq kölgə. */
-}
-
-/*  Hover effekti. */
-.btn-primary:hover,
-.btn-secondary:hover,
-.btn-ghost:hover,
-.book-card:hover,
-.author-card:hover,
-.panel:hover {
-  transform: translateY(-2px); /*  Yüngül yuxarı qalxma. */
-}
-
-/*  İkinci düymə. */
-.btn-secondary {
-  background: var(--white); /*  Ağ fon. */
-  color: var(--primary-dark); /*  Tünd mavi mətn. */
-  border: 1px solid var(--line); /*  Çərçivə. */
-  box-shadow: var(--shadow); /*  Kölgə. */
-}
-
-/*  Xəyal düymə. */
-.btn-ghost {
-  background: rgba(255, 255, 255, 0.65); /*  Şəffaf-ağ fon. */
-  color: var(--text); /*  Mətn rəngi. */
-  border: 1px solid var(--line); /*  Nazik xətt. */
-}
-
-/*  Yuxarı naviqasiya linkləri. */
 .nav-links {
-  display: flex; /*  Yanaşı düzülüş. */
-  align-items: center; /*  Mərkəzlənmə. */
-  gap: 10px; /*  Boşluq. */
-  flex-wrap: wrap; /*  Kiçik ekranlarda aşağı düşə bilər. */
+  display: inline-flex; /*  Linkləri kapsulvari bir sətirdə toplamaq üçün istifadə olunur. */
+  align-items: center; /*  Linkləri eyni hündürlükdə saxlayır. */
+  gap: 8px; /*  Linklər arasında nizamlı boşluq yaradır. */
+  padding: 8px; /*  Menyu qutusunun içində yumşaq boşluq saxlayır. */
+  background: rgba(255, 255, 255, 0.72); /*  Menyu arxasında yüngül şüşə fon yaradır. */
+  border: 1px solid var(--line); /*  Menyu qutusuna zərif kontur verir. */
+  border-radius: 999px; /*  Menyu qutusunu yumru kapsul formasına salır. */
+  box-shadow: var(--shadow-sm); /*  Menyuya yüngül dərinlik verir. */
 }
 
-/*  Naviqasiya link kapsulu. */
-.nav-link {
-  padding: 10px 14px; /*  İç boşluq. */
-  border-radius: 999px; /*  Yumru forma. */
-  color: var(--muted); /*  Solğun mətn. */
-  font-weight: 600; /*  Oxunaqlı qalınlıq. */
+.nav-links li {
+  position: relative; /*  Dropdown menyunun bu elementə görə yerləşməsi üçün əsas yaradır. */
 }
 
-/*  Aktiv və hover link görünüşü. */
+.nav-link,
+.dropdown-toggle {
+  display: inline-flex; /*  Mətn və ikonları yan-yana göstərə bilir. */
+  align-items: center; /*  İkon və mətni şaquli ortalayır. */
+  justify-content: center; /*  Məzmunu öz daxilində ortalayır. */
+  gap: 8px; /*  Mətnlə ikon arasında boşluq yaradır. */
+  min-height: 46px; /*  Klik sahəsini rahat edir. */
+  padding: 0 18px; /*  Linkin sağ-sol nəfəs payını artırır. */
+  border-radius: 999px; /*  Linklərə yumru kapsul forması verir. */
+  color: var(--text-soft); /*  Standart halda yumşaq mətn rəngi tətbiq edir. */
+  font-weight: 700; /*  Menyu mətnini daha aydın göstərir. */
+  letter-spacing: 0.01em; /*  Mətnin optik balansını yaxşılaşdırır. */
+  background: transparent; /*  Default halda arxa fonu şəffaf saxlayır. */
+  border: none; /*  Düymə tipli toggle üçün artıq sərhədi silir. */
+  cursor: pointer; /*  Klik edilə bildiyini göstərir. */
+}
+
 .nav-link:hover,
-.nav-link.active {
-  background: rgba(10, 111, 232, 0.09); /*  Açıq mavi fon. */
-  color: var(--primary-dark); /*  Mətn daha qabarıq olur. */
+.nav-link.active,
+.dropdown-toggle:hover,
+.has-dropdown.is-open > .dropdown-toggle {
+  color: var(--primary-strong); /*  Aktiv və hover hallarda daha parlaq mavi mətn verir. */
+  background: rgba(22, 119, 255, 0.09); /*  Seçilmiş menyu üçün açıq mavi arxa plan verir. */
+  box-shadow: inset 0 0 0 1px rgba(22, 119, 255, 0.12); /*  Yumşaq daxili sərhəd ilə aktivlik hissi yaradır. */
 }
 
-/*  Hero hissəsi. */
+.menu-toggle {
+  display: none; /*  PC görünüşündə hamburger düyməni gizlədir. */
+}
+
+.has-dropdown {
+  position: relative; /*  Alt menyunun yerləşməsi üçün mövqe referansı verir. */
+}
+
+.dropdown-menu {
+  position: absolute; /*  Alt menyunu əsas li elementinə görə yerləşdirir. */
+  top: calc(100% + 12px); /*  Alt menyunu əsas linkin dərhal altına qoyur. */
+  left: 0; /*  Sol tərəfdən hizalayır. */
+  min-width: 240px; /*  Dropdown üçün rahat eni təmin edir. */
+  padding: 12px; /*  İç boşluq verərək səliqəni artırır. */
+  background: rgba(255, 255, 255, 0.98); /*  Dropdown içi üçün təmiz ağ fon verir. */
+  border: 1px solid var(--line); /*  Menü ətrafına nazik kontur çəkir. */
+  border-radius: 18px; /*  Alt menyunun künclərini yumşaldır. */
+  box-shadow: var(--shadow-lg); /*  Alt menyunu üzən panel kimi göstərir. */
+  opacity: 0; /*  Default halda görünməz edir. */
+  visibility: hidden; /*  Default halda kliklənməz edir. */
+  transform: translateY(10px) scale(0.98); /*  Açılarkən aşağıdan yuxarı yumşaq hərəkət hissi yaradır. */
+  pointer-events: none; /*  Bağlı halda üzərinə klik düşməsinin qarşısını alır. */
+  transition: opacity var(--transition-main), transform var(--transition-main), visibility var(--transition-main); /*  Açılıb-bağlanma animasiyasını idarə edir. */
+}
+
+.has-dropdown:hover > .dropdown-menu,
+.has-dropdown.is-open > .dropdown-menu,
+.dropdown-menu.show {
+  opacity: 1; /*  Açıq halda menyunu görünən edir. */
+  visibility: visible; /*  Açıq halda menyunu aktiv edir. */
+  transform: translateY(0) scale(1); /*  Açılma anında normal mövqeyinə gətirir. */
+  pointer-events: auto; /*  Açıq halda menyu linklərinə klik etməyə icazə verir. */
+}
+
+.dropdown-menu a {
+  display: flex; /*  Alt menyu linklərini səliqəli bir sətirdə tutur. */
+  align-items: center; /*  İkon və mətni ortalayır. */
+  gap: 10px; /*  Link içində ikonla mətn arasında boşluq saxlayır. */
+  padding: 12px 14px; /*  Hər linki rahat klik edilə bilən sahəyə çevirir. */
+  border-radius: 12px; /*  Hover zamanı kartvari yumşaqlıq verir. */
+  color: var(--text-main); /*  Alt menyu mətn rəngini təyin edir. */
+  font-weight: 600; /*  Linkləri aydın göstərir. */
+}
+
+.dropdown-menu a:hover {
+  background: rgba(22, 119, 255, 0.08); /*  Hover zamanı açıq mavi seçilmə fonu verir. */
+  color: var(--primary-strong); /*  Hover link rəngini daha qabarıq edir. */
+  transform: translateX(4px); /*  Hover zamanı sağa kiçik hərəkət verərək canlılıq yaradır. */
+}
+
+.header-tools {
+  display: flex; /*  Sağ hissədəki alətləri üfüqi düzür. */
+  align-items: center; /*  Bütün alətləri mərkəzləyir. */
+  justify-content: flex-end; /*  Sağ tərəfə yığır. */
+  gap: 12px; /*  Elementlər arasında nizamlı boşluq saxlayır. */
+}
+
+.search-shell {
+  display: flex; /*  Axtarış ikonunu, input-u və düyməni eyni sətirdə saxlayır. */
+  align-items: center; /*  Daxili elementləri şaquli ortalayır. */
+  gap: 10px; /*  Daxildə rahat boşluq yaradır. */
+  width: min(620px, 100%); /*  Axtarış sahəsinin maksimal enini PC üçün tənzimləyir. */
+  min-width: 360px; /*  Axtarış bölməsinin həddindən artıq daralmasının qarşısını alır. */
+  padding: 12px 14px 12px 18px; /*  Axtarış qutusuna balanslı iç boşluq verir. */
+  border-radius: 999px; /*  Axtarış sahəsini kapsul formaya salır. */
+  border: 1px solid rgba(22, 119, 255, 0.14); /*  Yumşaq mavi kontur əlavə edir. */
+  background: rgba(255, 255, 255, 0.95); /*  Axtarış bölməsini ağ saxlayaraq oxunaqlılığı artırır. */
+  box-shadow: var(--shadow-md); /*  Axtarış qutusuna üzən hissiyat verir. */
+}
+
+.search-shell i,
+.search-shell svg {
+  color: var(--primary); /*  Axtarış ikonunu əsas mavi ilə göstərir. */
+  flex-shrink: 0; /*  İkonun sıxılıb deformasiyaya uğramasının qarşısını alır. */
+}
+
+.search-shell input {
+  width: 100%; /*  Input-u boş qalan sahəyə yayır. */
+  border: none; /*  Standart input çərçivəsini silir. */
+  outline: none; /*  Default fokus konturunu gizlədir. */
+  background: transparent; /*  Input fonunu şəffaf saxlayır. */
+  color: var(--text-main); /*  Yazı rəngini əsas mətn rəngi edir. */
+}
+
+.search-shell:focus-within {
+  border-color: rgba(22, 119, 255, 0.28); /*  Fokusda konturu daha qabarıq edir. */
+  box-shadow: 0 0 0 6px rgba(22, 119, 255, 0.08), var(--shadow-md); /*  Fokusda yumşaq parıltı əlavə edir. */
+}
+
+.btn {
+  display: inline-flex; /*  Düymə içində ikon və mətnin yanaşı görünməsini təmin edir. */
+  align-items: center; /*  Məzmunu şaquli ortalayır. */
+  justify-content: center; /*  Məzmunu üfüqi ortalayır. */
+  gap: 8px; /*  İkonla mətn arasında boşluq saxlayır. */
+  min-height: 48px; /*  Düymələr üçün rahat klik hündürlüyü verir. */
+  padding: 0 20px; /*  Düymənin sol-sağ nəfəs payını artırır. */
+  border-radius: 999px; /*  Düyməni kapsul formada göstərir. */
+  border: 1px solid transparent; /*  Layout sıçrayışının qarşısını almaq üçün şəffaf border saxlayır. */
+  font-weight: 800; /*  Düymə mətnini qabarıq edir. */
+  cursor: pointer; /*  Klik imkanını vizual göstərir. */
+  user-select: none; /*  Düymə mətninin təsadüfən seçilməsinin qarşısını alır. */
+  white-space: nowrap; /*  Mətnin aşağı düşməməsini təmin edir. */
+}
+
+.btn:hover {
+  transform: translateY(-2px); /*  Hover zamanı düyməyə yüngül qalxma effekti verir. */
+}
+
+.btn:active {
+  transform: translateY(0); /*  Klikdə düyməni yenidən yerinə qaytarır. */
+}
+
+.btn-primary {
+  color: #ffffff; /*  Əsas düymə mətnini ağ edir. */
+  background: linear-gradient(135deg, #1677ff 0%, #5aaeff 100%); /*  Əsas düyməyə parlaq mavi keçid verir. */
+  box-shadow: 0 16px 30px rgba(22, 119, 255, 0.28); /*  Düyməni ön plana çıxaran kölgə əlavə edir. */
+}
+
+.btn-primary:hover {
+  box-shadow: 0 20px 34px rgba(22, 119, 255, 0.32); /*  Hover zamanı düymənin dərinliyini bir az artırır. */
+}
+
+.btn-secondary {
+  color: var(--primary-deep); /*  İkinci düymə mətni üçün tünd mavi rəng verir. */
+  background: #ffffff; /*  İkinci düymə fonunu ağ saxlayır. */
+  border-color: var(--line); /*  İkinci düyməyə yumşaq mavi sərhəd verir. */
+  box-shadow: var(--shadow-sm); /*  Yüngül dərinlik əlavə edir. */
+}
+
+.btn-ghost {
+  color: var(--text-main); /*  Xəyal düymə mətninə əsas rəng verir. */
+  background: rgba(255, 255, 255, 0.6); /*  Yarı şəffaf fonla daha yüngül görünüş yaradır. */
+  border-color: var(--line); /*  Sərhədi zərif saxlayır. */
+}
+
 .hero {
-  padding: 42px 0 22px; /*  Yuxarı və aşağı boşluq. */
+  padding: 34px 0 22px; /*  Hero bölməsinə yuxarı və aşağı boşluq verir. */
 }
 
-/*  Hero iç kartı. */
 .hero-shell {
-  display: grid; /*  İki sütunlu quruluş. */
-  grid-template-columns: 1.15fr 0.85fr; /*  Sol hissə daha genişdir. */
-  gap: 26px; /*  Sütunlar arası boşluq. */
-  align-items: center; /*  Mərkəzlənmə. */
-  background: linear-gradient(135deg, rgba(255,255,255,0.97), rgba(223,240,255,0.92)); /*  Parlaq fon. */
-  border: 1px solid var(--line); /*  Kontur. */
-  border-radius: var(--radius-xl); /*  Yumru künc. */
-  box-shadow: var(--shadow); /*  Kölgə. */
-  overflow: hidden; /*  Daxili elementlər kənara daşmasın. */
+  position: relative; /*  Dekorativ psevdo elementlər üçün əsas mövqe yaradır. */
+  display: grid; /*  Hero daxilində iki sütunlu quruluş qurur. */
+  grid-template-columns: 1.1fr 0.9fr; /*  Sol mətni daha geniş, sağ vizualı bir az dar edir. */
+  gap: 28px; /*  Sütunlar arasında boşluq saxlayır. */
+  align-items: center; /*  Sol və sağ tərəfi vertikal mərkəzə gətirir. */
+  min-height: 560px; /*  Hero hissəsinə premium və geniş görünüş verir. */
+  padding: 34px; /*  Hero daxilində rahat nəfəs payı yaradır. */
+  border-radius: var(--radius-xl); /*  Küncləri iri və yumşaq göstərir. */
+  border: 1px solid var(--line); /*  Hero blokunu fondan ayırır. */
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(220, 236, 255, 0.95)); /*  Hero hissəsinə premium açıq mavi-ağ keçid verir. */
+  box-shadow: var(--shadow-lg); /*  Hero hissəsini yüksəklik effekti ilə ön plana çıxarır. */
+  overflow: hidden; /*  Dekorativ elementlərin kənara daşmasının qarşısını alır. */
 }
 
-/*  Sol hero mətn hissəsi. */
+.hero-shell::before {
+  content: ""; /*  Dekorativ işıq ləkəsi yaratmaq üçün boş psevdo element yaradır. */
+  position: absolute; /*  Dekoru hero daxilində sərbəst yerləşdirmək imkanı verir. */
+  inset: auto -80px -80px auto; /*  Dekoru sağ-alt kənara yaxın yerləşdirir. */
+  width: 260px; /*  Dekorun enini təyin edir. */
+  height: 260px; /*  Dekorun hündürlüyünü təyin edir. */
+  border-radius: 50%; /*  Dekoru dairə formasına salır. */
+  background: radial-gradient(circle, rgba(22, 119, 255, 0.16), transparent 65%); /*  Yumşaq mavi parıltı yaradır. */
+}
+
 .hero-copy {
-  padding: 42px; /*  İç boşluq. */
+  position: relative; /*  Mətn hissəsinin dekor üzərində düzgün qatlanmasını təmin edir. */
+  z-index: 1; /*  Mətnin dekorativ effektlərin üstündə qalmasını təmin edir. */
+  padding: 10px 8px 10px 8px; /*  Mətndaxili boşluğu yüngül balanslayır. */
 }
 
-/*  Hero balaca etiket. */
 .hero-chip {
-  display: inline-flex; /*  İç məzmun qədər yer tutur. */
-  align-items: center; /*  Şaquli ortalayır. */
-  gap: 8px; /*  Aralıq. */
-  padding: 10px 14px; /*  İç boşluq. */
-  border-radius: 999px; /*  Kapsul forma. */
-  background: rgba(10, 111, 232, 0.08); /*  Açıq mavi fon. */
-  color: var(--primary-dark); /*  Tünd mavi mətn. */
-  font-weight: 700; /*  Etiket vurğusu. */
+  display: inline-flex; /*  Chip daxilində ikon və mətni yanaşı tutur. */
+  align-items: center; /*  Chip daxilində mərkəzləmə yaradır. */
+  gap: 8px; /*  İkon və mətn arasına boşluq qoyur. */
+  min-height: 38px; /*  Chip üçün rahat hündürlük verir. */
+  padding: 0 14px; /*  Chip üçün kapsul iç boşluğu yaradır. */
+  border-radius: 999px; /*  Chip-i yumru kapsul kimi göstərir. */
+  color: var(--primary-strong); /*  Chip mətnini mavi vurğu ilə göstərir. */
+  background: rgba(22, 119, 255, 0.09); /*  Chip fonuna açıq mavi vurğu verir. */
+  border: 1px solid rgba(22, 119, 255, 0.14); /*  Chip konturunu incə saxlayır. */
+  font-weight: 700; /*  Kiçik etiketi aydın göstərir. */
 }
 
-/*  Hero başlıq. */
 .hero-copy h2 {
-  font-size: clamp(2rem, 3vw, 3.3rem); /*  Ekrana uyğun böyüyən başlıq. */
-  line-height: 1.08; /*  Yığcam sətir hündürlüyü. */
-  margin: 18px 0 14px; /*  Boşluqlar. */
+  margin: 18px 0 14px; /*  Başlığın ətrafında balanslı boşluq yaradır. */
+  font-size: clamp(2.5rem, 4vw, 4rem); /*  PC görünüşündə iri və elastik başlıq ölçüsü verir. */
+  line-height: 1.05; /*  Başlıq sətirlərini sıx və təsirli saxlayır. */
+  letter-spacing: -0.03em; /*  Başlıq ölçüsünü daha premium göstərir. */
+  color: var(--primary-deep); /*  Əsas hero başlığını tünd mavi ilə göstərir. */
 }
 
-/*  Hero mətn. */
 .hero-copy p {
-  color: var(--muted); /*  Oxunaqlı köməkçi ton. */
-  line-height: 1.8; /*  Rahat oxunuş. */
-  font-size: 1rem; /*  Bədən mətn ölçüsü. */
+  max-width: 700px; /*  Paraqraf enini məhdudlaşdıraraq oxunuşu rahat edir. */
+  margin-bottom: 22px; /*  Aşağıdakı düymələrdən əvvəl boşluq verir. */
+  font-size: 1.06rem; /*  Giriş mətni üçün bir az böyük oxunaqlı ölçü verir. */
+  color: var(--text-soft); /*  Paraqrafı başlıqdan bir qədər yumşaq göstərir. */
 }
 
-/*  Hero alt düymə və statistika qrupu. */
-.hero-actions,
-.stats-row {
-  display: flex; /*  Üfüqi düzülüş. */
-  align-items: center; /*  Mərkəzlənmə. */
-  gap: 14px; /*  Boşluq. */
-  flex-wrap: wrap; /*  Kiçik ekranda sətir dəyişə bilər. */
+.hero-actions {
+  display: flex; /*  Hero düymələrini bir sətirdə düzür. */
+  align-items: center; /*  Düymələri eyni xəttə gətirir. */
+  gap: 12px; /*  Düymələr arası boşluq saxlayır. */
+  flex-wrap: wrap; /*  Məkan daralarsa sətirə düşməyə imkan verir. */
 }
 
-/*  Statistika kartları. */
-.stat-pill {
-  min-width: 120px; /*  Minimum en. */
-  padding: 16px 18px; /*  İç boşluq. */
-  background: rgba(255,255,255,0.7); /*  Yumşaq ağ fon. */
-  border-radius: 18px; /*  Yumru künc. */
-  border: 1px solid var(--line); /*  Kontur. */
-}
-
-/*  Hero sağ vizual hissə. */
-.hero-visual {
-  position: relative; /*  Daxili dekorlar üçün əsas koordinat sistemi. */
-  min-height: 460px; /*  Hündürlük. */
-  padding: 30px; /*  İç boşluq. */
-  display: flex; /*  Daxildə ortalamaq üçün. */
-  align-items: center; /*  Şaquli ortala. */
-  justify-content: center; /*  Üfüqi ortala. */
-}
-
-/*  Üst-üstə duran kitab kartları. */
-.hero-stack {
-  position: relative; /*  Daxili kartların yerləşməsi üçün. */
-  width: min(100%, 400px); /*  Maksimum vizual eni. */
-  height: 380px; /*  Sabit görünüş hündürlüyü. */
-}
-
-/*  Hero dekor kartı. */
+.hero-visual,
+.hero-stack,
 .floating-book {
-  position: absolute; /*  Üst-üstə sərbəst yerləşir. */
-  width: 240px; /*  Kart eni. */
-  height: 320px; /*  Kart boyu. */
-  border-radius: 24px; /*  Yumru künc. */
-  overflow: hidden; /*  İç şəkil kənara çıxmasın. */
-  box-shadow: 0 28px 40px rgba(8, 77, 176, 0.22); /*  Güclü kölgə. */
-  border: 1px solid rgba(255,255,255,0.7); /*  Parlaq kontur. */
-  animation: floatCard 5s ease-in-out infinite; /*  Yüngül yırğalanma. */
+  position: relative; /*  Vizual kartlar üçün sərbəst yerləşim imkanı yaradır. */
 }
 
-/*  Birinci kartın mövqeyi. */
-.floating-book.book-a {
-  left: 0; /*  Sol tərəf. */
-  top: 20px; /*  Yuxarı məsafə. */
-  transform: rotate(-9deg); /*  Azca sola əyim. */
+.hero-visual {
+  min-height: 500px; /*  Sağ vizual sahəyə kifayət qədər hündürlük verir. */
+  display: grid; /*  Vizual elementləri yerləşdirmək üçün grid istifadə edir. */
+  place-items: center; /*  Vizual məzmunu ortalayır. */
 }
 
-/*  İkinci kartın mövqeyi. */
-.floating-book.book-b {
-  right: 0; /*  Sağ tərəf. */
-  bottom: 10px; /*  Aşağı məsafə. */
-  transform: rotate(8deg); /*  Azca sağa əyim. */
-  animation-delay: 0.6s; /*  Animasiya fərqli zamanda başlasın. */
+.hero-stack {
+  width: 100%; /*  Vizual sahəni tam doldurur. */
+  max-width: 470px; /*  Vizual blokun həddindən artıq böyüməsinin qarşısını alır. */
+  padding: 22px; /*  Daxildə nəfəs payı yaradır. */
+  border-radius: 30px; /*  Vizual kartı yumşaq göstərir. */
+  background: rgba(255, 255, 255, 0.76); /*  Şüşə tipli ağ fon verir. */
+  border: 1px solid rgba(22, 119, 255, 0.12); /*  Zərif kontur əlavə edir. */
+  box-shadow: var(--shadow-lg); /*  Kartı fondan ayırır. */
 }
 
-/*  Ümumi bölmə stilı. */
 .section {
-  padding: 24px 0 8px; /*  Bölmələr arası boşluq. */
+  padding: 22px 0 8px; /*  Bölmələr arasında ritm və nəfəs yaradır. */
 }
 
-/*  Bölmə başlığı. */
 .section-heading {
-  display: flex; /*  Başlıq və sağ düyməni yanaşı saxlayır. */
-  align-items: end; /*  Alt xəttə yaxınlaşdırır. */
-  justify-content: space-between; /*  Sol və sağı ayırır. */
-  gap: 18px; /*  Aralıq. */
-  margin-bottom: 18px; /*  Aşağı boşluq. */
+  display: flex; /*  Başlıq və aksiyaları eyni sətirdə göstərir. */
+  align-items: end; /*  Başlıq və alt mətnin alt xəttini balanslayır. */
+  justify-content: space-between; /*  Sol başlıq, sağ aksiya düzülüşü verir. */
+  gap: 18px; /*  İki tərəf arasında boşluq saxlayır. */
+  margin-bottom: 18px; /*  Aşağıdakı məzmundan əvvəl boşluq verir. */
 }
 
-/*  Başlıq mətni. */
+.section-heading h2,
 .section-heading h3 {
-  margin: 0; /*  Default margin silinir. */
-  font-size: clamp(1.55rem, 2vw, 2.2rem); /*  Adaptiv ölçü. */
+  margin-bottom: 6px; /*  Alt izah mətni üçün az boşluq saxlayır. */
+  color: var(--primary-deep); /*  Bölmə başlıqlarını tünd mavi göstərir. */
+  font-size: 1.8rem; /*  Bölmə başlıqları üçün iri ölçü verir. */
+  line-height: 1.15; /*  Sətir aralığını yığcam saxlayır. */
 }
 
-/*  Kiçik izah mətnləri. */
 .section-heading p,
 .muted {
-  margin: 6px 0 0; /*  Yuxarıda az boşluq. */
-  color: var(--muted); /*  Solğun mətn. */
-  line-height: 1.7; /*  Rahat oxunuş. */
+  color: var(--text-soft); /*  Köməkçi mətnləri yumşaq boz-mavi göstərir. */
 }
 
-/*  Müəllif marqı hissəsinin çərçivəsi. */
-.marquee-shell {
-  position: relative; /*  Daxili kölgə overlay üçün. */
-  overflow: hidden; /*  Hərəkət edən kartları çərçivədə saxlayır. */
-  border-radius: var(--radius-lg); /*  Yumru künc. */
-  border: 1px solid var(--line); /*  Kontur. */
-  background: rgba(255,255,255,0.7); /*  Şəffaf ağ fon. */
-  box-shadow: var(--shadow); /*  Kölgə. */
+.panel,
+.footer-card,
+.empty-state,
+.table-wrap,
+.detail-layout {
+  background: var(--bg-card); /*  Bu blokların hamısına ağ kart fonu verir. */
+  border: 1px solid var(--line); /*  Hər blok üçün incə kontur yaradır. */
+  border-radius: var(--radius-lg); /*  Küncləri yumşaq göstərir. */
+  box-shadow: var(--shadow-md); /*  Premium kart dərinliyi verir. */
 }
 
-/*  Müəllif lentinin özü. */
-.marquee-track {
-  display: flex; /*  Kartları üfüqi düzür. */
-  gap: 18px; /*  Aralıq verir. */
-  padding: 18px; /*  İç boşluq. */
-  width: max-content; /*  Daxili məzmun qədər genişlənir. */
-  animation: scrollAuthors 32s linear infinite; /*  Davamlı hərəkət. */
-  will-change: transform; /*  Performansı artırır. */
-}
-
-/*  Üzərinə gəldikdə hərəkət dayansın. */
-.marquee-shell:hover .marquee-track {
-  animation-play-state: paused; /*  Hover zamanı dayandırır. */
-}
-
-/*  Müəllif kartı. */
-.author-card {
-  width: 220px; /*  Kart eni. */
-  min-height: 132px; /*  Kart minimum hündürlüyü. */
-  padding: 18px; /*  İç boşluq. */
-  border-radius: 24px; /*  Yumru forma. */
-  background: linear-gradient(180deg, #ffffff 0%, #e8f4ff 100%); /*  Yüngül mavi kart fonu. */
-  border: 1px solid var(--line); /*  Kontur. */
-  box-shadow: var(--shadow); /*  Kölgə. */
-  flex: 0 0 auto; /*  Kart eni sabit qalsın. */
-}
-
-/*  Kitablar şəbəkəsi. */
-.book-grid {
-  display: grid; /*  Grid sistemi. */
-  grid-template-columns: repeat(4, minmax(0, 1fr)); /*  Ekranda 4 kart. */
-  gap: 22px; /*  Kartlar arası boşluq. */
-}
-
-/*  Kitab kartı. */
-.book-card {
-  display: flex; /*  Daxildə şaquli düzülüş. */
-  flex-direction: column; /*  Yuxarıdan aşağı düz. */
-  background: rgba(255,255,255,0.9); /*  Şüşəvari ağ fon. */
-  border-radius: 26px; /*  Yumru künc. */
-  border: 1px solid var(--line); /*  Kontur. */
-  overflow: hidden; /*  Şəkil daşmasın. */
-  box-shadow: var(--shadow); /*  Kölgə. */
-  min-height: 100%; /*  Sütunlarda bərabər görünüş. */
-}
-
-/*  Kitab qabığı hissəsi. */
-.book-cover {
-  aspect-ratio: 4 / 5; /*  Qabıq nisbəti. */
-  position: relative; /*  Üzərinə badge yerləşdirmək üçün. */
-  overflow: hidden; /*  Şəkil daşmasın. */
-  background: linear-gradient(135deg, #6fc5ff, #0a6fe8); /*  Şəkil yoxdursa fon göstərir. */
-}
-
-/*  Qabıq şəkli. */
-.book-cover img {
-  width: 100%; /*  Tam eni doldurur. */
-  height: 100%; /*  Tam hündürlüyü doldurur. */
-  object-fit: cover; /*  Şəkil gözəl kəsilsin. */
-}
-
-/*  Janr etiketi. */
-.badge {
-  position: absolute; /*  Şəklin üstündə sərbəst yerləşsin. */
-  top: 16px; /*  Yuxarı məsafə. */
-  left: 16px; /*  Sol məsafə. */
-  padding: 8px 12px; /*  İç boşluq. */
-  border-radius: 999px; /*  Kapsul forma. */
-  background: rgba(255,255,255,0.92); /*  Parlaq etiket fonu. */
-  color: var(--primary-dark); /*  Mətn rəngi. */
-  font-size: 0.8rem; /*  Kiçik etiket ölçüsü. */
-  font-weight: 700; /*  Qalın görünüş. */
-}
-
-/*  Kartın mətn hissəsi. */
-.book-body {
-  display: flex; /*  Şaquli düzülüş. */
-  flex-direction: column; /*  Yuxarıdan aşağı. */
-  gap: 10px; /*  Aralıq. */
-  padding: 18px; /*  İç boşluq. */
-  height: 100%; /*  Kart boyunu doldursun. */
-}
-
-/*  Kiçik meta məlumat. */
-.meta-row {
-  display: flex; /*  Üfüqi. */
-  align-items: center; /*  Mərkəz. */
-  justify-content: space-between; /*  Sol və sağ aralanır. */
-  gap: 12px; /*  Aralıq. */
-  color: var(--muted); /*  Solğun mətn. */
-  font-size: 0.92rem; /*  Kiçik ölçü. */
-}
-
-/*  Kart başlığı. */
-.book-title {
-  margin: 0; /*  Default margin silinir. */
-  font-size: 1.15rem; /*  Başlıq ölçüsü. */
-  line-height: 1.35; /*  Oxunaqlı hündürlük. */
-}
-
-/*  Kart izahı. */
-.book-desc {
-  color: var(--muted); /*  Solğun mətn. */
-  line-height: 1.75; /*  Rahat oxunuş. */
-  flex: 1; /*  Boşluq qalsa uzansın. */
-}
-
-/*  Panel tipləri. */
 .panel {
-  background: rgba(255,255,255,0.92); /*  Ağ panel fonu. */
-  border-radius: var(--radius-lg); /*  Yumru künc. */
-  border: 1px solid var(--line); /*  Kontur. */
-  box-shadow: var(--shadow); /*  Kölgə. */
-  padding: 24px; /*  İç boşluq. */
+  padding: 24px; /*  Kart daxilində rahat boşluq yaradır. */
 }
 
-/*  Form şəbəkəsi. */
+.stats-row,
+.info-list,
+.inline-list,
+.contact-list,
+.meta-row {
+  display: flex; /*  Kiçik məlumat bloklarını sətirvari düzür. */
+  flex-wrap: wrap; /*  Yer azaldıqda növbəti sətrə düşməyə icazə verir. */
+  gap: 12px; /*  Elementlər arasında bərabər boşluq saxlayır. */
+}
+
+.stat-pill,
+.tag,
+.badge {
+  display: inline-flex; /*  İç məzmun qədər yer tutan kapsul forma yaradır. */
+  align-items: center; /*  İkon və mətn varsa mərkəzləyir. */
+  gap: 8px; /*  İç məzmun arası boşluq yaradır. */
+  min-height: 38px; /*  Pill və tag üçün rahat hündürlük verir. */
+  padding: 0 14px; /*  Sol-sağ nəfəs payı yaradır. */
+  border-radius: 999px; /*  Tam yumru forma verir. */
+  background: rgba(22, 119, 255, 0.08); /*  Açıq mavi fonla vurğu yaradır. */
+  border: 1px solid rgba(22, 119, 255, 0.12); /*  Zərif kontur verir. */
+  color: var(--primary-strong); /*  Mətn və ikonlara mavi vurğu verir. */
+  font-weight: 700; /*  Bu kiçik elementləri daha aydın göstərir. */
+}
+
+.book-grid {
+  display: grid; /*  Kitab kartlarını səliqəli tor şəklində düzür. */
+  grid-template-columns: repeat(4, minmax(0, 1fr)); /*  PC görünüşündə dörd sütun yaradır. */
+  gap: 20px; /*  Kartlar arasında nəfəs payı saxlayır. */
+}
+
+.book-card,
+.author-card {
+  position: relative; /*  Favorit və overlay elementləri düzgün yerləşdirmək üçün əsas yaradır. */
+  display: flex; /*  Kart daxilində məzmunu şaquli düzür. */
+  flex-direction: column; /*  Kart məzmununu sütun şəkilli düzür. */
+  min-height: 100%; /*  Bərabər hündürlüklü kart effekti yaradır. */
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%); /*  Kart fonuna yumşaq ağdan açıq maviyə keçid verir. */
+  border: 1px solid var(--line); /*  Kart konturunu zərif edir. */
+  border-radius: 24px; /*  Kart künclərini yumşaldır. */
+  overflow: hidden; /*  Şəkil və overlay daşmalarını gizlədir. */
+  box-shadow: var(--shadow-md); /*  Kartı fondan ayırır. */
+  transition: transform var(--transition-main), box-shadow var(--transition-main), border-color var(--transition-main); /*  Hover animasiyalarını yumşaldır. */
+}
+
+.book-card:hover,
+.author-card:hover,
+.panel:hover,
+.footer-card:hover {
+  transform: translateY(-6px); /*  Hover zamanı kartları bir az yuxarı qaldırır. */
+  box-shadow: 0 26px 50px rgba(14, 74, 156, 0.17); /*  Hover zamanı kartın kölgəsini artırır. */
+  border-color: rgba(22, 119, 255, 0.2); /*  Hover zamanı konturu bir az qabarıq edir. */
+}
+
+.book-cover,
+.detail-cover,
+.book-a,
+.book-b {
+  position: relative; /*  Şəkil üzərinə gradient və düymə yerləşdirmək üçün əsas yaradır. */
+  aspect-ratio: 4 / 5; /*  Kitab və cover bloklarını uyğun nisbətdə saxlayır. */
+  background: linear-gradient(180deg, #dcebff 0%, #bfe0ff 100%); /*  Şəkil yoxdursa səliqəli placeholder fon verir. */
+  overflow: hidden; /*  Şəkilin radiusdan kənara çıxmamasını təmin edir. */
+}
+
+.book-cover img,
+.detail-cover img {
+  width: 100%; /*  Şəkili konteynerə tam yayır. */
+  height: 100%; /*  Şəkili konteynerin hündürlüyünə uyğunlaşdırır. */
+  object-fit: cover; /*  Şəkili kəsərək, amma nisbəti qoruyaraq doldurur. */
+  transition: transform 0.6s ease; /*  Hover zoom effekti üçün keçid verir. */
+}
+
+.book-card:hover .book-cover img,
+.author-card:hover .book-cover img,
+.detail-cover:hover img {
+  transform: scale(1.05); /*  Hover zamanı şəklə yumşaq zoom effekti verir. */
+}
+
+.book-body,
+.detail-info {
+  display: flex; /*  Daxili məzmunu sütun formatında rahat bölmək imkanı yaradır. */
+  flex-direction: column; /*  Başlıq, meta və təsviri alt-alta düzür. */
+  gap: 12px; /*  İç elementlər arasında ritm yaradır. */
+  padding: 20px; /*  Kart daxilində nəfəs payı saxlayır. */
+}
+
+.book-title {
+  margin: 0; /*  Başlıq ətrafındakı artıq boşluğu silir. */
+  font-size: 1.14rem; /*  Kart başlığı üçün aydın ölçü verir. */
+  line-height: 1.35; /*  Başlığın oxunmasını rahat edir. */
+  color: var(--primary-deep); /*  Başlığı tünd mavi ilə vurğulayır. */
+}
+
+.book-desc {
+  margin: 0; /*  Paraqrafın default marginini silir. */
+  color: var(--text-soft); /*  Təsviri mətnə yumşaq rəng verir. */
+  font-size: 0.97rem; /*  Təsvir üçün rahat oxunan ölçü saxlayır. */
+}
+
+.clamp-2 {
+  display: -webkit-box; /*  Mətn sətir məhdudiyyəti üçün köhnə WebKit flex modelini aktiv edir. */
+  -webkit-box-orient: vertical; /*  Mətnin şaquli istiqamətdə sıxılmasını müəyyən edir. */
+  -webkit-line-clamp: 2; /*  Mətni maksimum iki sətirdə saxlayır. */
+  overflow: hidden; /*  Artıq hissəni gizlədir. */
+}
+
+.favorite-btn,
+.book-card .favorite,
+.book-card .favorite-btn,
+.author-card .favorite-btn {
+  position: absolute; /*  Favorit düyməsini kart üzərində sərbəst yerləşdirir. */
+  top: 14px; /*  Üst kənardan məsafə verir. */
+  right: 14px; /*  Sağ kənardan məsafə verir. */
+  width: 46px; /*  Düyməyə kvadrat klik sahəsi verir. */
+  height: 46px; /*  Düyməyə rahat hündürlük verir. */
+  display: grid; /*  İkonu ortalamaq üçün grid istifadə edir. */
+  place-items: center; /*  Ürək ikonunu tam mərkəzə yerləşdirir. */
+  border: 1px solid rgba(255, 255, 255, 0.5); /*  Açıq fonda görünən zərif sərhəd yaradır. */
+  border-radius: 50%; /*  Düyməni dairə formasına salır. */
+  background: rgba(255, 255, 255, 0.88); /*  Ağ şəffaf fonla şəkil üzərində oxunaqlılıq təmin edir. */
+  color: #8da4bc; /*  Passiv ürək ikon rəngini solğun edir. */
+  box-shadow: 0 10px 25px rgba(14, 74, 156, 0.15); /*  Düyməyə üzən effekti verir. */
+  cursor: pointer; /*  Klik edilə bildiyini göstərir. */
+  z-index: 2; /*  Şəkilin və overlayin üstündə qalmasını təmin edir. */
+}
+
+.favorite-btn:hover,
+.book-card .favorite-btn:hover,
+.author-card .favorite-btn:hover {
+  transform: scale(1.06); /*  Hover zamanı ürək düyməsini bir az böyüdür. */
+  color: var(--favorite); /*  Hover zamanı ürəyi qırmızıya yaxın göstərir. */
+}
+
+.favorite-btn.is-favorite,
+.favorite-btn.active,
+.book-card .favorite-btn.active,
+.author-card .favorite-btn.active,
+[data-favorite="true"] .favorite-btn,
+[data-liked="true"] .favorite-btn {
+  background: linear-gradient(180deg, #fff0f4 0%, #ffe3ea 100%); /*  Aktiv favorit halı üçün çəhrayı-ağ fon yaradır. */
+  border-color: rgba(255, 77, 109, 0.24); /*  Aktiv favorit sərhədini qırmızı tonla vurğulayır. */
+  color: var(--favorite); /*  Aktiv favorit ikonunu qırmızı göstərir. */
+  box-shadow: 0 14px 28px rgba(255, 77, 109, 0.24); /*  Aktiv favoritə romantik parıltı əlavə edir. */
+}
+
+.favorite-btn.is-favorite i,
+.favorite-btn.active i,
+.favorite-btn.is-favorite svg,
+.favorite-btn.active svg {
+  color: var(--favorite-dark); /*  Aktiv ürəyin ikon hissəsini daha tünd qırmızı göstərir. */
+  filter: drop-shadow(0 4px 10px rgba(255, 77, 109, 0.3)); /*  Ürəyə parlaq vurğu kölgəsi verir. */
+}
+
 .form-grid {
-  display: grid; /*  Grid düzülüşü. */
-  grid-template-columns: repeat(2, minmax(0, 1fr)); /*  İki sütun. */
-  gap: 18px; /*  Boşluq. */
+  display: grid; /*  Form elementlərini grid sistemində səliqəli düzür. */
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /*  PC görünüşündə formu iki sütuna bölür. */
+  gap: 16px; /*  Sahələr arasında balanslı boşluq saxlayır. */
 }
 
-/*  Form tam sütun sahəsi. */
 .full-span {
-  grid-column: 1 / -1; /*  Bütün sütunları əhatə edir. */
+  grid-column: 1 / -1; /*  Bu elementi form gridində hər iki sütunu tutacaq şəkildə uzadır. */
 }
 
-/*  Form qrupları. */
 .field {
-  display: flex; /*  Şaquli düzülüş. */
-  flex-direction: column; /*  Yuxarıdan aşağı. */
-  gap: 8px; /*  Boşluq. */
+  display: flex; /*  Label və input sahəsini sütun içində toplamaq üçün istifadə olunur. */
+  flex-direction: column; /*  Label və input-u alt-alta düzür. */
+  gap: 8px; /*  Label ilə input arasında boşluq saxlayır. */
 }
 
-/*  Etiket. */
 .field label {
-  font-weight: 700; /*  Başlıq vurğusu. */
-  font-size: 0.95rem; /*  Etiket ölçüsü. */
+  font-weight: 700; /*  Label mətnini daha aydın göstərir. */
+  color: var(--primary-deep); /*  Label rəngini tünd mavi edir. */
 }
 
-/*  Input, select, textarea görünüşü. */
 .field input,
 .field select,
 .field textarea {
-  width: 100%; /*  Tam eni tut. */
-  border: 1px solid rgba(10, 111, 232, 0.16); /*  Yumşaq sərhəd. */
-  border-radius: 16px; /*  Yumru künc. */
-  background: rgba(250, 252, 255, 0.98); /*  Açıq fon. */
-  padding: 14px 16px; /*  İç boşluq. */
-  font: inherit; /*  Valideyn şriftini götürür. */
-  color: var(--text); /*  Mətn rəngi. */
-  outline: none; /*  Default outline silinir. */
+  width: 100%; /*  Sahəni konteyner eninə yayır. */
+  min-height: 52px; /*  Input hündürlüyünü rahat edir. */
+  padding: 14px 16px; /*  İç boşluq verərək yazını nəfəsli göstərir. */
+  border-radius: 16px; /*  Input künclərini yumşaldır. */
+  border: 1px solid rgba(22, 119, 255, 0.14); /*  Input konturunu açıq mavi saxlayır. */
+  background: #fbfdff; /*  Çox açıq ağ fon verir. */
+  color: var(--text-main); /*  Yazı rəngini əsas mətn rəngi edir. */
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.7); /*  Input daxilində yüngül işıq hissi yaradır. */
 }
 
-/*  Fokus görünüşü. */
+.field textarea {
+  min-height: 140px; /*  Mətn sahəsinə daha böyük yazı sahəsi verir. */
+  resize: vertical; /*  Yalnız şaquli ölçü dəyişməsinə icazə verir. */
+}
+
 .field input:focus,
 .field select:focus,
 .field textarea:focus {
-  border-color: rgba(10, 111, 232, 0.46); /*  Fokusda daha tünd xətt. */
-  box-shadow: 0 0 0 5px rgba(10, 111, 232, 0.08); /*  Parlaq fokus halqası. */
+  outline: none; /*  Default fokus xəttini silir. */
+  border-color: rgba(22, 119, 255, 0.3); /*  Fokus zamanı sərhədi gücləndirir. */
+  box-shadow: 0 0 0 5px rgba(22, 119, 255, 0.08); /*  Fokus halında yumşaq mavi işıq haləsi yaradır. */
+  background: #ffffff; /*  Fokus zamanı fonu tam ağ edir. */
 }
 
-/*  Textarea minimum hündürlüyü. */
-.field textarea {
-  min-height: 140px; /*  Daha rahat mətn yazmaq üçün. */
-  resize: vertical; /*  Yalnız şaquli böyüsün. */
-}
-
-/*  Detal səhifə quruluşu. */
-.detail-layout {
-  display: grid; /*  İki sütunlu görünüş. */
-  grid-template-columns: 0.85fr 1.15fr; /*  Sol qabıq, sağ məlumat. */
-  gap: 26px; /*  Aralıq. */
-}
-
-/*  Böyük qabıq kartı. */
-.detail-cover {
-  border-radius: 28px; /*  Yumru künc. */
-  overflow: hidden; /*  Şəkil çölə çıxmasın. */
-  border: 1px solid var(--line); /*  Kontur. */
-  box-shadow: var(--shadow); /*  Kölgə. */
-  background: linear-gradient(180deg, #e8f4ff 0%, #ffffff 100%); /*  Fon. */
-}
-
-/*  Detal məlumat kartı. */
-.detail-info {
-  display: flex; /*  Şaquli düzülüş. */
-  flex-direction: column; /*  Yuxarıdan aşağı. */
-  gap: 16px; /*  Aralıq. */
-}
-
-/*  Məlumat cədvəli kimi görünən sətirlər. */
-.info-list {
-  display: grid; /*  Kiçik kart grid. */
-  grid-template-columns: repeat(2, minmax(0, 1fr)); /*  İki sütun. */
-  gap: 12px; /*  Aralıq. */
-}
-
-/*  Kiçik info blokları. */
-.info-item {
-  padding: 16px; /*  İç boşluq. */
-  border-radius: 18px; /*  Yumru künc. */
-  background: rgba(10, 111, 232, 0.05); /*  Açıq mavi fon. */
-  border: 1px solid rgba(10, 111, 232, 0.08); /*  Yumşaq kontur. */
-}
-
-/*  Statistik siyahı. */
-.inline-list {
-  display: flex; /*  Üfüqi düzülüş. */
-  gap: 10px; /*  Aralıq. */
-  flex-wrap: wrap; /*  Kiçik ekranda qırılsın. */
-}
-
-/*  Kiçik kapsullar. */
-.tag {
-  padding: 8px 12px; /*  İç boşluq. */
-  border-radius: 999px; /*  Kapsul forma. */
-  background: rgba(10, 111, 232, 0.08); /*  Açıq mavi fon. */
-  color: var(--primary-dark); /*  Tünd mavi mətn. */
-  font-size: 0.88rem; /*  Kiçik ölçü. */
-  font-weight: 700; /*  Qalın mətn. */
-}
-
-/*  Cədvəl üçün wrapper. */
 .table-wrap {
-  overflow-x: auto; /*  Dar ekranda üfüqi sürüşmə olsun. */
+  overflow: hidden; /*  Cədvəlin radiusdan kənara çıxmasının qarşısını alır. */
 }
 
-/*  Ümumi cədvəl görünüşü. */
 table {
-  width: 100%; /*  Tam eni tut. */
-  border-collapse: collapse; /*  Xətlər birləşsin. */
+  width: 100%; /*  Cədvəli bütün eni tutur. */
+  border-collapse: collapse; /*  Hüceyrə sərhədlərini birləşdirir. */
+  background: #ffffff; /*  Cədvəl fonunu ağ edir. */
 }
 
-/*  Cədvəl xanalari. */
-th,
-td {
-  text-align: left; /*  Mətni sola düzür. */
-  padding: 14px 12px; /*  İç boşluq. */
-  border-bottom: 1px solid rgba(10, 111, 232, 0.08); /*  Sətiraltı xətt. */
-  vertical-align: top; /*  Məzmun yuxarıdan başlasın. */
+thead th {
+  padding: 16px 18px; /*  Başlıq hüceyrələrinə rahat boşluq verir. */
+  text-align: left; /*  Başlıq mətnini sola düzür. */
+  background: #f4f9ff; /*  Cədvəl başlığını yüngül mavi vurğulayır. */
+  color: var(--primary-deep); /*  Başlıq mətnini tünd mavi göstərir. */
+  font-size: 0.94rem; /*  Başlıq ölçüsünü balanslı saxlayır. */
+  border-bottom: 1px solid var(--line); /*  Başlıq hissəsini gövdədən ayırır. */
 }
 
-/*  Cədvəl başlığı. */
-th {
-  color: var(--primary-dark); /*  Tünd mavi. */
-  font-size: 0.92rem; /*  Kiçik başlıq ölçüsü. */
+tbody td {
+  padding: 16px 18px; /*  Cədvəl hüceyrələrinə oxunaqlı iç boşluq verir. */
+  border-bottom: 1px solid rgba(22, 119, 255, 0.08); /*  Sətirlər arasına yumşaq ayırıcı çəkir. */
+  color: var(--text-main); /*  Cədvəl mətnini aydın saxlayır. */
 }
 
-/*  Footer görünüşü. */
+tbody tr:hover {
+  background: rgba(22, 119, 255, 0.04); /*  Hover zamanı cədvəl sətrinə yüngül vurğu verir. */
+}
+
+.detail-layout {
+  display: grid; /*  Detal səhifəsini iki sütunda qurur. */
+  grid-template-columns: 420px 1fr; /*  Sol cover sütunu və sağ məlumat sütunu yaradır. */
+  gap: 22px; /*  İki sütun arasına nəfəs payı verir. */
+  padding: 22px; /*  Daxildə rahat boşluq yaradır. */
+}
+
+.info-item {
+  display: flex; /*  Başlıq və dəyəri bir sətirdə göstərir. */
+  align-items: flex-start; /*  Məzmunun yuxarı xəttini hizalayır. */
+  justify-content: space-between; /*  Sol başlıq və sağ dəyəri ayırır. */
+  gap: 14px; /*  İki tərəf arasında boşluq saxlayır. */
+  padding: 14px 0; /*  Sətir daxilində vertikal nəfəs yaradır. */
+  border-bottom: 1px dashed rgba(22, 119, 255, 0.12); /*  İnfo sətirlərini yumşaq punktir xətt ilə ayırır. */
+}
+
+.info-item:last-child {
+  border-bottom: none; /*  Son elementdə artıq ayırıcı xətti silir. */
+}
+
+.marquee-shell {
+  position: relative; /*  Animasiya olunan track üçün örtük yaradır. */
+  overflow: hidden; /*  Axan məzmunun kənara çıxan hissəsini gizlədir. */
+  border-radius: 999px; /*  Marquee blokunu yumru saxlayır. */
+  border: 1px solid var(--line); /*  Nazik kontur əlavə edir. */
+  background: rgba(255, 255, 255, 0.7); /*  Şüşə tipli fon verir. */
+}
+
+.marquee-track {
+  display: flex; /*  Məzmunu üfüqi sırada saxlayır. */
+  gap: 14px; /*  Məzmun parçaları arasında boşluq yaradır. */
+  width: max-content; /*  Məzmun eninin sərbəst uzanmasına icazə verir. */
+  padding: 12px 16px; /*  Marquee daxilində rahat boşluq yaradır. */
+  animation: marqueeMove 24s linear infinite; /*  Məzmunu davamlı sola hərəkət etdirir. */
+}
+
 .site-footer {
-  margin-top: 40px; /*  Yuxarı boşluq. */
-  padding: 28px 0 50px; /*  İç boşluq. */
+  padding: 30px 0 40px; /*  Footer ətrafında geniş boşluq yaradır. */
 }
 
-/*  Footer kartı. */
 .footer-card {
-  display: grid; /*  Grid quruluş. */
-  grid-template-columns: 1.1fr 0.9fr; /*  İki sütun. */
-  gap: 24px; /*  Aralıq. */
-  background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(223,240,255,0.95)); /*  Ağ-mavi fon. */
-  border: 1px solid var(--line); /*  Kontur. */
-  border-radius: var(--radius-xl); /*  Yumru künc. */
-  box-shadow: var(--shadow); /*  Kölgə. */
-  padding: 28px; /*  İç boşluq. */
+  display: grid; /*  Footer bölmələrini səliqəli sütunlarda düzür. */
+  grid-template-columns: 1.2fr 0.8fr 0.8fr; /*  Footer üçün üç sütunlu nisbət yaradır. */
+  gap: 22px; /*  Sütunlar arasında boşluq verir. */
+  padding: 28px; /*  Footer daxilində nəfəs payı saxlayır. */
 }
 
-/*  Xəritə düyməsi və əlaqə hissələri. */
-.contact-list {
-  display: grid; /*  Grid düzülüş. */
-  gap: 12px; /*  Aralıq. */
-}
-
-/*  Toast bildiriş. */
 .toast {
-  position: fixed; /*  Ekrana sabit yapışır. */
-  right: 20px; /*  Sağ məsafə. */
-  bottom: 20px; /*  Alt məsafə. */
-  z-index: 90; /*  Üstdə görünsün. */
-  min-width: 260px; /*  Minimum eni. */
-  max-width: 360px; /*  Maksimum eni. */
-  padding: 14px 16px; /*  İç boşluq. */
-  border-radius: 18px; /*  Yumru künc. */
-  color: var(--white); /*  Ağ mətn. */
-  background: linear-gradient(135deg, #0a6fe8, #084db0); /*  Mavi bildiriş fonu. */
-  box-shadow: 0 20px 40px rgba(8, 77, 176, 0.28); /*  Kölgə. */
-  opacity: 0; /*  Başda görünməsin. */
-  pointer-events: none; /*  Klik tutmasın. */
-  transform: translateY(14px); /*  Aşağıdan çıxış effekti. */
+  position: fixed; /*  Kiçik bildirişin ekranda sabit qalmasını təmin edir. */
+  right: 24px; /*  Sağ kənardan məsafə verir. */
+  bottom: 24px; /*  Alt kənardan məsafə verir. */
+  z-index: 200; /*  Digər elementlərin üstündə görünməsini təmin edir. */
+  min-width: 300px; /*  Bildiriş üçün rahat minimum en verir. */
+  max-width: 420px; /*  Həddindən artıq enlənmənin qarşısını alır. */
+  padding: 16px 18px; /*  İç boşluq verir. */
+  border-radius: 18px; /*  Küncləri yumşaldır. */
+  background: rgba(11, 47, 99, 0.96); /*  Tünd mavi kontrast fon yaradır. */
+  color: #ffffff; /*  Bildiriş mətnini ağ göstərir. */
+  box-shadow: var(--shadow-lg); /*  Bildirişi ön plana çıxarır. */
+  opacity: 0; /*  Default halda gizli saxlayır. */
+  visibility: hidden; /*  Default halda kliklənməz edir. */
+  transform: translateY(14px); /*  Açılma animasiyası üçün aşağıda saxlayır. */
+  transition: opacity var(--transition-main), transform var(--transition-main), visibility var(--transition-main); /*  Göstərilib-gizlənmə keçidini idarə edir. */
 }
 
-/*  Aktiv toast görünüşü. */
 .toast.show {
-  opacity: 1; /*  Görünür olur. */
-  transform: translateY(0); /*  Yerinə gəlir. */
+  opacity: 1; /*  Göstərilən toast-ı görünən edir. */
+  visibility: visible; /*  Göstərilən toast-ı aktiv edir. */
+  transform: translateY(0); /*  Toast-ı öz yerinə gətirir. */
 }
 
-/*  Yükləmə spineri. */
 .spinner {
-  width: 48px; /*  En. */
-  height: 48px; /*  Hündürlük. */
-  border: 4px solid rgba(10, 111, 232, 0.15); /*  Xarici açıq halqa. */
-  border-top-color: var(--primary); /*  Hərəkət edən tünd hissə. */
-  border-radius: 50%; /*  Dairə forma. */
-  animation: spin 0.9s linear infinite; /*  Fırlanma animasiyası. */
-  margin: 24px auto; /*  Ortalanma. */
+  width: 22px; /*  Yükləmə indikatorunun enini təyin edir. */
+  height: 22px; /*  Yükləmə indikatorunun hündürlüyünü təyin edir. */
+  border: 3px solid rgba(22, 119, 255, 0.18); /*  Spinner bazasında açıq halqa yaradır. */
+  border-top-color: var(--primary); /*  Spinner-in hərəkətli üst hissəsini əsas mavi edir. */
+  border-radius: 50%; /*  Dairə forma verir. */
+  animation: spin 0.8s linear infinite; /*  Spinner-i fasiləsiz fırladır. */
 }
 
-/*  Kiçik boş vəziyyət qutusu. */
 .empty-state {
-  text-align: center; /*  Mətni ortala. */
-  padding: 34px 18px; /*  İç boşluq. */
-  color: var(--muted); /*  Solğun rəng. */
-  background: rgba(255,255,255,0.75); /*  Açıq panel fonu. */
-  border: 1px dashed rgba(10, 111, 232, 0.18); /*  Kəsik xəttli kontur. */
-  border-radius: 22px; /*  Yumru künc. */
+  text-align: center; /*  Boş vəziyyət məzmununu ortalayır. */
+  padding: 40px 24px; /*  Geniş rahat boşluq yaradır. */
 }
 
-/*  Mətnin limitlə qısaldılması. */
-.clamp-2 {
-  display: -webkit-box; /*  WebKit əsaslı sətir məhdudiyyəti. */
-  -webkit-line-clamp: 2; /*  2 sətrə qədər göstər. */
-  -webkit-box-orient: vertical; /*  Şaquli istiqamət. */
-  overflow: hidden; /*  Artıq mətn gizlənsin. */
+.empty-state h3 {
+  margin-bottom: 10px; /*  Başlıqdan sonra nəfəs payı verir. */
+  color: var(--primary-deep); /*  Boş vəziyyət başlığını tünd mavi göstərir. */
 }
 
-/*  Hərəkət animasiyası. */
-@keyframes scrollAuthors {
-  from { transform: translateX(0); } /*  Başlanğıc nöqtəsi. */
-  to { transform: translateX(-50%); } /*  Track yarısı qədər sola gedir. */
+.empty-state p {
+  margin-bottom: 18px; /*  Alt düymədən əvvəl boşluq yaradır. */
+  color: var(--text-soft); /*  İzah mətnini yumşaq rənglə göstərir. */
 }
 
-/*  Hero kartlarının yırğalanması. */
-@keyframes floatCard {
-  0%, 100% { transform: translateY(0) rotate(var(--tilt, 0deg)); } /*  Baş və son hal. */
-  50% { transform: translateY(-10px) rotate(var(--tilt, 0deg)); } /*  Ortada yuxarı qalxır. */
+.show {
+  display: block; /*  JavaScript və ya HTML ilə verilən universal göstər sinfi kimi işləyir. */
 }
 
-/*  Yükləmə spinerinin dönməsi. */
+.is-hidden {
+  display: none !important; /*  Elementi güclü şəkildə gizlətmək üçün istifadə olunur. */
+}
+
+.is-open {
+  /*  Bu sinif əsasən dropdown və menyu açılışında istifadə olunacaq. */
+}
+
 @keyframes spin {
-  to { transform: rotate(360deg); } /*  Bir tam dövr edir. */
+  from {
+    transform: rotate(0deg); /*  Spinner animasiyasının başlanğıc mövqeyini təyin edir. */
+  }
+  to {
+    transform: rotate(360deg); /*  Spinner animasiyasının tam dövrəsini təyin edir. */
+  }
 }
 
-/*  Planşet üçün uyğunlaşma. */
-@media (max-width: 1080px) {
-  .hero-shell,
-  .detail-layout,
-  .footer-card {
-    grid-template-columns: 1fr; /*  Tək sütuna düşür. */
+@keyframes marqueeMove {
+  from {
+    transform: translateX(0); /*  Marquee animasiyasını başlanğıc nöqtəsində saxlayır. */
+  }
+  to {
+    transform: translateX(-50%); /*  Marquee məzmununu sola sürüşdürür. */
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0; /*  Başlanğıcda elementi görünməz saxlayır. */
+    transform: translateY(16px); /*  Başlanğıcda elementi bir az aşağıda tutur. */
+  }
+  to {
+    opacity: 1; /*  Sonda elementi tam görünən edir. */
+    transform: translateY(0); /*  Sonda elementi öz yerinə gətirir. */
+  }
+}
+
+.hero-copy,
+.hero-visual,
+.section,
+.book-card,
+.author-card,
+.panel {
+  animation: fadeUp 0.55s ease both; /*  Əsas bloklara yuxarı qalxaraq görünmə animasiyası verir. */
+}
+
+.btn:focus-visible,
+.nav-link:focus-visible,
+.dropdown-toggle:focus-visible,
+.favorite-btn:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+  outline: 3px solid rgba(22, 119, 255, 0.2); /*  Keyboard fokusunu aydın görmək üçün xarici fokus haləsi verir. */
+  outline-offset: 3px; /*  Fokus haləsini elementdən bir az kənara çıxarır. */
+}
+
+@media (max-width: 1399px) {
+  body {
+    min-width: 1100px; /*  Bir qədər dar PC ekranlarda layout-un tam dağılmamasını təmin edir. */
   }
 
   .book-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)); /*  2 kart görünür. */
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /*  Orta PC enlərində kartları üç sütuna endirir. */
+  }
+}
+
+@media (max-width: 1199px) {
+  body {
+    min-width: 980px; /*  Daha dar laptop ölçülərində də desktop quruluşunu saxlayır. */
   }
 
   .header-row {
-    flex-wrap: wrap; /*  Elementlər sətir dəyişə bilər. */
-    padding: 14px 0; /*  İç boşluq. */
+    grid-template-columns: auto 1fr; /*  Naviqasiyanı aşağı sala bilmək üçün header bölgüsünü sadələşdirir. */
   }
 
-  .header-tools {
-    width: 100%; /*  Tam genişlik alsın. */
-    justify-content: space-between; /*  Aralı görünsün. */
-    flex-wrap: wrap; /*  Sətir qırıla bilər. */
+  .main-nav {
+    grid-column: 1 / -1; /*  Naviqasiyanı ayrıca tam sətirə yerləşdirir. */
+    justify-content: flex-start; /*  Menyunu soldan başlayaraq düzür. */
   }
 
-  .search-shell {
-    min-width: 100%; /*  Tam en tutsun. */
-  }
-}
-
-/*  Telefon üçün uyğunlaşma. */
-@media (max-width: 700px) {
-  .book-grid,
-  .form-grid,
-  .info-list {
-    grid-template-columns: 1fr; /*  Tək sütun olur. */
+  .hero-shell {
+    grid-template-columns: 1fr; /*  Daha dar ekranlarda hero sütunlarını tək sütuna salır. */
   }
 
-  .hero-copy,
-  .panel,
+  .detail-layout {
+    grid-template-columns: 1fr; /*  Detail səhifəsində cover və məlumatı alt-alta düzür. */
+  }
+
   .footer-card {
-    padding: 18px; /*  Boşluqlar azalır. */
+    grid-template-columns: 1fr 1fr; /*  Footer sütunlarını iki sütuna endirir. */
   }
 
-  .hero-visual {
-    min-height: 320px; /*  Daha kompakt görünüş. */
-  }
-
-  .floating-book {
-    width: 180px; /*  Kart eni kiçilir. */
-    height: 250px; /*  Kart boyu kiçilir. */
-  }
-
-  .nav-links {
-    width: 100%; /*  Tam enə yayılsın. */
-  }
-
-  .nav-link {
-    flex: 1 1 auto; /*  Linklər balanslı böyüsün. */
-    text-align: center; /*  Mərkəzlə. */
+  .book-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /*  Laptop enində kartları iki sütuna salır. */
   }
 }
+
+/* ============================================================ */
+/*  DROPDOWN VƏ FAVORİT ÜÇÜN İSTİFADƏ QEYDİ                      */
+/*  1) Açılan menyu üçün .has-dropdown elementinə .is-open      */
+/*     və ya .dropdown-menu elementinə .show əlavə edilə bilər. */
+/*  2) Favorit üçün düyməyə .active və ya .is-favorite əlavə    */
+/*     ediləndə qırmızı ürək görünəcək.                         */
+/*  3) Əgər HTML-də .favorite-btn içində <i> və ya <svg> varsa  */
+/*     bu CSS onları da düzgün rəngləyəcək.                     */
+/* ============================================================ */
